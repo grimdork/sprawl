@@ -1,0 +1,4 @@
+WEBHOST = 127.0.0.1
+WEBPORT = 14000
+WEBSTATIC = static
+DATABASE_URL=postgres://sprawl:sprawl@localhost:5432/sprawl
