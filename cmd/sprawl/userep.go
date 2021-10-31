@@ -23,8 +23,7 @@ func (srv *Server) createUser(w http.ResponseWriter, r *http.Request) {
 	data, err := io.ReadAll(r.Body)
 	if err != nil {
 		srv.E("Failed to read body: %s", err.Error())
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(http.StatusText(http.StatusInternalServerError)))
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -32,15 +31,13 @@ func (srv *Server) createUser(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(data, &req)
 	if err != nil {
 		srv.E("Failed to unmarshal body: %s", err.Error())
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(http.StatusText(http.StatusInternalServerError)))
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	err = srv.CreateUser(req.Name, req.Password)
 	if err != nil {
-		w.WriteHeader(http.StatusConflict)
-		w.Write([]byte(http.StatusText(http.StatusConflict)))
+		http.Error(w, http.StatusText(http.StatusConflict), http.StatusConflict)
 		return
 	}
 
@@ -52,8 +49,7 @@ func (srv *Server) deleteUser(w http.ResponseWriter, r *http.Request) {
 	data, err := io.ReadAll(r.Body)
 	if err != nil {
 		srv.E("Failed to read body: %s", err.Error())
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(http.StatusText(http.StatusInternalServerError)))
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -61,15 +57,13 @@ func (srv *Server) deleteUser(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(data, &req)
 	if err != nil {
 		srv.E("Failed to unmarshal body: %s", err.Error())
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(http.StatusText(http.StatusInternalServerError)))
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	err = srv.DeleteUser(req.Name)
 	if err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		w.Write([]byte(http.StatusText(http.StatusNotFound)))
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 }
@@ -92,12 +86,15 @@ func (srv *Server) listUsers(w http.ResponseWriter, r *http.Request) {
 		max = 100
 	}
 
-	users := srv.GetUsers(start, max)
+	users, err := srv.GetUsers(start, max)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		return
+	}
+
 	data, err := json.Marshal(users)
 	if err != nil {
-		// Write a not found HTTP error
-		w.WriteHeader(http.StatusNotFound)
-		w.Write([]byte(http.StatusText(http.StatusNotFound)))
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return
 	}
 

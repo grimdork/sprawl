@@ -11,21 +11,14 @@ import (
 	"os"
 	"text/tabwriter"
 
-	"github.com/Urethramancer/signor/opt"
 	"github.com/grimdork/sprawl"
 )
 
 // ListUsersCmd flags.
-type ListUsersCmd struct {
-	opt.DefaultHelp
-}
+type ListUsersCmd struct{}
 
 // Run listusers.
 func (cmd *ListUsersCmd) Run(args []string) error {
-	if cmd.Help {
-		return opt.ErrUsage
-	}
-
 	cfg, err := LoadConfig()
 	if err != nil {
 		return err

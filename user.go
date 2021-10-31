@@ -75,18 +75,22 @@ func (u *User) CheckPassword(password string) bool {
 }
 
 // GetUsers returns a range of users.
-func (db *Database) GetUsers(start, max int64) []User {
+func (db *Database) GetUsers(start, max int64) ([]User, error) {
 	rows, err := db.Query(context.Background(), "select id,name,password from users order by id asc limit $1 offset $2;", max, start)
 	if err != nil {
-		return nil
+		return nil, err
 	}
 
 	defer rows.Close()
 	var users []User
 	for rows.Next() {
 		u := User{}
-		rows.Scan(&u.ID, &u.Name, &u.Password)
+		err = rows.Scan(&u.ID, &u.Name, &u.Password)
+		if err != nil {
+			return nil, err
+		}
+
 		users = append(users, u)
 	}
-	return users
+	return users, nil
 }
