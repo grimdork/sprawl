@@ -5,19 +5,37 @@
 
 package sprawl
 
-import "context"
+import (
+	"context"
+	"strconv"
+)
 
-// Addsite to the database.
-func (db *Database) AddSite(name string) error {
+// Site is the struct for a domain.
+type Site struct {
+	// ID is auto-generated on insert.
+	ID int64
+	// Name is the domain name.
+	Name string
+}
+
+// Createsite in the database.
+func (db *Database) CreateSite(name string) error {
 	sql := "insert into sites (name) values ($1)"
 	_, err := db.Pool.Exec(context.Background(), sql, name)
 	return err
 }
 
-// RemoveSite removes a site from the database.
-func (db *Database) RemoveSite(name string) error {
+// DeleteSite from the database.
+func (db *Database) DeleteSite(name string) error {
+	_, err := strconv.ParseInt(name, 10, 64)
+	if err == nil {
+		sql := "delete from sites where id = $1"
+		_, err = db.Pool.Exec(context.Background(), sql, name)
+		return err
+	}
+
 	sql := "delete from sites where name = $1"
-	_, err := db.Pool.Exec(context.Background(), sql, name)
+	_, err = db.Pool.Exec(context.Background(), sql, name)
 	return err
 }
 
@@ -29,24 +47,24 @@ func (db *Database) GetSiteID(name string) (int64, error) {
 	return id, err
 }
 
-// GetAllSites in a string slice.
-func (db *Database) GetAllSites() []string {
-	sql := "select name from sites"
-	rows, err := db.Pool.Query(context.Background(), sql)
+// GetSites in a string slice.
+func (db *Database) GetSites(start, max int64) ([]Site, error) {
+	sql := "select id,name from sites order by name limit $1 offset $2"
+	rows, err := db.Pool.Query(context.Background(), sql, max, start)
 	if err != nil {
-		return nil
+		return nil, err
 	}
 	defer rows.Close()
 
-	sites := []string{}
+	var sites []Site
 	for rows.Next() {
-		var s string
-		err = rows.Scan(&s)
+		var s Site
+		err = rows.Scan(&s.ID, &s.Name)
 		if err != nil {
-			return nil
+			return nil, err
 		}
 
 		sites = append(sites, s)
 	}
-	return sites
+	return sites, nil
 }

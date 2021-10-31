@@ -1,5 +1,5 @@
 //	Copyright 2021 Ronny Bangsund
-//	
+//
 //	This software is released under the MIT License.
 //	https://opensource.org/licenses/MIT
 
@@ -21,11 +21,9 @@ var o struct {
 	DeleteUser DeleteUserCmd `command:"deleteuser" help:"Delete a user." aliases:"du"`
 	// SetPassword SetUPasswordCmd `command:"setpasswd" help:"Set a user's password." aliases:"sup"`
 
-	// ListSites ListSitesCmd `command:"listsites" help:"List all sites." aliases:"ls"`
-	// CreateSite CreateSiteCmd `command:"createsite" help:"Create a new site." aliases:"cs"`
-	// DeleteSite DeleteSiteCmd `command:"deletesite" help:"Delete a site." aliases:"ds"`
-	// AddToSite AddToSiteCmd `command:"addtosite" help:"Add a user to a site." aliases:"at"`
-	// RemoveFromSite RemoveFromSiteCmd `command:"removefromsite" help:"Remove a user from a site." aliases:"rfs"`
+	ListSites  ListSitesCmd  `command:"listsites" help:"List all sites." aliases:"ls"`
+	CreateSite CreateSiteCmd `command:"createsite" help:"Create a new site." aliases:"cs"`
+	DeleteSite DeleteSiteCmd `command:"deletesite" help:"Delete a site." aliases:"ds"`
 
 	// ListGroups  ListGroupsCmd  `command:"listgroups" help:"List all groups." aliases:"lg"`
 	CreateGroup CreateGroupCmd `command:"creategroup" help:"Create a new group." aliases:"cg"`

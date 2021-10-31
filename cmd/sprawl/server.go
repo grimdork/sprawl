@@ -198,7 +198,7 @@ func NewServer() (*Server, error) {
 	_, err = srv.GetSiteID("system")
 	if err != nil {
 		srv.L("No system site - creating.")
-		err = srv.AddSite("system")
+		err = srv.CreateSite("system")
 		if err != nil {
 			return nil, err
 		}
