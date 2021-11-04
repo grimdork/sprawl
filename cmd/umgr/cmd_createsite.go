@@ -26,6 +26,6 @@ func (cmd *CreateSiteCmd) Run(args []string) error {
 		return err
 	}
 
-	_, err = cfg.Post(sprawl.EPCreateSite, sprawl.CreateRequest{Name: cmd.Name})
+	_, err = cfg.Post(sprawl.EPCreateSite, sprawl.Request{"name": cmd.Name})
 	return err
 }

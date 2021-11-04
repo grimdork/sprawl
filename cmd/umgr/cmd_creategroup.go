@@ -5,17 +5,20 @@
 
 package main
 
-import "github.com/Urethramancer/signor/opt"
+import (
+	"github.com/Urethramancer/signor/opt"
+	"github.com/grimdork/sprawl"
+)
 
 type CreateGroupCmd struct {
 	opt.DefaultHelp
-	Site string   `placeholder:"SITE" help:"The site to create the groups for."`
-	Name []string `placeholder:"NAME" help:"An alphanumeric group name to create."`
+	Name string `placeholder:"NAME" help:"An alphanumeric group name to create."`
+	Site string `placeholder:"SITE" help:"The site to create the groups for."`
 }
 
 // Run the group creation.
 func (cmd *CreateGroupCmd) Run(args []string) error {
-	if cmd.Help || cmd.Name == nil {
+	if cmd.Help || cmd.Site == "" {
 		return opt.ErrUsage
 	}
 
@@ -24,10 +27,9 @@ func (cmd *CreateGroupCmd) Run(args []string) error {
 		return err
 	}
 
-	err = cfg.GetLoginToken()
-	if err != nil {
-		return err
-	}
-
-	return nil
+	_, err = cfg.Post(sprawl.EPCreateGroup, sprawl.Request{
+		"name": cmd.Name,
+		"site": cmd.Site},
+	)
+	return err
 }

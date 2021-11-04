@@ -23,7 +23,7 @@ func (cmd *ListSitesCmd) Run(args []string) error {
 		return err
 	}
 
-	data, err := cfg.Get(sprawl.EPListSites)
+	data, err := cfg.Get(sprawl.EPListSites, nil)
 	if err != nil {
 		return err
 	}

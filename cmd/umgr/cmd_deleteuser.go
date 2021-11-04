@@ -31,7 +31,7 @@ func (cmd *DeleteUserCmd) Run(args []string) error {
 		return err
 	}
 
-	_, err = cfg.Post(sprawl.EPDeleteUser, sprawl.CreateRequest{Name: cmd.Username})
+	_, err = cfg.Post(sprawl.EPDeleteUser, sprawl.Request{"name": cmd.Username})
 	if err != nil {
 		return err
 	}

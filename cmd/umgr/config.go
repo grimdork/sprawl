@@ -6,7 +6,6 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -15,6 +14,7 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/grimdork/sprawl"
 	"github.com/grimdork/xos"
 )
 
@@ -51,20 +51,25 @@ func init() {
 }
 
 // LoadConfig from JSON file.
-func LoadConfig() (Config, error) {
-	var config Config
+func LoadConfig() (*Config, error) {
+	var cfg Config
 	data, err := os.ReadFile(configPath)
 	if err != nil {
-		return config, err
+		return nil, err
 	}
 
-	err = json.Unmarshal(data, &config)
-	return config, err
+	err = json.Unmarshal(data, &cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	err = cfg.GetLoginToken()
+	return &cfg, err
 }
 
 // Save Config to JSON file.
-func SaveConfig(config Config) error {
-	data, err := json.MarshalIndent(config, "", "\t")
+func (cfg *Config) Save() error {
+	data, err := json.MarshalIndent(cfg, "", "\t")
 	if err != nil {
 		return err
 	}
@@ -73,7 +78,7 @@ func SaveConfig(config Config) error {
 }
 
 // Get an endpoint and return the JSON string or an error.
-func (cfg *Config) Get(ep string) ([]byte, error) {
+func (cfg *Config) Get(ep string, args sprawl.Request) ([]byte, error) {
 	url := fmt.Sprintf("%s%s", cfg.URL, ep)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
@@ -82,6 +87,10 @@ func (cfg *Config) Get(ep string) ([]byte, error) {
 
 	req.Header.Set("username", cfg.Username)
 	req.Header.Set("token", cfg.Token)
+	for k, v := range args {
+		req.Header.Set(k, v)
+	}
+
 	c := &http.Client{Timeout: time.Second * 10}
 	res, err := c.Do(req)
 	if err != nil {
@@ -97,20 +106,19 @@ func (cfg *Config) Get(ep string) ([]byte, error) {
 }
 
 // Post to an endpoint and return the JSON string or an error.
-func (cfg *Config) Post(ep string, args interface{}) ([]byte, error) {
-	data, err := json.Marshal(args)
-	if err != nil {
-		return nil, err
-	}
-
+func (cfg *Config) Post(ep string, args sprawl.Request) ([]byte, error) {
 	url := fmt.Sprintf("%s%s", cfg.URL, ep)
-	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(data))
+	req, err := http.NewRequest(http.MethodPost, url, nil)
 	if err != nil {
 		return nil, err
 	}
 
 	req.Header.Set("username", cfg.Username)
 	req.Header.Set("token", cfg.Token)
+	for k, v := range args {
+		req.Header.Set(k, v)
+	}
+
 	c := &http.Client{Timeout: time.Second * 10}
 	res, err := c.Do(req)
 	if err != nil {

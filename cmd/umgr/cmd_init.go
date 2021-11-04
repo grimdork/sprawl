@@ -31,11 +31,6 @@ func (cmd *InitCmd) Run(args []string) error {
 		return nil
 	}
 
-	err = cfg.GetLoginToken()
-	if err != nil {
-		return err
-	}
-
 	fmt.Printf("URL (<protocol>://<domain.tld>): ")
 	fmt.Scanln(&cfg.URL)
 	fmt.Printf("Username: ")
@@ -48,5 +43,5 @@ func (cmd *InitCmd) Run(args []string) error {
 	}
 
 	cfg.Password = string(pw)
-	return SaveConfig(cfg)
+	return cfg.Save()
 }

@@ -26,6 +26,6 @@ func (cmd *DeleteSiteCmd) Run(args []string) error {
 		return err
 	}
 
-	_, err = cfg.Post(sprawl.EPDeleteSite, sprawl.CreateRequest{Name: cmd.Name})
+	_, err = cfg.Post(sprawl.EPDeleteSite, sprawl.Request{"name": cmd.Name})
 	return err
 }

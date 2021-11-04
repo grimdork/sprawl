@@ -24,12 +24,7 @@ func (cmd *ListUsersCmd) Run(args []string) error {
 		return err
 	}
 
-	err = cfg.GetLoginToken()
-	if err != nil {
-		return err
-	}
-
-	data, err := cfg.Get(sprawl.EPListUsers)
+	data, err := cfg.Get(sprawl.EPListUsers, nil)
 	if err != nil {
 		return err
 	}
