@@ -60,14 +60,6 @@ func (db *Database) DeleteGroupByID(id int64) error {
 	return err
 }
 
-// GetGroupByID returns a group by ID.
-func (db *Database) GetGroupByID(id int64) (Group, error) {
-	g := Group{}
-	sql := "select id, name, site from groups where id=$1 "
-	err := db.QueryRow(context.Background(), sql, id).Scan(&g.ID, &g.Name, &g.Site)
-	return g, err
-}
-
 // GetGroups returns many groups.
 func (db *Database) GetGroups(start, max int64, site string) ([]Group, error) {
 	var err error
