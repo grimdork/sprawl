@@ -13,7 +13,7 @@ import (
 type CreateGroupCmd struct {
 	opt.DefaultHelp
 	Name string `placeholder:"NAME" help:"An alphanumeric group name to create."`
-	Site string `placeholder:"SITE" help:"The site to create the groups for."`
+	Site string `placeholder:"SITE" help:"The site in which to create the group."`
 }
 
 // Run the group creation.
