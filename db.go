@@ -13,27 +13,43 @@ import (
 
 var setupSQL string = `begin;
 
+-- The user table holds only the minimum required for logins, plus a freeform column for JSON data or similar.
 create table if not exists users (
 	id serial primary key,
 	name text unique not null,
-	password text not null
+	password text not null,
+	data text
 );
 
+-- Sites are very simple - just somewhere to reference the name for other tables.
 create table if not exists sites (
 	id serial primary key,
 	name text unique not null
 );
 
+-- Profiles is where the site-specific userdata is stored. JSON is recommended.
 create table if not exists profiles (
 	uid bigint not null,
 	sid bigint not null,
-	data text,
+	data text not null default ''::text,
 	constraint profile_uid foreign key(uid) references users(id) on delete cascade,
 	constraint profile_sid foreign key(Sid) references sites(id) on delete cascade
 );
 
+-- Users may only have one profile per site.
 create index if not exists idx_userprofile on profiles(uid,sid);
 
+-- Site admins have full control over a site (and the special user 'admin' controls every site).
+create table if not exists admins (
+	uid bigint not null,
+	sid bigint not null,
+	constraint admin_uid foreign key(uid) references users(id) on delete cascade,
+	constraint admin_sid foreign key(sid) references sites(id) on delete cascade
+);
+
+create index if not exists idx_useradmin on admins(uid,sid);
+
+--cGroups represent a role for users of a site.
 create table if not exists groups (
 	id serial primary key,
 	name text not null,
@@ -41,8 +57,9 @@ create table if not exists groups (
 	constraint group_sid foreign key(sid) references sites(id) on delete cascade
 );
 
-create index if not exists idx_groupsite on groups(id,sid);
+create unique index if not exists idx_groupsite on groups(id,sid);
 
+-- Memberships are the many-to-many relationship between users and groups.
 create table if not exists members (
 	uid bigint not null,
 	gid bigint not null,
@@ -52,12 +69,31 @@ create table if not exists members (
 
 create index if not exists idx_gmembersgroup on members(uid,gid);
 
+-- Tokens are created when authenticating.
 create table if not exists tokens (
 	hash text primary key,
 	uid bigint,
 	expires bigint,
 	constraint fk_tokens_uid foreign key(uid) references users(id) on delete cascade
 );
+
+-- Permissions are attached to groups, and are configurable as you like. Sprawl will create some defaults.
+create table if not exists permissions (
+	id serial primary key,
+	name text unique not null,
+	description text not null
+);
+
+-- Roles match permissions to groups.
+create table if not exists roles (
+	gid bigint not null,
+	pid bigint not null,
+	constraint role_gid foreign key(gid) references groups(id) on delete cascade,
+	constraint role_pid foreign key(pid) references permissions(id) on delete cascade
+);
+
+-- Ensure a GID/PID pair only appears once.
+create unique index if not exists idx_roles on roles(gid,pid);
 
 commit;
 `
