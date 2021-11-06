@@ -37,7 +37,7 @@ func (cmd *ListUsersCmd) Run(args []string) error {
 
 	w := &tabwriter.Writer{}
 	w.Init(os.Stdout, 0, 8, 1, '\t', 0)
-	w.Write([]byte("UID\tUsername\n"))
+	w.Write([]byte("ID\tUsername\n"))
 	for _, user := range list {
 		s := fmt.Sprintf("%d\t%s\n", user.ID, user.Name)
 		w.Write([]byte(s))

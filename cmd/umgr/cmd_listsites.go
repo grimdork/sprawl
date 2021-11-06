@@ -36,7 +36,7 @@ func (cmd *ListSitesCmd) Run(args []string) error {
 
 	w := &tabwriter.Writer{}
 	w.Init(os.Stdout, 0, 8, 1, '\t', 0)
-	w.Write([]byte("UID\tDomain\n"))
+	w.Write([]byte("ID\tDomain\n"))
 	for _, site := range list {
 		s := fmt.Sprintf("%d\t%s\n", site.ID, site.Name)
 		w.Write([]byte(s))

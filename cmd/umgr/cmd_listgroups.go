@@ -44,9 +44,9 @@ func (cmd *ListGroupsCmd) Run(args []string) error {
 
 	w := &tabwriter.Writer{}
 	w.Init(os.Stdout, 0, 8, 1, '\t', 0)
-	w.Write([]byte("Group\tSite\n"))
+	w.Write([]byte("ID\tGroup\tSite\n"))
 	for _, g := range list.Groups {
-		s := fmt.Sprintf("%s\t%s\n", g.Name, g.Site)
+		s := fmt.Sprintf("%d\t%s\t%s\n", g.ID, g.Name, g.Site)
 		w.Write([]byte(s))
 	}
 	w.Flush()
