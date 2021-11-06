@@ -106,3 +106,52 @@ func (srv *Server) tokencheck(h http.Handler) http.Handler {
 
 	return http.HandlerFunc(fn)
 }
+
+// admincheck middleware to insert before system endpoints.
+func (srv *Server) admincheck(h http.Handler) http.Handler {
+	fn := func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("username") != "admin" {
+			http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
+			return
+		}
+
+		h.ServeHTTP(w, r)
+	}
+
+	return http.HandlerFunc(fn)
+}
+
+// siteadmincheck middleware to insert before site endpoints.
+func (srv *Server) siteadmincheck(h http.Handler) http.Handler {
+	fn := func(w http.ResponseWriter, r *http.Request) {
+		name := r.Header.Get("name")
+		if name == "" {
+			http.Error(w, "Missing group name", http.StatusBadRequest)
+			return
+		}
+
+		site := r.Header.Get("site")
+		if site == "" {
+			http.Error(w, "Missing site name", http.StatusBadRequest)
+			return
+		}
+
+		username := r.Header.Get("username")
+		if !srv.isSiteAdmin(username, site) {
+			http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
+			return
+		}
+
+		h.ServeHTTP(w, r)
+	}
+
+	return http.HandlerFunc(fn)
+}
+
+func (srv *Server) isSiteAdmin(name, site string) bool {
+	if name == "admin" {
+		return true
+	}
+
+	return true
+}
