@@ -47,33 +47,20 @@ func (srv *Server) listSites(w http.ResponseWriter, r *http.Request) {
 }
 
 func (srv *Server) createSite(w http.ResponseWriter, r *http.Request) {
-	name, err := getName(r)
-	if err != nil {
-		srv.E("Failed to unmarshal body: %s", err.Error())
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
-	err = srv.CreateSite(name)
+	err := srv.CreateSite(r.Header.Get("name"))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
 
 func (srv *Server) deleteSite(w http.ResponseWriter, r *http.Request) {
-	name, err := getName(r)
-	if err != nil {
-		srv.E("Failed to unmarshal body: %s", err.Error())
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
+	name := r.Header.Get("name")
 	if name == "1" || name == "system" {
 		http.Error(w, "Cannot delete system site.", http.StatusInternalServerError)
 		return
 	}
 
-	err = srv.DeleteSite(name)
+	err := srv.DeleteSite(name)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
