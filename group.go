@@ -12,6 +12,7 @@ package sprawl
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/jackc/pgx/v4"
 )
@@ -32,7 +33,22 @@ func (db *Database) CreateGroup(name, site string) error {
 
 // DeleteGroup deletes a group.
 func (db *Database) DeleteGroup(name, site string) error {
-	sql := "delete from groups where name=$1 and sid=(select id from sites where name=$2);"
+	var sql string
+	gid, _ := strconv.ParseInt(name, 10, 64)
+	sid, _ := strconv.ParseInt(site, 10, 64)
+	if gid == 0 {
+		if sid == 0 {
+			sql = "delete from groups where name=$1 and sid=(select id from sites where name=$2);"
+		} else {
+			sql = "delete from groups where name=$1 and sid=$2;"
+		}
+	} else {
+		if sid == 0 {
+			sql = "delete from groups where id=$1 and sid=(select id from sites where name=$2);"
+		} else {
+			sql = "delete from groups where id=$1 and sid=$2;"
+		}
+	}
 	_, err := db.Exec(context.Background(), sql, name, site)
 	return err
 }
