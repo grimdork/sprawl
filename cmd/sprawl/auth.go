@@ -97,7 +97,7 @@ func (srv *Server) verifyToken(username, token string) bool {
 func (srv *Server) tokencheck(h http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		if !srv.verifyToken(r.Header.Get("username"), r.Header.Get("token")) {
-			http.Error(w, http.StatusText(http.StatusForbidden), http.StatusForbidden)
+			http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
 			return
 		}
 
