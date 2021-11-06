@@ -11,10 +11,10 @@ import (
 	"github.com/grimdork/sprawl"
 )
 
-type ListPermissionsCmd struct{}
+type ListPermsCmd struct{}
 
 // Run group listing.
-func (cmd *ListPermissionsCmd) Run(args []string) error {
+func (cmd *ListPermsCmd) Run(args []string) error {
 	cfg, err := LoadConfig()
 	if err != nil {
 		return err

@@ -32,8 +32,8 @@ var o struct {
 	// RemoveMember RemoveMemberCmd `command:"removemember" help:"Remove a user from a group." aliases:"rm" group:"Group commands"`
 	// ListMembers ListMembersCmd `command:"listmembers" help:"List all members of a group." aliases:"lm" group:"Group commands"`
 
-	// 	ListPerms  ListPermsCmd  `command:"listperms" help:"List all permissions." aliases:"lp" group:"Permission commands"`
-	// 	CreatePerm CreatePermCmd `command:"createperm" help:"Create a new permission." aliases:"cp" group:"Permission commands"`
+	ListPerms  ListPermsCmd  `command:"listperms" help:"List all permissions." aliases:"lp" group:"Permission commands"`
+	CreatePerm CreatePermCmd `command:"createperm" help:"Create a new permission." aliases:"cp" group:"Permission commands"`
 	// 	DeletePerm DeletePermCmd `command:"deleteperm" help:"Delete a permission." aliases:"dp" group:"Permission commands"`
 }
 

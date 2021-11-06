@@ -10,13 +10,13 @@ import (
 	"github.com/grimdork/sprawl"
 )
 
-type CreatePermissionCmd struct {
+type CreatePermCmd struct {
 	opt.DefaultHelp
 	Name string `placeholder:"NAME" help:"Permission name to create."`
 }
 
 // Run the permission creation.
-func (cmd *CreatePermissionCmd) Run(args []string) error {
+func (cmd *CreatePermCmd) Run(args []string) error {
 	if cmd.Help || cmd.Name == "" {
 		return opt.ErrUsage
 	}
