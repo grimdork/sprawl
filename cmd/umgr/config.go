@@ -125,7 +125,7 @@ func (cfg *Config) Post(ep string, args sprawl.Request) ([]byte, error) {
 		return nil, err
 	}
 
-	if res.StatusCode > 400 {
+	if res.StatusCode >= 400 {
 		return nil, fmt.Errorf("couldn't POST: %s", res.Status)
 	}
 
