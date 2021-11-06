@@ -12,56 +12,27 @@ package main
 
 import (
 	"encoding/json"
-	"io"
 	"net/http"
 	"strconv"
-
-	"github.com/grimdork/sprawl"
 )
 
 func (srv *Server) createUser(w http.ResponseWriter, r *http.Request) {
-	data, err := io.ReadAll(r.Body)
-	if err != nil {
-		srv.E("Failed to read body: %s", err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	var req sprawl.CreateRequest
-	err = json.Unmarshal(data, &req)
-	if err != nil {
-		srv.E("Failed to unmarshal body: %s", err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	err = srv.CreateUser(req.Name, req.Password)
+	name := r.Header.Get("name")
+	err := srv.CreateUser(
+		name,
+		r.Header.Get("password"),
+	)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusConflict), http.StatusConflict)
 		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	srv.L("Added user '%s'", req.Name)
+	srv.L("Added user '%s'", name)
 }
 
 func (srv *Server) deleteUser(w http.ResponseWriter, r *http.Request) {
-	data, err := io.ReadAll(r.Body)
-	if err != nil {
-		srv.E("Failed to read body: %s", err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	var req sprawl.CreateRequest
-	err = json.Unmarshal(data, &req)
-	if err != nil {
-		srv.E("Failed to unmarshal body: %s", err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	err = srv.DeleteUser(req.Name)
+	err := srv.DeleteUser(r.Header.Get("name"))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
