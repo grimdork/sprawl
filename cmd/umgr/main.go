@@ -27,10 +27,14 @@ var o struct {
 
 	ListGroups  ListGroupsCmd  `command:"listgroups" help:"List all groups." aliases:"lg" group:"Group commands"`
 	CreateGroup CreateGroupCmd `command:"creategroup" help:"Create a new group." aliases:"cg" group:"Group commands"`
-	// DeleteGroup DeleteGroupCmd `command:"deletegroup" help:"Delete a group." aliases:"dg" group:"Group commands"`
+	DeleteGroup DeleteGroupCmd `command:"deletegroup" help:"Delete a group." aliases:"dg" group:"Group commands"`
 	// AddMember AddMemberCmd `command:"addmember" help:"Add a user to a group." aliases:"am" group:"Group commands"`
 	// RemoveMember RemoveMemberCmd `command:"removemember" help:"Remove a user from a group." aliases:"rm" group:"Group commands"`
 	// ListMembers ListMembersCmd `command:"listmembers" help:"List all members of a group." aliases:"lm" group:"Group commands"`
+
+	// 	ListPerms  ListPermsCmd  `command:"listperms" help:"List all permissions." aliases:"lp" group:"Permission commands"`
+	// 	CreatePerm CreatePermCmd `command:"createperm" help:"Create a new permission." aliases:"cp" group:"Permission commands"`
+	// 	DeletePerm DeletePermCmd `command:"deleteperm" help:"Delete a permission." aliases:"dp" group:"Permission commands"`
 }
 
 func main() {
