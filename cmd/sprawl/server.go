@@ -162,6 +162,34 @@ func NewServer() (*Server, error) {
 			r.Get("/", srv.listSiteMembers)
 		})
 
+		//
+		// Permissions
+		//
+
+		// List permissions
+		r.Route(sprawl.EPListPermissions, func(r chi.Router) {
+			r.Use(
+				srv.tokencheck,
+			)
+			r.Get("/", srv.listPermissions)
+		})
+
+		// Create permission
+		r.Route(sprawl.EPCreatePermission, func(r chi.Router) {
+			r.Use(
+				srv.tokencheck,
+			)
+			r.Post("/", srv.createPermission)
+		})
+
+		// Delete permission
+		r.Route(sprawl.EPDeletePermission, func(r chi.Router) {
+			r.Use(
+				srv.tokencheck,
+			)
+			r.Post("/", srv.deletePermission)
+		})
+
 		// Default route for "/".
 		r.Get("/", srv.index)
 	})
@@ -191,6 +219,7 @@ func NewServer() (*Server, error) {
 		srv.L("No admin user - creating.")
 		err = srv.CreateUser("admin", env.Get("ADMIN_PASSWORD", "potrzebie"))
 		if err != nil {
+			println("FAIL")
 			return nil, err
 		}
 	}
