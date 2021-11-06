@@ -54,6 +54,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPListUsers, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.admincheck,
 			)
 			r.Get("/", srv.listUsers)
 		})
@@ -62,6 +63,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPCreateUser, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.admincheck,
 			)
 			r.Post("/", srv.createUser)
 		})
@@ -70,6 +72,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPDeleteUser, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.admincheck,
 			)
 			r.Post("/", srv.deleteUser)
 		})
@@ -90,6 +93,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPListGroups, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.siteadmincheck,
 			)
 			r.Get("/", srv.listGroups)
 		})
@@ -98,6 +102,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPCreateGroup, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.siteadmincheck,
 			)
 			r.Post("/", srv.createGroup)
 		})
@@ -106,6 +111,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPDeleteGroup, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.siteadmincheck,
 			)
 			r.Post("/", srv.deleteGroup)
 		})
@@ -114,6 +120,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPListGroupMembers, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.siteadmincheck,
 			)
 			r.Get("/", srv.listGroupMembers)
 		})
@@ -122,6 +129,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPAddGroupMember, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.siteadmincheck,
 			)
 			r.Post("/", srv.addGroupMember)
 		})
@@ -134,6 +142,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPListSites, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.admincheck,
 			)
 			r.Get("/", srv.listSites)
 		})
@@ -142,6 +151,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPCreateSite, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.admincheck,
 			)
 			r.Post("/", srv.createSite)
 		})
@@ -150,6 +160,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPDeleteSite, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.admincheck,
 			)
 			r.Post("/", srv.deleteSite)
 		})
@@ -158,6 +169,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPListSiteMembers, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.siteadmincheck,
 			)
 			r.Get("/", srv.listSiteMembers)
 		})
@@ -170,6 +182,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPListPermissions, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.admincheck,
 			)
 			r.Get("/", srv.listPermissions)
 		})
@@ -178,6 +191,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPCreatePermission, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.admincheck,
 			)
 			r.Post("/", srv.createPermission)
 		})
@@ -186,6 +200,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPDeletePermission, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.admincheck,
 			)
 			r.Post("/", srv.deletePermission)
 		})

@@ -26,19 +26,7 @@ func (srv *Server) createGroup(w http.ResponseWriter, r *http.Request) {
 }
 
 func (srv *Server) deleteGroup(w http.ResponseWriter, r *http.Request) {
-	name := r.Header.Get("name")
-	if name == "" {
-		http.Error(w, "Missing group name", http.StatusBadRequest)
-		return
-	}
-
-	site := r.Header.Get("site")
-	if site == "" {
-		http.Error(w, "Missing site name", http.StatusBadRequest)
-		return
-	}
-
-	err := srv.DeleteGroup(name, site)
+	err := srv.DeleteGroup(r.Header.Get("name"), r.Header.Get("site"))
 	if err != nil {
 		println(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
