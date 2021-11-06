@@ -27,10 +27,21 @@ const (
 	EPCreateSite      = "/createsite"
 	EPDeleteSite      = "/deletesite"
 	EPListSiteMembers = "/listsitemembers"
+
+	EPListPermissions  = "/listpermissions"
+	EPCreatePermission = "/createpermission"
+	EPDeletePermission = "/deletepermission"
+
+	EPListRoles  = "/listroles"
+	EPCreateRole = "/createrole"
+	EPDeleteRole = "/deleterole"
 )
 
-// CreateRequest is used for create endpoints.
-type CreateRequest struct {
-	Name     string `json:"name"`
-	Password string `json:"password"`
+// Request contains the variables passed to endpoints.
+type Request map[string]string
+
+// GroupList is returned from the list groups endpoint.
+type GroupList struct {
+	// Groups on the site.
+	Groups []Group `json:"groups"`
 }
