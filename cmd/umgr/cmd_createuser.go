@@ -1,8 +1,3 @@
-//	Copyright 2021 Ronny Bangsund
-//
-//	This software is released under the MIT License.
-//	https://opensource.org/licenses/MIT
-
 // Copyright (c) 2021 Ronny Bangsund
 //
 // This software is released under the MIT License.
@@ -57,8 +52,8 @@ func (cmd *CreateUserCmd) Run(args []string) error {
 
 	_, err = cfg.Post(sprawl.EPCreateUser, sprawl.Request{
 		"name":     cmd.Name,
-		"password": pw},
-	)
+		"password": pw,
+	})
 	if err != nil {
 		return err
 	}
