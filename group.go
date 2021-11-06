@@ -58,10 +58,10 @@ func (db *Database) GetGroups(start, max int64, site string) ([]Group, error) {
 	var rows pgx.Rows
 
 	if site == "" {
-		sql := "select groups.name,sites.name from groups inner join sites on groups.sid=sites.id order by sites.id,groups.id asc limit $1 offset $2;"
+		sql := "select groups.id,groups.name,sites.name from groups inner join sites on groups.sid=sites.id order by sites.id,groups.id asc limit $1 offset $2;"
 		rows, err = db.Query(context.Background(), sql, max, start)
 	} else {
-		sql := "select groups.name,sites.name from groups inner join sites on groups.sid=sites.id where sites.name=$3 order by sites.id,groups.id asc limit $1 offset $2;"
+		sql := "select groups.id,groups.name,sites.name from groups inner join sites on groups.sid=sites.id where sites.name=$3 order by sites.id,groups.id asc limit $1 offset $2;"
 		rows, err = db.Query(context.Background(), sql, max, start, site)
 	}
 
@@ -73,7 +73,7 @@ func (db *Database) GetGroups(start, max int64, site string) ([]Group, error) {
 	var groups []Group
 	for rows.Next() {
 		g := Group{}
-		err := rows.Scan(&g.Name, &g.Site)
+		err := rows.Scan(&g.ID, &g.Name, &g.Site)
 		if err != nil {
 			return nil, err
 		}
