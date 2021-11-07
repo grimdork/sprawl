@@ -34,7 +34,7 @@ var o struct {
 
 	ListPerms  ListPermsCmd  `command:"listperms" help:"List all permissions." aliases:"lp" group:"Permission commands"`
 	CreatePerm CreatePermCmd `command:"createperm" help:"Create a new permission." aliases:"cp" group:"Permission commands"`
-	// 	DeletePerm DeletePermCmd `command:"deleteperm" help:"Delete a permission." aliases:"dp" group:"Permission commands"`
+	DeletePerm DeletePermCmd `command:"deleteperm" help:"Delete a permission." aliases:"dp" group:"Permission commands"`
 }
 
 func main() {

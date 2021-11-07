@@ -12,7 +12,8 @@ import (
 
 type CreatePermCmd struct {
 	opt.DefaultHelp
-	Name string `placeholder:"NAME" help:"Permission name to create."`
+	Name        string `placeholder:"KEYWORD" help:"Permission keyword to create."`
+	Description string `placeholder:"DESCRIPTION" help:"Optional description of the permission."`
 }
 
 // Run the permission creation.
@@ -32,7 +33,8 @@ func (cmd *CreatePermCmd) Run(args []string) error {
 	}
 
 	_, err = cfg.Post(sprawl.EPCreatePermission, sprawl.Request{
-		"name": cmd.Name,
+		"name":        cmd.Name,
+		"description": cmd.Description,
 	})
 	return err
 }
