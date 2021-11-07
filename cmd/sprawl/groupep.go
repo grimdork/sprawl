@@ -9,8 +9,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-
-	"github.com/grimdork/sprawl"
 )
 
 func (srv *Server) createGroup(w http.ResponseWriter, r *http.Request) {
@@ -54,7 +52,7 @@ func (srv *Server) listGroups(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := json.Marshal(sprawl.GroupList{Groups: list})
+	data, err := json.Marshal(list)
 	if err != nil {
 		srv.E("Failed to marshal groups: %s", err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)

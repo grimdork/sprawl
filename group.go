@@ -61,7 +61,7 @@ func (db *Database) DeleteGroupByID(id int64) error {
 }
 
 // GetGroups returns many groups.
-func (db *Database) GetGroups(start, max int64, site string) ([]Group, error) {
+func (db *Database) GetGroups(start, max int64, site string) (GroupList, error) {
 	var err error
 	var rows pgx.Rows
 
@@ -74,19 +74,19 @@ func (db *Database) GetGroups(start, max int64, site string) ([]Group, error) {
 	}
 
 	if err != nil {
-		return nil, err
+		return GroupList{}, err
 	}
 
 	defer rows.Close()
-	var groups []Group
+	var list GroupList
 	for rows.Next() {
 		g := Group{}
 		err := rows.Scan(&g.ID, &g.Name, &g.Site)
 		if err != nil {
-			return nil, err
+			return GroupList{}, err
 		}
-		groups = append(groups, g)
+		list.Groups = append(list.Groups, g)
 	}
 
-	return groups, nil
+	return list, nil
 }
