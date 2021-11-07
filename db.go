@@ -37,7 +37,7 @@ create table if not exists profiles (
 );
 
 -- Users may only have one profile per site.
-create index if not exists idx_userprofile on profiles(uid,sid);
+create unique index if not exists idx_userprofile on profiles(uid,sid);
 
 -- Site admins have full control over a site (and the special user 'admin' controls every site).
 create table if not exists admins (
