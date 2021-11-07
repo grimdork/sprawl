@@ -31,7 +31,7 @@ func (cmd *ListGroupsCmd) Run(args []string) error {
 		return err
 	}
 
-	data, err := cfg.Get(sprawl.EPListGroups, map[string]string{"site": cmd.Site})
+	data, err := cfg.Get(sprawl.EPListGroups, sprawl.Request{"site": cmd.Site})
 	if err != nil {
 		return err
 	}
