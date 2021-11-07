@@ -30,13 +30,16 @@ type User struct {
 
 // CreateUser in database.
 func (db *Database) CreateUser(name, password string) error {
-	sql := "insert into users(name,password) values($1,$2)"
 	pass, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	if err != nil {
 		return err
 	}
 
-	_, err = db.Exec(context.Background(), sql, name, pass)
+	if name == "admin" {
+		_, err = db.Exec(context.Background(), "insert into users (id,name,password) values (1,$1,$2);", name, pass)
+	} else {
+		_, err = db.Exec(context.Background(), "insert into users(name,password) values($1,$2)", name, pass)
+	}
 	return err
 }
 
