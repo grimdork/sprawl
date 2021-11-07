@@ -68,3 +68,25 @@ func (db *Database) GetSites(start, max int64) ([]Site, error) {
 	}
 	return sites, nil
 }
+
+func (db *Database) GetSiteMembers() ([]User, error) {
+	sql := `select users.id,users,name from users
+	inner join profiles on profiles.uid=users.id;`
+	rows, err := db.Pool.Query(context.Background(), sql)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var users []User
+	for rows.Next() {
+		var u User
+		err = rows.Scan(&u.ID, &u.Name)
+		if err != nil {
+			return nil, err
+		}
+
+		users = append(users, u)
+	}
+	return users, nil
+}
