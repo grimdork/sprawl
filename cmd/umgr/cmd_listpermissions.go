@@ -7,6 +7,9 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
+	"os"
+	"text/tabwriter"
 
 	"github.com/grimdork/sprawl"
 )
@@ -25,14 +28,19 @@ func (cmd *ListPermsCmd) Run(args []string) error {
 		return err
 	}
 
-	var list []string
+	var list sprawl.PermissionList
 	err = json.Unmarshal(data, &list)
 	if err != nil {
 		return err
 	}
 
-	for _, g := range list {
-		println(g)
+	w := &tabwriter.Writer{}
+	w.Init(os.Stdout, 0, 8, 1, '\t', 0)
+	w.Write([]byte("ID\tPermission\tDescription\n"))
+	for _, p := range list.Permissions {
+		s := fmt.Sprintf("%d\t%s\t%s\n", p.ID, p.Name, p.Description)
+		w.Write([]byte(s))
 	}
+	w.Flush()
 	return nil
 }
