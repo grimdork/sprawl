@@ -16,17 +16,21 @@ const (
 	EPDeleteUser  = "/deleteuser"
 	EPSetPassword = "/setpassword"
 
+	EPListSites       = "/listsites"
+	EPCreateSite      = "/createsite"
+	EPDeleteSite      = "/deletesite"
+	EPListSiteMembers = "/listsitemembers"
+
+	EPListProfiles  = "/listprofiles"
+	EPCreateProfile = "/createprofile"
+	EPDeleteProfile = "/deleteprofile"
+
 	EPListGroups       = "/listgroups"
 	EPCreateGroup      = "/creategroup"
 	EPDeleteGroup      = "/deletegroup"
 	EPListGroupMembers = "/listgroupmembers"
 	EPAddGroupMember   = "/addgroupmember"
 	EPRemoveMember     = "/removemember"
-
-	EPListSites       = "/listsites"
-	EPCreateSite      = "/createsite"
-	EPDeleteSite      = "/deletesite"
-	EPListSiteMembers = "/listsitemembers"
 
 	EPListPermissions  = "/listpermissions"
 	EPCreatePermission = "/createpermission"
