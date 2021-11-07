@@ -81,7 +81,7 @@ create table if not exists tokens (
 create table if not exists permissions (
 	id serial primary key,
 	name text unique not null,
-	description text not null
+	description text not null default ''::text
 );
 
 -- Roles match permissions to groups.
