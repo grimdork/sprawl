@@ -28,6 +28,12 @@ type User struct {
 	Profiles map[string]Profile
 }
 
+// UserList is returned from lookup.
+type UserList struct {
+	// Users is a list of users, possibly limited by search parameters.
+	Users []User `json:"users"`
+}
+
 // CreateUser in database.
 func (db *Database) CreateUser(name, password string) error {
 	pass, err := bcrypt.GenerateFromPassword([]byte(password), 14)
