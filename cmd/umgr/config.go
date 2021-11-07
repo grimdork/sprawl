@@ -77,10 +77,9 @@ func (cfg *Config) Save() error {
 	return os.WriteFile(configPath, data, 0600)
 }
 
-// Get an endpoint and return the JSON string or an error.
-func (cfg *Config) Get(ep string, args sprawl.Request) ([]byte, error) {
+func (cfg *Config) request(method, ep string, args sprawl.Request) (*http.Response, error) {
 	url := fmt.Sprintf("%s%s", cfg.URL, ep)
-	req, err := http.NewRequest(http.MethodGet, url, nil)
+	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -93,11 +92,17 @@ func (cfg *Config) Get(ep string, args sprawl.Request) ([]byte, error) {
 
 	c := &http.Client{Timeout: time.Second * 10}
 	res, err := c.Do(req)
+	return res, err
+}
+
+// Get is for retrieval.
+func (cfg *Config) Get(ep string, args sprawl.Request) ([]byte, error) {
+	res, err := cfg.request(http.MethodGet, ep, args)
 	if err != nil {
 		return nil, err
 	}
 
-	if res.StatusCode > 400 {
+	if res.StatusCode >= 400 {
 		return nil, fmt.Errorf("couldn't GET: %s", res.Status)
 	}
 
@@ -105,22 +110,9 @@ func (cfg *Config) Get(ep string, args sprawl.Request) ([]byte, error) {
 	return io.ReadAll(res.Body)
 }
 
-// Post to an endpoint and return the JSON string or an error.
+// Post is for creation.
 func (cfg *Config) Post(ep string, args sprawl.Request) ([]byte, error) {
-	url := fmt.Sprintf("%s%s", cfg.URL, ep)
-	req, err := http.NewRequest(http.MethodPost, url, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Set("username", cfg.Username)
-	req.Header.Set("token", cfg.Token)
-	for k, v := range args {
-		req.Header.Set(k, v)
-	}
-
-	c := &http.Client{Timeout: time.Second * 10}
-	res, err := c.Do(req)
+	res, err := cfg.request(http.MethodPost, ep, args)
 	if err != nil {
 		return nil, err
 	}
@@ -131,4 +123,34 @@ func (cfg *Config) Post(ep string, args sprawl.Request) ([]byte, error) {
 
 	defer res.Body.Close()
 	return io.ReadAll(res.Body)
+}
+
+// Delete is for removal.
+func (cfg *Config) Delete(ep string, args sprawl.Request) error {
+	res, err := cfg.request(http.MethodDelete, ep, args)
+	if err != nil {
+		return err
+	}
+
+	if res.StatusCode >= 400 {
+		return fmt.Errorf("couldn't DELETE: %s", res.Status)
+	}
+
+	defer res.Body.Close()
+	return nil
+}
+
+// Put is for updates.
+func (cfg *Config) Put(ep string, args sprawl.Request) error {
+	res, err := cfg.request(http.MethodPut, ep, args)
+	if err != nil {
+		return err
+	}
+
+	if res.StatusCode >= 400 {
+		return fmt.Errorf("couldn't PUT: %s", res.Status)
+	}
+
+	defer res.Body.Close()
+	return nil
 }
