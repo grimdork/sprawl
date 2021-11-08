@@ -1,9 +1,4 @@
-// Copyright (c) 2021 Ronny Bangsund
-//
-// This software is released under the MIT License.
-// https://opensource.org/licenses/MIT
-
-package main
+package sprawl
 
 import (
 	"encoding/json"
@@ -11,14 +6,10 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"path/filepath"
 	"time"
-
-	"github.com/grimdork/sprawl"
-	"github.com/grimdork/xos"
 )
 
-// Config for sprawl connection.
+// Config for a Sprawl connection.
 type Config struct {
 	// URL for the sprawl server.
 	URL string
@@ -30,30 +21,10 @@ type Config struct {
 	Token string
 }
 
-const program = "sprawlmgr"
-
-var configPath string
-
-func init() {
-	cfg, err := xos.NewConfig(program)
-	if err != nil {
-		pr("Error: %s", err.Error())
-		os.Exit(2)
-	}
-
-	err = os.MkdirAll(cfg.Path(), 0700)
-	if err != nil {
-		pr("Error: %s", err.Error())
-		os.Exit(2)
-	}
-
-	configPath = filepath.Join(cfg.Path(), "config.json")
-}
-
 // LoadConfig from JSON file.
-func LoadConfig() (*Config, error) {
+func LoadConfig(fn string) (*Config, error) {
 	var cfg Config
-	data, err := os.ReadFile(configPath)
+	data, err := os.ReadFile(fn)
 	if err != nil {
 		return nil, err
 	}
@@ -68,16 +39,16 @@ func LoadConfig() (*Config, error) {
 }
 
 // Save Config to JSON file.
-func (cfg *Config) Save() error {
+func (cfg *Config) Save(fn string) error {
 	data, err := json.MarshalIndent(cfg, "", "\t")
 	if err != nil {
 		return err
 	}
 
-	return os.WriteFile(configPath, data, 0600)
+	return os.WriteFile(fn, data, 0600)
 }
 
-func (cfg *Config) request(method, ep string, args sprawl.Request) (*http.Response, error) {
+func (cfg *Config) request(method, ep string, args Request) (*http.Response, error) {
 	url := fmt.Sprintf("%s%s", cfg.URL, ep)
 	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
@@ -96,7 +67,7 @@ func (cfg *Config) request(method, ep string, args sprawl.Request) (*http.Respon
 }
 
 // Get is for retrieval.
-func (cfg *Config) Get(ep string, args sprawl.Request) ([]byte, error) {
+func (cfg *Config) Get(ep string, args Request) ([]byte, error) {
 	res, err := cfg.request(http.MethodGet, ep, args)
 	if err != nil {
 		return nil, err
@@ -111,7 +82,7 @@ func (cfg *Config) Get(ep string, args sprawl.Request) ([]byte, error) {
 }
 
 // Post is for creation.
-func (cfg *Config) Post(ep string, args sprawl.Request) ([]byte, error) {
+func (cfg *Config) Post(ep string, args Request) ([]byte, error) {
 	res, err := cfg.request(http.MethodPost, ep, args)
 	if err != nil {
 		return nil, err
@@ -126,7 +97,7 @@ func (cfg *Config) Post(ep string, args sprawl.Request) ([]byte, error) {
 }
 
 // Delete is for removal.
-func (cfg *Config) Delete(ep string, args sprawl.Request) error {
+func (cfg *Config) Delete(ep string, args Request) error {
 	res, err := cfg.request(http.MethodDelete, ep, args)
 	if err != nil {
 		return err
@@ -141,7 +112,7 @@ func (cfg *Config) Delete(ep string, args sprawl.Request) error {
 }
 
 // Put is for updates.
-func (cfg *Config) Put(ep string, args sprawl.Request) error {
+func (cfg *Config) Put(ep string, args Request) error {
 	res, err := cfg.request(http.MethodPut, ep, args)
 	if err != nil {
 		return err

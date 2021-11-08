@@ -24,6 +24,9 @@ var o struct {
 	ListSites  ListSitesCmd  `command:"listsites" help:"List all sites." aliases:"ls" group:"Site commands"`
 	CreateSite CreateSiteCmd `command:"createsite" help:"Create a new site." aliases:"cs" group:"Site commands"`
 	DeleteSite DeleteSiteCmd `command:"deletesite" help:"Delete a site." aliases:"ds" group:"Site commands"`
+	// AddSiteMember    AddSiteMemberCmd    `command:"addsitemember" help:"Add a user to a site." aliases:"asm" group:"Site commands"`
+	// RemoveSiteMember RemoveSiteMemberCmd `command:"removesitemember" help:"Remove a user from a site." aliases:"rsm" group:"Site commands"`
+	// ListSiteMembers  ListSiteMembersCmd  `command:"listsitemembers" help:"List all users in a site." aliases:"lsm" group:"Site commands"`
 
 	ListGroups  ListGroupsCmd  `command:"listgroups" help:"List all groups." aliases:"lg" group:"Group commands"`
 	CreateGroup CreateGroupCmd `command:"creategroup" help:"Create a new group." aliases:"cg" group:"Group commands"`

@@ -18,7 +18,7 @@ type ListPermsCmd struct{}
 
 // Run group listing.
 func (cmd *ListPermsCmd) Run(args []string) error {
-	cfg, err := LoadConfig()
+	cfg, err := sprawl.LoadConfig(configPath)
 	if err != nil {
 		return err
 	}

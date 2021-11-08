@@ -19,7 +19,7 @@ type ListUsersCmd struct{}
 
 // Run listusers.
 func (cmd *ListUsersCmd) Run(args []string) error {
-	cfg, err := LoadConfig()
+	cfg, err := sprawl.LoadConfig(configPath)
 	if err != nil {
 		return err
 	}

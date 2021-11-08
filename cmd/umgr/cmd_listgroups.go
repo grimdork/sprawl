@@ -26,7 +26,7 @@ func (cmd *ListGroupsCmd) Run(args []string) error {
 		return opt.ErrUsage
 	}
 
-	cfg, err := LoadConfig()
+	cfg, err := sprawl.LoadConfig(configPath)
 	if err != nil {
 		return err
 	}

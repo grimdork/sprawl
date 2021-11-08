@@ -13,7 +13,7 @@ type ListSitesCmd struct{}
 
 // Run the site listing.
 func (cmd *ListSitesCmd) Run(args []string) error {
-	cfg, err := LoadConfig()
+	cfg, err := sprawl.LoadConfig(configPath)
 	if err != nil {
 		return err
 	}

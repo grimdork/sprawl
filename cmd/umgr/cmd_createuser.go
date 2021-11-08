@@ -40,7 +40,7 @@ func (cmd *CreateUserCmd) Run(args []string) error {
 		pw = sprawl.RandString(20)
 	}
 
-	cfg, err := LoadConfig()
+	cfg, err := sprawl.LoadConfig(configPath)
 	if err != nil {
 		return err
 	}

@@ -10,6 +10,7 @@ import (
 	"os"
 
 	"github.com/Urethramancer/signor/opt"
+	"github.com/grimdork/sprawl"
 	"golang.org/x/term"
 )
 
@@ -25,7 +26,7 @@ func (cmd *InitCmd) Run(args []string) error {
 		return opt.ErrUsage
 	}
 
-	cfg, err := LoadConfig()
+	cfg, err := sprawl.LoadConfig(configPath)
 	if err == nil && !cmd.Force {
 		pr("Already initialized. Use -f to force re-initialization.")
 		return nil
@@ -43,5 +44,5 @@ func (cmd *InitCmd) Run(args []string) error {
 	}
 
 	cfg.Password = string(pw)
-	return cfg.Save()
+	return cfg.Save(configPath)
 }
