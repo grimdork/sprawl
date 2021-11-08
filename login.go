@@ -15,7 +15,7 @@ import (
 
 // GetLoginToken gets a speawl login token or the current stored token if valid.
 func (cfg *Config) GetLoginToken() error {
-	url := fmt.Sprintf("%s/auth", cfg.URL)
+	url := fmt.Sprintf("%s%s", cfg.URL, EPAuth)
 	req, err := http.NewRequest(http.MethodPost, url, nil)
 	if err != nil {
 		return err
