@@ -11,34 +11,59 @@
 package sprawl
 
 const (
-	EPListUsers   = "/listusers"
-	EPCreateUser  = "/createuser"
-	EPDeleteUser  = "/deleteuser"
+	// EPAuth authenticates a user and returns a token.
+	EPAuth = "auth"
+
+	// EPListUser lists all users.
+	EPListUsers = "/listusers"
+	// EPCreateUser creates a new user and sets the password.
+	EPCreateUser = "/createuser"
+	// EPDeleteUser deletes a user.
+	EPDeleteUser = "/deleteuser"
+	// EPSetPassword sets the password for a user.
 	EPSetPassword = "/setpassword"
 
-	EPListSites       = "/listsites"
-	EPCreateSite      = "/createsite"
-	EPDeleteSite      = "/deletesite"
+	// EPListSites lists all sites.
+	EPListSites = "/listsites"
+	// EPCreateSite creates a new site.
+	EPCreateSite = "/createsite"
+	// EPDeleteSite deletes a site.
+	EPDeleteSite = "/deletesite"
+	// EPListSiteMembers lists all users with profiles on a site.
 	EPListSiteMembers = "/listsitemembers"
 
-	EPListProfiles  = "/listprofiles"
+	// EPCreateProfile creates a new profile for a user, incidentally making the user a member.
 	EPCreateProfile = "/createprofile"
+	// EPDeleteProfile deletes a profile, effectively removing a user from a site.
 	EPDeleteProfile = "/deleteprofile"
+	// EPUpdateProfile updates profike data for a user on a site.
+	EPUpdateProfile = "/updateprofile"
 
-	EPListGroups       = "/listgroups"
-	EPCreateGroup      = "/creategroup"
-	EPDeleteGroup      = "/deletegroup"
+	// EPListGroups lists all groups, optionally just for one site.
+	EPListGroups = "/listgroups"
+	// EPCreateGroup creates a new group on a site.
+	EPCreateGroup = "/creategroup"
+	// EPDeleteGroup deletes a group from a site.
+	EPDeleteGroup = "/deletegroup"
+	// EPListGroupMembers lists all users in a site's group.
 	EPListGroupMembers = "/listgroupmembers"
-	EPAddGroupMember   = "/addgroupmember"
-	EPRemoveMember     = "/removemember"
+	// EPAddGroupMember adds a user to a group on a site.
+	EPAddGroupMember = "/addgroupmember"
+	// EPRemoveGroupMember removes a user from a group on a site.
+	EPRemoveGroupMember = "/removegroupmember"
+	// EPAddGroupPermission adds a permission to a group on a site.
+	EPAddGroupPermission = "/addgrouppermission"
+	// EPRemoveGroupPermission removes a permission from a group on a site.
+	EPRemoveGroupPermission = "/removegrouppermission"
+	// EPListGroupPermissions lists all permissions for a group on a site.
+	EPListGroupPermissions = "/listgrouppermissions"
 
-	EPListPermissions  = "/listpermissions"
+	// EPListPermissions lists all permission keywords.
+	EPListPermissions = "/listpermissions"
+	// EPCreatePermission creates a new permission keyword.
 	EPCreatePermission = "/createpermission"
+	// EPDeletePermission deletes a permission keyword.
 	EPDeletePermission = "/deletepermission"
-
-	EPListRoles  = "/listroles"
-	EPCreateRole = "/createrole"
-	EPDeleteRole = "/deleterole"
 )
 
 // Request contains the variables passed to endpoints.
