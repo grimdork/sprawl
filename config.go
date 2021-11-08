@@ -12,7 +12,7 @@ import (
 // Config for a Sprawl connection.
 type Config struct {
 	// URL for the sprawl server.
-	URL string
+	URL string `json:"url"`
 	// Username for an administrator.
 	Username string `json:"username"`
 	// Password for the same administrator.
