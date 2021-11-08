@@ -12,7 +12,7 @@ package sprawl
 
 const (
 	// EPAuth authenticates a user and returns a token.
-	EPAuth = "auth"
+	EPAuth = "/auth"
 
 	// EPListUser lists all users.
 	EPListUsers = "/listusers"
