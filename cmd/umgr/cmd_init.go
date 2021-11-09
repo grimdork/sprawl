@@ -26,12 +26,13 @@ func (cmd *InitCmd) Run(args []string) error {
 		return opt.ErrUsage
 	}
 
-	cfg, err := sprawl.LoadConfig(configPath)
+	_, err := sprawl.LoadConfig(configPath)
 	if err == nil && !cmd.Force {
 		pr("Already initialized. Use -f to force re-initialization.")
 		return nil
 	}
 
+	cfg := &sprawl.Config{}
 	fmt.Printf("URL (<protocol>://<domain.tld>): ")
 	fmt.Scanln(&cfg.URL)
 	fmt.Printf("Username: ")
