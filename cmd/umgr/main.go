@@ -27,6 +27,8 @@ var o struct {
 	// AddSiteMember    AddSiteMemberCmd    `command:"addsitemember" help:"Add a user to a site." aliases:"asm" group:"Site commands"`
 	// RemoveSiteMember RemoveSiteMemberCmd `command:"removesitemember" help:"Remove a user from a site." aliases:"rsm" group:"Site commands"`
 	// ListSiteMembers  ListSiteMembersCmd  `command:"listsitemembers" help:"List all users in a site." aliases:"lsm" group:"Site commands"`
+	// AddSideAdmin SetSideAdminCmd `command:"setsideadmin" help:"Add a user as admin to a site. Does not need to be a member." aliases:"asa" group:"Site commands"`
+	// RemoveSiteAdmin RemoveSiteAdminCmd `command:"removesiteadmin" help:"Remove a user's side admin status." aliases:"rsa" group:"Site commands"`
 
 	ListGroups  ListGroupsCmd  `command:"listgroups" help:"List all groups." aliases:"lg" group:"Group commands"`
 	CreateGroup CreateGroupCmd `command:"creategroup" help:"Create a new group." aliases:"cg" group:"Group commands"`
