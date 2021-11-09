@@ -32,22 +32,13 @@ create table if not exists profiles (
 	uid bigint not null,
 	sid bigint not null,
 	data text not null default ''::text,
+	admin boolean not null default false,
 	constraint profile_uid foreign key(uid) references users(id) on delete cascade,
 	constraint profile_sid foreign key(Sid) references sites(id) on delete cascade
 );
 
 -- Users may only have one profile per site.
 create unique index if not exists idx_userprofile on profiles(uid,sid);
-
--- Site admins have full control over a site (and the special user 'admin' controls every site).
-create table if not exists admins (
-	uid bigint not null,
-	sid bigint not null,
-	constraint admin_uid foreign key(uid) references users(id) on delete cascade,
-	constraint admin_sid foreign key(sid) references sites(id) on delete cascade
-);
-
-create index if not exists idx_useradmin on admins(uid,sid);
 
 --cGroups represent a role for users of a site.
 create table if not exists groups (

@@ -1,4 +1,5 @@
 /.vscode/
 /cmd/sprawl/static
+/cmd/sprawl/debugenv
 /cmd/sprawl/sprawl
 /cmd/umgr/umgr

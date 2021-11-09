@@ -147,9 +147,9 @@ func (srv *Server) isSiteAdmin(name, site string) bool {
 		return true
 	}
 
-	sql := `select count(admins.uid) from admins
-		inner join users on admins.uid=users.id
-		inner join sites on admins.sid=sites.id
+	sql := `select count(profiles.uid) from profiles
+		inner join users on profiles.uid=users.id
+		inner join sites on profiles.sid=sites.id
 		where users.name=$1 and sites.name=$2;`
 	var count int64
 	err := srv.QueryRow(context.Background(), sql, name, site).Scan(&count)
