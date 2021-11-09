@@ -40,8 +40,12 @@ func (srv *Server) deleteUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (srv *Server) setPassword(w http.ResponseWriter, r *http.Request) {
-	u := srv.GetUser(r.Header.Get("username"))
-	srv.L("%+v", u)
+	u := r.Header.Get("name")
+	pw := r.Header.Get("password")
+	err := srv.SetPassword(u, pw)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+	}
 }
 
 func (srv *Server) listUsers(w http.ResponseWriter, r *http.Request) {

@@ -67,14 +67,15 @@ func (db *Database) GetUser(name string) *User {
 }
 
 // SetPassword sets the password.
-func (db *Database) SetPassword(u *User, password string) error {
+func (db *Database) SetPassword(name, password string) error {
 	pw, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	if err != nil {
 		return err
 	}
 
-	u.Password = string(pw)
-	_, err = db.Exec(context.Background(), "update users set password=$1 where id=$2; limit 1", u.Password, u.ID)
+	sql := `update users set password=$1
+		where id=(select id from users where name=$2 limit 1)`
+	_, err = db.Exec(context.Background(), sql, pw, name)
 	return err
 }
 

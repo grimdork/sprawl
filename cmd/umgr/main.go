@@ -16,10 +16,10 @@ var o struct {
 	opt.DefaultHelp
 	Init InitCmd `command:"init" help:"First-time setup." group:"Setup commands"`
 
-	ListUsers  ListUsersCmd  `command:"listusers" help:"List all users." aliases:"lu" group:"User commands"`
-	CreateUser CreateUserCmd `command:"createuser" help:"Create a new user." aliases:"cu" group:"User commands"`
-	DeleteUser DeleteUserCmd `command:"deleteuser" help:"Delete a user." aliases:"du" group:"User commands"`
-	// SetPassword SetUPasswordCmd `command:"setpasswd" help:"Set a user's password." aliases:"sup" group:"User commands"`
+	ListUsers   ListUsersCmd   `command:"listusers" help:"List all users." aliases:"lu" group:"User commands"`
+	CreateUser  CreateUserCmd  `command:"createuser" help:"Create a new user." aliases:"cu" group:"User commands"`
+	DeleteUser  DeleteUserCmd  `command:"deleteuser" help:"Delete a user." aliases:"du" group:"User commands"`
+	SetPassword SetPasswordCmd `command:"setpasswd" help:"Set the password for a user." aliases:"sup,setpw" group:"User commands"`
 
 	ListSites  ListSitesCmd  `command:"listsites" help:"List all sites." aliases:"ls" group:"Site commands"`
 	CreateSite CreateSiteCmd `command:"createsite" help:"Create a new site." aliases:"cs" group:"Site commands"`

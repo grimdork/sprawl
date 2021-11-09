@@ -81,6 +81,7 @@ func NewServer() (*Server, error) {
 		r.Route(sprawl.EPSetPassword, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
+				srv.siteadmincheck,
 			)
 			r.Post("/", srv.setPassword)
 		})
