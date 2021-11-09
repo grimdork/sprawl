@@ -14,7 +14,8 @@ import (
 
 var o struct {
 	opt.DefaultHelp
-	Init InitCmd `command:"init" help:"First-time setup." group:"Setup commands"`
+	Init   InitCmd   `command:"init" help:"First-time setup." group:"Setup commands"`
+	Import ImportCmd `command:"import" help:"Import user, group, site, permissionmand membership settings from a file." group:"Setup commands"`
 
 	ListUsers   ListUsersCmd   `command:"listusers" help:"List all users." aliases:"lu" group:"User commands"`
 	CreateUser  CreateUserCmd  `command:"createuser" help:"Create a new user." aliases:"cu" group:"User commands"`
