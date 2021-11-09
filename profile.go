@@ -18,13 +18,13 @@ type Profile struct {
 }
 
 // CreateProfile both adds a user to a site and creates its site-specific profile entry.
-func (db *Database) CreateProfile(username, site, data string) error {
-	sql := `insert into  profiles (uid,sid,data)
+func (db *Database) CreateProfile(username, site, data string, admin bool) error {
+	sql := `insert into  profiles (uid,sid,data,admin)
 	values (
 		(select users.id from users where users.name=$1),
 		(select sites.id from sites where sites.name=$2),
-		$3);`
-	_, err := db.Exec(context.Background(), sql, username, site, data)
+		$3,$4);`
+	_, err := db.Exec(context.Background(), sql, username, site, data, admin)
 	return err
 }
 

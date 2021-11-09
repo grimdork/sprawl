@@ -235,7 +235,6 @@ func NewServer() (*Server, error) {
 		srv.L("No admin user - creating.")
 		err = srv.CreateUser("admin", env.Get("ADMIN_PASSWORD", "potrzebie"))
 		if err != nil {
-			println("FAIL")
 			return nil, err
 		}
 	}
@@ -244,6 +243,11 @@ func NewServer() (*Server, error) {
 	if err != nil {
 		srv.L("No system site - creating.")
 		err = srv.CreateSite("system")
+		if err != nil {
+			return nil, err
+		}
+
+		err = srv.CreateProfile("admin", "system", "", true)
 		if err != nil {
 			return nil, err
 		}

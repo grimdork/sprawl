@@ -20,8 +20,12 @@ type Site struct {
 
 // Createsite in the database.
 func (db *Database) CreateSite(name string) error {
-	sql := "insert into sites (name) values ($1)"
-	_, err := db.Pool.Exec(context.Background(), sql, name)
+	var err error
+	if name == "system" {
+		_, err = db.Pool.Exec(context.Background(), "insert into sites (id,name) values (1,$1)", name)
+	} else {
+		_, err = db.Pool.Exec(context.Background(), "insert into sites (name) values ($1)", name)
+	}
 	return err
 }
 
