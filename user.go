@@ -67,8 +67,8 @@ func (db *Database) GetUser(name string) *User {
 }
 
 // SetPassword sets the password.
-func (db *Database) SetPassword(name, password string) error {
-	pw, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+func (db *Database) SetPassword(name, password string, c int) error {
+	pw, err := bcrypt.GenerateFromPassword([]byte(password), c)
 	if err != nil {
 		return err
 	}

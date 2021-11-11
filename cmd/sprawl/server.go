@@ -12,6 +12,7 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/Urethramancer/signor/env"
@@ -24,11 +25,17 @@ import (
 type Server struct {
 	sweb.Server
 	*sprawl.Database
+	pwiter int
 }
 
 // NewServer creates a web server and background tasks.
 func NewServer() (*Server, error) {
-	srv := &Server{}
+	c := env.Get("PW_ITERATIONS", "10")
+	x, _ := strconv.Atoi(c)
+	if x < 1 {
+		x = 10
+	}
+	srv := &Server{pwiter: x}
 	srv.Init()
 
 	//
