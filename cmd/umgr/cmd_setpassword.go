@@ -50,7 +50,7 @@ func (cmd *SetPasswordCmd) Run(args []string) error {
 		return err
 	}
 
-	_, err = cfg.Post(sprawl.EPSetPassword, sprawl.Request{
+	_, err = cfg.Post(sprawl.EPUser+sprawl.EPSetPassword, sprawl.Request{
 		"name":     cmd.Name,
 		"password": pw,
 	})

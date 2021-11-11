@@ -57,8 +57,8 @@ func NewServer() (*Server, error) {
 		// Users
 		//
 
-		// List users
-		r.Route(sprawl.EPListUsers, func(r chi.Router) {
+		// Bulk users
+		r.Route(sprawl.EPUsers, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
 				srv.admincheck,
@@ -66,39 +66,25 @@ func NewServer() (*Server, error) {
 			r.Get("/", srv.listUsers)
 		})
 
-		// Create users
-		r.Route(sprawl.EPCreateUser, func(r chi.Router) {
+		// Single users
+		r.Route(sprawl.EPUser, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
 				srv.admincheck,
 			)
 			r.Post("/", srv.createUser)
-		})
-
-		// Delete users
-		r.Route(sprawl.EPDeleteUser, func(r chi.Router) {
-			r.Use(
-				srv.tokencheck,
-				srv.admincheck,
-			)
-			r.Post("/", srv.deleteUser)
-		})
-
-		// Set user passwords
-		r.Route(sprawl.EPSetPassword, func(r chi.Router) {
-			r.Use(
-				srv.tokencheck,
-				srv.siteadmincheck,
-			)
-			r.Post("/", srv.setPassword)
+			r.Delete("/", srv.deleteUser)
+			// r.Post("/", srv.updateUser)
+			// r.Get("/", srv.getUser)
+			r.Post(sprawl.EPSetPassword, srv.setPassword)
 		})
 
 		//
 		// Groups
 		//
 
-		// List groups
-		r.Route(sprawl.EPListGroups, func(r chi.Router) {
+		// Bulk group operations.
+		r.Route(sprawl.EPGroups, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
 				srv.siteadmincheck,
@@ -106,22 +92,14 @@ func NewServer() (*Server, error) {
 			r.Get("/", srv.listGroups)
 		})
 
-		// Create groups
-		r.Route(sprawl.EPCreateGroup, func(r chi.Router) {
+		// Single group operations.
+		r.Route(sprawl.EPGroup, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
 				srv.siteadmincheck,
 			)
 			r.Post("/", srv.createGroup)
-		})
-
-		// Delete groupa
-		r.Route(sprawl.EPDeleteGroup, func(r chi.Router) {
-			r.Use(
-				srv.tokencheck,
-				srv.siteadmincheck,
-			)
-			r.Post("/", srv.deleteGroup)
+			r.Delete("/", srv.deleteGroup)
 		})
 
 		// List users in groups
@@ -146,8 +124,8 @@ func NewServer() (*Server, error) {
 		// Sites
 		//
 
-		// List sites (domains)
-		r.Route(sprawl.EPListSites, func(r chi.Router) {
+		// Bulk site operations.
+		r.Route(sprawl.EPSites, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
 				srv.admincheck,
@@ -155,22 +133,14 @@ func NewServer() (*Server, error) {
 			r.Get("/", srv.listSites)
 		})
 
-		// Create a new site/domain
-		r.Route(sprawl.EPCreateSite, func(r chi.Router) {
+		// Single site operations.
+		r.Route(sprawl.EPSite, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
 				srv.admincheck,
 			)
 			r.Post("/", srv.createSite)
-		})
-
-		// Delete a site/domain
-		r.Route(sprawl.EPDeleteSite, func(r chi.Router) {
-			r.Use(
-				srv.tokencheck,
-				srv.admincheck,
-			)
-			r.Post("/", srv.deleteSite)
+			r.Delete("/", srv.deleteSite)
 		})
 
 		// List users in all groups in a site/domain
@@ -186,8 +156,8 @@ func NewServer() (*Server, error) {
 		// Permissions
 		//
 
-		// List permissions
-		r.Route(sprawl.EPListPermissions, func(r chi.Router) {
+		// Bulk permission operations.
+		r.Route(sprawl.EPPermissions, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
 				srv.admincheck,
@@ -195,22 +165,15 @@ func NewServer() (*Server, error) {
 			r.Get("/", srv.listPermissions)
 		})
 
-		// Create permission
-		r.Route(sprawl.EPCreatePermission, func(r chi.Router) {
+		// Single permission operations.
+		r.Route(sprawl.EPPermission, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
 				srv.admincheck,
 			)
+			// r.Get("/", srv.getPermission)
 			r.Post("/", srv.createPermission)
-		})
-
-		// Delete permission
-		r.Route(sprawl.EPDeletePermission, func(r chi.Router) {
-			r.Use(
-				srv.tokencheck,
-				srv.admincheck,
-			)
-			r.Post("/", srv.deletePermission)
+			r.Delete("/", srv.deletePermission)
 		})
 
 		// Default route for "/".

@@ -31,7 +31,7 @@ func (cmd *ListGroupsCmd) Run(args []string) error {
 		return err
 	}
 
-	data, err := cfg.Get(sprawl.EPListGroups, sprawl.Request{"site": cmd.Site})
+	data, err := cfg.Get(sprawl.EPGroups, sprawl.Request{"site": cmd.Site})
 	if err != nil {
 		return err
 	}
@@ -40,6 +40,11 @@ func (cmd *ListGroupsCmd) Run(args []string) error {
 	err = json.Unmarshal(data, &list)
 	if err != nil {
 		return err
+	}
+
+	if len(list.Groups) == 0 {
+		fmt.Println("No groups found.")
+		return nil
 	}
 
 	w := &tabwriter.Writer{}

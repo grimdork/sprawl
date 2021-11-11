@@ -31,11 +31,11 @@ func (cmd *DeleteUserCmd) Run(args []string) error {
 		return err
 	}
 
-	_, err = cfg.Post(sprawl.EPDeleteUser, sprawl.Request{"name": cmd.Username})
+	err = cfg.Delete(sprawl.EPUser, sprawl.Request{"name": cmd.Username})
 	if err != nil {
 		return err
 	}
 
-	pr("User deleted.")
+	pr("User %s deleted.", cmd.Username)
 	return nil
 }

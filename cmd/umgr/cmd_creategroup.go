@@ -27,7 +27,7 @@ func (cmd *CreateGroupCmd) Run(args []string) error {
 		return err
 	}
 
-	_, err = cfg.Post(sprawl.EPCreateGroup, sprawl.Request{
+	_, err = cfg.Post(sprawl.EPGroup, sprawl.Request{
 		"name": cmd.Name,
 		"site": cmd.Site},
 	)

@@ -23,7 +23,7 @@ func (cmd *ListPermsCmd) Run(args []string) error {
 		return err
 	}
 
-	data, err := cfg.Get(sprawl.EPListPermissions, nil)
+	data, err := cfg.Get(sprawl.EPPermissions, nil)
 	if err != nil {
 		return err
 	}
@@ -32,6 +32,11 @@ func (cmd *ListPermsCmd) Run(args []string) error {
 	err = json.Unmarshal(data, &list)
 	if err != nil {
 		return err
+	}
+
+	if len(list.Permissions) == 0 {
+		fmt.Println("No permissions found.")
+		return nil
 	}
 
 	w := &tabwriter.Writer{}

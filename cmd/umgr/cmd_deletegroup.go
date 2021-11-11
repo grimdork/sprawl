@@ -32,7 +32,7 @@ func (cmd *DeleteGroupCmd) Run(args []string) error {
 		return err
 	}
 
-	_, err = cfg.Post(sprawl.EPDeleteGroup, sprawl.Request{
+	err = cfg.Delete(sprawl.EPGroup, sprawl.Request{
 		"name": cmd.Name,
 		"site": cmd.Site,
 	})

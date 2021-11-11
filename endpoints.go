@@ -14,23 +14,44 @@ const (
 	// EPAuth authenticates a user and returns a token.
 	EPAuth = "/auth"
 
-	// EPListUser lists all users.
-	EPListUsers = "/listusers"
-	// EPCreateUser creates a new user and sets the password.
-	EPCreateUser = "/createuser"
-	// EPDeleteUser deletes a user.
-	EPDeleteUser = "/deleteuser"
-	// EPSetPassword sets the password for a user.
-	EPSetPassword = "/setpassword"
+	// EPUsers is the bulk user endpoint.
+	// GET lists all users.
+	// POST creates multiple users.
+	// PUT updates multiple users.
+	// DELETE deletes multiple users.
+	EPUsers = "/users"
 
-	// EPListSites lists all sites.
-	EPListSites = "/listsites"
-	// EPCreateSite creates a new site.
-	EPCreateSite = "/createsite"
-	// EPDeleteSite deletes a site.
-	EPDeleteSite = "/deletesite"
+	// EPUser is the single user endpoint.
+	// GET returns a single user.
+	// POST creates a single user.
+	// PUT updates a single user.
+	// DELETE deletes a single user.
+	EPUser = "/user"
+
+	// EPSetPassword sets the password for a user.
+	EPSetPassword = "/password"
+
+	// EPSites is the bulk site endpoint.
+	// GET lists all sites.
+	// POST creates multiple sites.
+	// PUT updates multiple sites.
+	// DELETE removes multiple sites.
+	EPSites = "/sites"
+
+	// EPSite is the single site endpoint.
+	// POST creates a single site.
+	// PUT updates a single site.
+	// DELETE removes a single site.
+	EPSite = "/site"
+
 	// EPListSiteMembers lists all users with profiles on a site.
 	EPListSiteMembers = "/listsitemembers"
+	// EPAddSiteMember adds a user to a site.
+	EPAddSiteMember = "/addsitemember"
+	// EPRemoveSiteMember removes a user from a site.
+	EPRemoveSiteMember = "/removesitemember"
+	// EPSetAdmin sets a user as an admin on a site.
+	EPSetAdmin = "/setadmin"
 
 	// EPCreateProfile creates a new profile for a user, incidentally making the user a member.
 	EPCreateProfile = "/createprofile"
@@ -39,13 +60,17 @@ const (
 	// EPUpdateProfile updates profike data for a user on a site.
 	EPUpdateProfile = "/updateprofile"
 
-	// EPListGroups lists all groups, optionally just for one site.
-	EPListGroups = "/listgroups"
-	// EPCreateGroup creates a new group on a site.
-	EPCreateGroup = "/creategroup"
-	// EPDeleteGroup deletes a group from a site.
-	EPDeleteGroup = "/deletegroup"
-	// EPListGroupMembers lists all users in a site's group.
+	//EPGroups is the bulk group endpoint.
+	//GET lists all groups.
+	//POST creates multiple groups.
+	//DELETE removes multiple groups.
+	EPGroups = "/groups"
+
+	//EPGroup is the single group endpoint.
+	//POST creates a single group.
+	//DELETE removes a single group.
+	EPGroup = "/group"
+
 	EPListGroupMembers = "/listgroupmembers"
 	// EPAddGroupMember adds a user to a group on a site.
 	EPAddGroupMember = "/addgroupmember"
@@ -58,12 +83,17 @@ const (
 	// EPListGroupPermissions lists all permissions for a group on a site.
 	EPListGroupPermissions = "/listgrouppermissions"
 
-	// EPListPermissions lists all permission keywords.
-	EPListPermissions = "/listpermissions"
-	// EPCreatePermission creates a new permission keyword.
-	EPCreatePermission = "/createpermission"
-	// EPDeletePermission deletes a permission keyword.
-	EPDeletePermission = "/deletepermission"
+	// EPPermissions is the bulk permission endpoint.
+	// GET lists all permissions.
+	// POST creates multiple permissions.
+	// DELETE removes multiple permissions.
+	EPPermissions = "/permissions"
+
+	// EPPermission is the single permission endpoint.
+	// GET returns a single permission.
+	// POST creates a single permission.
+	// DELETE removes a single permission.
+	EPPermission = "/permission"
 )
 
 // Request contains the variables passed to endpoints.

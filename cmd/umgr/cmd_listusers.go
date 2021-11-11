@@ -24,7 +24,7 @@ func (cmd *ListUsersCmd) Run(args []string) error {
 		return err
 	}
 
-	data, err := cfg.Get(sprawl.EPListUsers, nil)
+	data, err := cfg.Get(sprawl.EPUsers, nil)
 	if err != nil {
 		return err
 	}
@@ -33,6 +33,11 @@ func (cmd *ListUsersCmd) Run(args []string) error {
 	err = json.Unmarshal(data, &list)
 	if err != nil {
 		return err
+	}
+
+	if len(list) == 0 {
+		fmt.Println("No users found.")
+		return nil
 	}
 
 	w := &tabwriter.Writer{}

@@ -32,7 +32,7 @@ func (cmd *CreatePermCmd) Run(args []string) error {
 		return err
 	}
 
-	_, err = cfg.Post(sprawl.EPCreatePermission, sprawl.Request{
+	_, err = cfg.Post(sprawl.EPPermission, sprawl.Request{
 		"name":        cmd.Name,
 		"description": cmd.Description,
 	})

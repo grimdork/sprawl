@@ -23,7 +23,7 @@ func (cmd *ListSitesCmd) Run(args []string) error {
 		return err
 	}
 
-	data, err := cfg.Get(sprawl.EPListSites, nil)
+	data, err := cfg.Get(sprawl.EPSites, nil)
 	if err != nil {
 		return err
 	}
@@ -32,6 +32,11 @@ func (cmd *ListSitesCmd) Run(args []string) error {
 	err = json.Unmarshal(data, &list)
 	if err != nil {
 		return err
+	}
+
+	if len(list) == 0 {
+		fmt.Println("No sites found.")
+		return nil
 	}
 
 	w := &tabwriter.Writer{}

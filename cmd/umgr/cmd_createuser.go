@@ -50,7 +50,7 @@ func (cmd *CreateUserCmd) Run(args []string) error {
 		return err
 	}
 
-	_, err = cfg.Post(sprawl.EPCreateUser, sprawl.Request{
+	_, err = cfg.Post(sprawl.EPUser, sprawl.Request{
 		"name":     cmd.Name,
 		"password": pw,
 	})

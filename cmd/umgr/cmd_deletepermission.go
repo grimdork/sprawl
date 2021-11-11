@@ -31,7 +31,7 @@ func (cmd *DeletePermCmd) Run(args []string) error {
 		return err
 	}
 
-	_, err = cfg.Post(sprawl.EPDeletePermission, sprawl.Request{
+	err = cfg.Delete(sprawl.EPPermission, sprawl.Request{
 		"name": cmd.Name,
 	})
 	return err

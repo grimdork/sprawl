@@ -32,17 +32,21 @@ func (srv *Server) createUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (srv *Server) deleteUser(w http.ResponseWriter, r *http.Request) {
-	err := srv.DeleteUser(r.Header.Get("name"))
+	name := r.Header.Get("name")
+	err := srv.DeleteUser(name)
 	if err != nil {
+		println("Fuck: " + err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	srv.L("Deleted user '%s'", name)
 }
 
 func (srv *Server) setPassword(w http.ResponseWriter, r *http.Request) {
 	u := r.Header.Get("name")
 	pw := r.Header.Get("password")
-	err := srv.SetPassword(u, pw)
+	err := srv.SetPassword(u, pw, srv.pwiter)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 	}
