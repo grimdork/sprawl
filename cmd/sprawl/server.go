@@ -133,23 +133,26 @@ func NewServer() (*Server, error) {
 			r.Get("/", srv.listSites)
 		})
 
-		// Single site operations.
+		// Site operations.
 		r.Route(sprawl.EPSite, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
 				srv.admincheck,
 			)
+
+			// Bulk member operations.
+			r.Get(sprawl.EPMembers, srv.listSiteMembers)
+
+			// Single member operations.
+			r.Route(sprawl.EPMember, func(r chi.Router) {
+				r.Post("/", srv.addSiteMember)
+				r.Put("/", srv.updateSiteMember)
+				r.Delete("/", srv.removeSiteMember)
+			})
+
+			// Single site operations.
 			r.Post("/", srv.createSite)
 			r.Delete("/", srv.deleteSite)
-		})
-
-		// List users in all groups in a site/domain
-		r.Route(sprawl.EPListSiteMembers, func(r chi.Router) {
-			r.Use(
-				srv.tokencheck,
-				srv.siteadmincheck,
-			)
-			r.Get("/", srv.listSiteMembers)
 		})
 
 		//

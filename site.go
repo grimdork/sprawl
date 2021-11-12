@@ -73,9 +73,10 @@ func (db *Database) GetSites(start, max int64) ([]Site, error) {
 	return sites, nil
 }
 
-func (db *Database) GetSiteMembers() ([]User, error) {
-	sql := `select users.id,users,name from users
-	inner join profiles on profiles.uid=users.id;`
+func (db *Database) GetSiteMembers(site string) ([]User, error) {
+	sql := `select users.id,users.name from users
+	inner join profiles on profiles.uid=users.id
+	inner join sites on sites.id=profiles.sid;`
 	rows, err := db.Pool.Query(context.Background(), sql)
 	if err != nil {
 		return nil, err
@@ -93,4 +94,13 @@ func (db *Database) GetSiteMembers() ([]User, error) {
 		users = append(users, u)
 	}
 	return users, nil
+}
+
+func (db *Database) AddSiteMember(site, name string) error {
+	sql := `insert into profiles (sid,uid) values(
+		(select s.id from sites s where s.name=$1),
+		(select u.id from users u where u.name=$2)
+	)`
+	_, err := db.Pool.Exec(context.Background(), sql, site, name)
+	return err
 }

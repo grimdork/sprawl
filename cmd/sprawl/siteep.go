@@ -67,4 +67,31 @@ func (srv *Server) deleteSite(w http.ResponseWriter, r *http.Request) {
 }
 
 func (srv *Server) listSiteMembers(w http.ResponseWriter, r *http.Request) {
+	list, err := srv.GetSiteMembers(r.Header.Get("site"))
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		return
+	}
+
+	data, err := json.Marshal(list)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Write(data)
+}
+
+func (srv *Server) addSiteMember(w http.ResponseWriter, r *http.Request) {
+	err := srv.AddSiteMember(r.Header.Get("site"), r.Header.Get("name"))
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		return
+	}
+}
+
+func (srv *Server) updateSiteMember(w http.ResponseWriter, r *http.Request) {
+}
+
+func (srv *Server) removeSiteMember(w http.ResponseWriter, r *http.Request) {
 }

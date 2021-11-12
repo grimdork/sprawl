@@ -16,10 +16,10 @@ import (
 // AddSiteMemberCmd adds a member/admin to a site with profile data.
 type AddSiteMemberCmd struct {
 	opt.DefaultHelp
-	Site  string `placeholder:"SITE" description:"Site to add the member to."`
-	Name  string `placeholder:"USERNAME" description:"User to add to the site."`
-	Admin bool   `short:"a" description:"Add user as an administrator."`
-	Data  string `short:"d" description:"Data to add to the user."`
+	Site  string `placeholder:"SITE" help:"Site to add the member to."`
+	Name  string `placeholder:"USERNAME" help:"User to add to the site."`
+	Admin bool   `short:"a" help:"Add user as an administrator."`
+	Data  string `short:"d" help:"Data to add to the user."`
 }
 
 // Run the member add command.
@@ -42,8 +42,7 @@ func (cmd AddSiteMemberCmd) Run(args []string) error {
 		return err
 	}
 
-	println(data)
-	_, err = cfg.Post(sprawl.EPAddSiteMember, sprawl.Request{
+	_, err = cfg.Post(sprawl.EPSite+sprawl.EPMember, sprawl.Request{
 		"name":  cmd.Name,
 		"site":  cmd.Site,
 		"admin": fmt.Sprintf("%t", cmd.Admin),
