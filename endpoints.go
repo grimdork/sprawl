@@ -44,21 +44,13 @@ const (
 	// DELETE removes a single site.
 	EPSite = "/site"
 
-	// EPListSiteMembers lists all users with profiles on a site.
-	EPListSiteMembers = "/listsitemembers"
-	// EPAddSiteMember adds a user to a site.
-	EPAddSiteMember = "/addsitemember"
-	// EPRemoveSiteMember removes a user from a site.
-	EPRemoveSiteMember = "/removesitemember"
 	// EPSetAdmin sets a user as an admin on a site.
+	// PUT updates a single member.
 	EPSetAdmin = "/setadmin"
 
-	// EPCreateProfile creates a new profile for a user, incidentally making the user a member.
-	EPCreateProfile = "/createprofile"
-	// EPDeleteProfile deletes a profile, effectively removing a user from a site.
-	EPDeleteProfile = "/deleteprofile"
-	// EPUpdateProfile updates profike data for a user on a site.
-	EPUpdateProfile = "/updateprofile"
+	// EPSetProfile updates profike data for a user on a site.
+	// PUT updates a single profile.
+	EPSetProfile = "/updateprofile"
 
 	//EPGroups is the bulk group endpoint.
 	//GET lists all groups.
@@ -94,6 +86,19 @@ const (
 	// POST creates a single permission.
 	// DELETE removes a single permission.
 	EPPermission = "/permission"
+
+	// EPMembers is the bulk member endpoint.
+	// GET lists all members.
+	// POST creates multiple members.
+	// PUT updates multiple members.
+	// DELETE removes multiple members.
+	EPMembers = "/members"
+
+	// EPMember is the single member endpoint.
+	// POST creates a single member.
+	// PUT updates a single member.
+	// DELETE removes a single member.
+	EPMember = "/member"
 )
 
 // Request contains the variables passed to endpoints.
