@@ -25,7 +25,9 @@ type User struct {
 	// Password is a bcrypt hash.
 	Password string
 	// Profiles for different sites.
-	Profiles map[string]Profile
+	Profile string
+	// Admin is true if the user is an admin.
+	Admin bool
 }
 
 // UserList is returned from lookup.
