@@ -26,7 +26,7 @@ type Group struct {
 
 // CreateGroup creates a new group.
 func (db *Database) CreateGroup(name, site string) error {
-	sql := `insert into groups (name, sid) select $1,s.id from sites s where s.name=$2;`
+	sql := `insert into groups (name,sid) select $1,s.id from sites s where s.name=$2;`
 	_, err := db.Exec(context.Background(), sql, name, site)
 	return err
 }
