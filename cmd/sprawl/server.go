@@ -39,6 +39,50 @@ func NewServer() (*Server, error) {
 	srv.Init()
 
 	//
+	// Database
+	//
+	var err error
+	srv.L("Opening database.")
+	srv.Database, err = sprawl.NewDatabase(env.Get("DATABASE_URL", "localhost"))
+	if err != nil {
+		return nil, err
+	}
+
+	srv.AddStopHook(func() {
+		srv.L("Closing database.")
+		srv.Database.Close()
+	})
+
+	err = srv.CreateTables()
+	if err != nil {
+		return nil, err
+	}
+
+	// Create admin if it doesn't exist.
+	u := srv.GetUser("admin")
+	if u == nil {
+		srv.L("No admin user - creating.")
+		err = srv.CreateUser("admin", env.Get("ADMIN_PASSWORD", "potrzebie"))
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	_, err = srv.GetSiteID("system")
+	if err != nil {
+		srv.L("No system site - creating.")
+		err = srv.CreateSite("system")
+		if err != nil {
+			return nil, err
+		}
+
+		err = srv.CreateProfile("admin", "system", "", true)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	//
 	// Endpoints
 	//
 	srv.Route("/", func(r chi.Router) {
@@ -182,49 +226,6 @@ func NewServer() (*Server, error) {
 		// Default route for "/".
 		r.Get("/", srv.index)
 	})
-
-	//
-	// Database
-	//
-	var err error
-	srv.Database, err = sprawl.NewDatabase(env.Get("DATABASE_URL", "localhost"))
-	if err != nil {
-		return nil, err
-	}
-
-	srv.AddStopHook(func() {
-		srv.L("Closing database.")
-		srv.Database.Close()
-	})
-
-	err = srv.CreateTables()
-	if err != nil {
-		return nil, err
-	}
-
-	// Create admin if it doesn't exist.
-	u := srv.GetUser("admin")
-	if u == nil {
-		srv.L("No admin user - creating.")
-		err = srv.CreateUser("admin", env.Get("ADMIN_PASSWORD", "potrzebie"))
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	_, err = srv.GetSiteID("system")
-	if err != nil {
-		srv.L("No system site - creating.")
-		err = srv.CreateSite("system")
-		if err != nil {
-			return nil, err
-		}
-
-		err = srv.CreateProfile("admin", "system", "", true)
-		if err != nil {
-			return nil, err
-		}
-	}
 
 	return srv, nil
 }
