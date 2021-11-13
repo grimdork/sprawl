@@ -194,6 +194,12 @@ func NewServer() (*Server, error) {
 				r.Delete("/", srv.removeSiteMember)
 			})
 
+			// Admin operations.
+			r.Route(sprawl.EPAdmin, func(r chi.Router) {
+				r.Put("/", srv.enableSiteAdmin)
+				r.Delete("/", srv.disableSiteAdmin)
+			})
+
 			// Single site operations.
 			r.Post("/", srv.createSite)
 			r.Delete("/", srv.deleteSite)

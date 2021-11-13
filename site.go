@@ -117,3 +117,12 @@ func (db *Database) RemoveSiteMember(site, name string) error {
 	_, err := db.Pool.Exec(context.Background(), sql, site, name)
 	return err
 }
+
+// ToggleSiteAdmin status of a user.
+func (db *Database) ToggleSiteAdmin(site, name string, on bool) error {
+	sql := `update profiles set admin=$3 where
+		sid=(select s.id from sites s where s.name=$1) and
+		uid=(select u.id from users u where u.name=$2)`
+	_, err := db.Pool.Exec(context.Background(), sql, site, name, on)
+	return err
+}

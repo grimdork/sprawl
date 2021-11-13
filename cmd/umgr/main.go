@@ -29,18 +29,18 @@ var o struct {
 	AddSiteMember    AddSiteMemberCmd    `command:"addsitemember" help:"Add a user to a site." aliases:"asm" group:"Site member commands"`
 	RemoveSiteMember RemoveSiteMemberCmd `command:"removesitemember" help:"Remove a user from a site." aliases:"rsm" group:"Site member commands"`
 	ListSiteMembers  ListSiteMembersCmd  `command:"listsitemembers" help:"List all users in a site." aliases:"lsm" group:"Site member commands"`
-	// AddSideAdmin SetSideAdminCmd `command:"setsideadmin" help:"Add a user as admin to a site. Does not need to be a member." aliases:"asa" group:"Site commands"`
-	// RemoveSiteAdmin RemoveSiteAdminCmd `command:"removesiteadmin" help:"Remove a user's side admin status." aliases:"rsa" group:"Site commands"`
+	SetSideAdmin     SetSiteAdminCmd     `command:"setsideadmin" help:"Set a user's admin status on a site." aliases:"ssa" group:"Site commands"`
 
 	ListGroups  ListGroupsCmd  `command:"listgroups" help:"List all groups." aliases:"lg" group:"Group commands"`
 	CreateGroup CreateGroupCmd `command:"creategroup" help:"Create a new group." aliases:"cg" group:"Group commands"`
 	DeleteGroup DeleteGroupCmd `command:"deletegroup" help:"Delete a group." aliases:"dg" group:"Group commands"`
-	// AddMember AddMemberCmd `command:"addmember" help:"Add a user to a group." aliases:"am" group:"Group commands"`
-	// RemoveMember RemoveMemberCmd `command:"removemember" help:"Remove a user from a group." aliases:"rm" group:"Group commands"`
-	// ListMembers ListMembersCmd `command:"listmembers" help:"List all members of a group." aliases:"lm" group:"Group commands"`
 	// AddGroupPermission AddGroupPermissionCmd `command:"addgrouppermission" help:"Add a permission to a group." aliases:"agp" group:"Group commands"`
 	// RemoveGroupPermission RemoveGroupPermissionCmd `command:"removegrouppermission" help:"Remove a permission from a group." aliases:"rgp" group:"Group commands"`
 	// ListGroupPermissions ListGroupPermissionsCmd `command:"listgrouppermissions" help:"List all permissions of a group." aliases:"lgp" group:"Group commands"`
+
+	// AddGroupMember AddGroupMemberCmd `command:"addgroupmember" help:"Add a user to a group." aliases:"agm" group:"Group member commands"`
+	// RemoveGroupMember RemoveGroupMemberCmd `command:"removegroupmember" help:"Remove a user from a group." aliases:"rgm" group:"Group member commands"`
+	// ListGroupMembers ListGroupMembersCmd `command:"listgroupmembers" help:"List all users in a group." aliases:"lgm" group:"Group member commands"`
 
 	ListPerms  ListPermsCmd  `command:"listperms" help:"List all permissions." aliases:"lp" group:"Permission commands"`
 	CreatePerm CreatePermCmd `command:"createperm" help:"Create a new permission." aliases:"cp" group:"Permission commands"`

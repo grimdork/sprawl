@@ -99,6 +99,11 @@ const (
 	// PUT updates a single member.
 	// DELETE removes a single member.
 	EPMember = "/member"
+
+	// EPAdmin enables and disables admin status for a user on a site.
+	// PUT enables admin status.
+	// DELETE disables admin status.
+	EPAdmin = "/admin"
 )
 
 // Request contains the variables passed to endpoints.
