@@ -5,12 +5,13 @@ import (
 	"github.com/grimdork/sprawl"
 )
 
+// CreateSiteCmd options.
 type CreateSiteCmd struct {
 	opt.DefaultHelp
 	Name string `placeholder:"NAME" help:"A site name to create (use domain name rules for allowed symbols)."`
 }
 
-// Run the site creation.
+// Run command.
 func (cmd *CreateSiteCmd) Run(args []string) error {
 	if cmd.Help || cmd.Name == "" {
 		return opt.ErrUsage

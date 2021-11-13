@@ -14,13 +14,13 @@ import (
 	"golang.org/x/term"
 )
 
-// InitCmd flags.
+// InitCmd options.
 type InitCmd struct {
 	opt.DefaultHelp
 	Force bool `short:"f" long:"force" help:"Force (re-)initialization."`
 }
 
-// Run connection setup.
+// Run command.
 func (cmd *InitCmd) Run(args []string) error {
 	if cmd.Help {
 		return opt.ErrUsage

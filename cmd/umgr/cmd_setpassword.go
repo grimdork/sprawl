@@ -14,13 +14,14 @@ import (
 	"golang.org/x/term"
 )
 
+// SetPasswordCmd options.
 type SetPasswordCmd struct {
 	opt.DefaultHelp
 	Name    string `placeholder:"NAME" help:"Username to set the password for."`
 	AskPass bool   `short:"p" long:"password" help:"Prompt for a password instead of generating it."`
 }
 
-// Run the user creation.
+// Run command.
 func (cmd *SetPasswordCmd) Run(args []string) error {
 	if cmd.Help || cmd.Name == "" {
 		return opt.ErrUsage

@@ -9,9 +9,10 @@ import (
 	"github.com/grimdork/sprawl"
 )
 
+// ListSitesCmd options.
 type ListSitesCmd struct{}
 
-// Run the site listing.
+// Run command.
 func (cmd *ListSitesCmd) Run(args []string) error {
 	cfg, err := sprawl.LoadConfig(configPath)
 	if err != nil {

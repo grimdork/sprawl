@@ -5,12 +5,13 @@ import (
 	"github.com/grimdork/sprawl"
 )
 
+// DeleteSiteCmd options.
 type DeleteSiteCmd struct {
 	opt.DefaultHelp
 	Name string `placeholder:"NAME" help:"Name of site to delete."`
 }
 
-// Run the site deletion.
+// Run command.
 func (cmd *DeleteSiteCmd) Run(args []string) error {
 	if cmd.Help || cmd.Name == "" {
 		return opt.ErrUsage

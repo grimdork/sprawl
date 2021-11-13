@@ -15,13 +15,14 @@ import (
 	"golang.org/x/term"
 )
 
+// CreateUserCmd options.
 type CreateUserCmd struct {
 	opt.DefaultHelp
 	Name    string `placeholder:"NAME" help:"An alphanumeric username to create."`
 	AskPass bool   `short:"p" long:"password" help:"Prompt for a password instead of generating it."`
 }
 
-// Run the user creation.
+// Run command.
 func (cmd *CreateUserCmd) Run(args []string) error {
 	if cmd.Help || cmd.Name == "" {
 		return opt.ErrUsage

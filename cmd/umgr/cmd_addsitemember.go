@@ -13,7 +13,7 @@ import (
 	"github.com/grimdork/sprawl"
 )
 
-// AddSiteMemberCmd adds a member/admin to a site with profile data.
+// AddSiteMemberCmd options.
 type AddSiteMemberCmd struct {
 	opt.DefaultHelp
 	Site  string `placeholder:"SITE" help:"Site to add the member to."`
@@ -22,7 +22,7 @@ type AddSiteMemberCmd struct {
 	Data  string `short:"d" help:"Data to add to the user."`
 }
 
-// Run the member add command.
+// Run command.
 func (cmd AddSiteMemberCmd) Run(args []string) error {
 	if cmd.Name == "" {
 		return opt.ErrUsage

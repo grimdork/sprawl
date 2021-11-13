@@ -14,10 +14,10 @@ import (
 	"github.com/grimdork/sprawl"
 )
 
-// ListUsersCmd flags.
+// ListUsersCmd options.
 type ListUsersCmd struct{}
 
-// Run listusers.
+// Run command.
 func (cmd *ListUsersCmd) Run(args []string) error {
 	cfg, err := sprawl.LoadConfig(configPath)
 	if err != nil {

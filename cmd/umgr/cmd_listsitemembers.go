@@ -15,11 +15,13 @@ import (
 	"github.com/grimdork/sprawl"
 )
 
+// ListSiteMembersCmd options.
 type ListSiteMembersCmd struct {
 	opt.DefaultHelp
 	Site string `placeholder:"Site" help:"Site to list."`
 }
 
+// Run command.
 func (cmd *ListSiteMembersCmd) Run(args []string) error {
 	if cmd.Site == "" {
 		return opt.ErrUsage

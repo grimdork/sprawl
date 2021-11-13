@@ -10,12 +10,13 @@ import (
 	"github.com/grimdork/sprawl"
 )
 
+// DeleteUserCmd options.
 type DeleteUserCmd struct {
 	opt.DefaultHelp
 	Username string `placeholder:"NAME" help:"Nameof the user to delete."`
 }
 
-// Run the user deletion.
+// Run command.
 func (cmd *DeleteUserCmd) Run(args []string) error {
 	if cmd.Help || cmd.Username == "" {
 		return opt.ErrUsage

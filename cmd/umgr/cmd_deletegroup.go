@@ -10,13 +10,14 @@ import (
 	"github.com/grimdork/sprawl"
 )
 
+// DeleteGroupCmd options.
 type DeleteGroupCmd struct {
 	opt.DefaultHelp
 	Name string `placeholder:"NAME" help:"Name of group to delete."`
 	Site string `placeholder:"site" help:"Site of the group."`
 }
 
-// Run the group deletion.
+// Run command.
 func (cmd *DeleteGroupCmd) Run(args []string) error {
 	if cmd.Help || cmd.Name == "" {
 		return opt.ErrUsage

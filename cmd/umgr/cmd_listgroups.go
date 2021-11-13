@@ -15,12 +15,13 @@ import (
 	"github.com/grimdork/sprawl"
 )
 
+// ListGroupsCmd options.
 type ListGroupsCmd struct {
 	opt.DefaultHelp
 	Site string `placeholder:"SITE" help:"Site to list groups for."`
 }
 
-// Run group listing.
+// Run command.
 func (cmd *ListGroupsCmd) Run(args []string) error {
 	if cmd.Help {
 		return opt.ErrUsage

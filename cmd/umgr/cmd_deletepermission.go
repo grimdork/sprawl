@@ -10,12 +10,13 @@ import (
 	"github.com/grimdork/sprawl"
 )
 
+// DeletePermCmd options.
 type DeletePermCmd struct {
 	opt.DefaultHelp
 	Name string `placeholder:"NAME" help:"Name of permission to delete."`
 }
 
-// Run the permission deletion.
+// Run command.
 func (cmd *DeletePermCmd) Run(args []string) error {
 	if cmd.Help || cmd.Name == "" {
 		return opt.ErrUsage

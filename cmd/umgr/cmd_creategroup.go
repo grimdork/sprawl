@@ -10,13 +10,14 @@ import (
 	"github.com/grimdork/sprawl"
 )
 
+// CreateGroupCmd options.
 type CreateGroupCmd struct {
 	opt.DefaultHelp
 	Name string `placeholder:"NAME" help:"An alphanumeric group name to create."`
 	Site string `placeholder:"SITE" help:"The site in which to create the group."`
 }
 
-// Run the group creation.
+// Run command.
 func (cmd *CreateGroupCmd) Run(args []string) error {
 	if cmd.Help || cmd.Site == "" {
 		return opt.ErrUsage

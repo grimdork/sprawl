@@ -14,9 +14,10 @@ import (
 	"github.com/grimdork/sprawl"
 )
 
+// ListPermsCmd options.
 type ListPermsCmd struct{}
 
-// Run group listing.
+// Run command.
 func (cmd *ListPermsCmd) Run(args []string) error {
 	cfg, err := sprawl.LoadConfig(configPath)
 	if err != nil {

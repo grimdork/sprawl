@@ -10,13 +10,14 @@ import (
 	"github.com/grimdork/sprawl"
 )
 
+// CreatePermCmd options.
 type CreatePermCmd struct {
 	opt.DefaultHelp
 	Name        string `placeholder:"KEYWORD" help:"Permission keyword to create."`
 	Description string `placeholder:"DESCRIPTION" help:"Optional description of the permission."`
 }
 
-// Run the permission creation.
+// Run command.
 func (cmd *CreatePermCmd) Run(args []string) error {
 	if cmd.Help || cmd.Name == "" {
 		return opt.ErrUsage
