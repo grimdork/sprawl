@@ -43,8 +43,8 @@ func (cmd AddSiteMemberCmd) Run(args []string) error {
 	}
 
 	_, err = cfg.Post(sprawl.EPSite+sprawl.EPMember, sprawl.Request{
-		"name":  cmd.Name,
 		"site":  cmd.Site,
+		"name":  cmd.Name,
 		"admin": fmt.Sprintf("%t", cmd.Admin),
 		"data":  string(data),
 	})
