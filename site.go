@@ -75,7 +75,7 @@ func (db *Database) GetSites(start, max int64) ([]Site, error) {
 
 // GetSiteMembers returns a slice of users for a site.
 func (db *Database) GetSiteMembers(site string) ([]User, error) {
-	sql := `select users.id,users.name from users
+	sql := `select users.id,users.name,profiles.admin from users
 	inner join profiles on profiles.uid=users.id
 	inner join sites on sites.id=profiles.sid;`
 	rows, err := db.Pool.Query(context.Background(), sql)
@@ -87,7 +87,7 @@ func (db *Database) GetSiteMembers(site string) ([]User, error) {
 	var users []User
 	for rows.Next() {
 		var u User
-		err = rows.Scan(&u.ID, &u.Name)
+		err = rows.Scan(&u.ID, &u.Name, &u.Admin)
 		if err != nil {
 			return nil, err
 		}
@@ -98,12 +98,14 @@ func (db *Database) GetSiteMembers(site string) ([]User, error) {
 }
 
 // AddSiteMember adds a profile for a user.
-func (db *Database) AddSiteMember(site, name string) error {
-	sql := `insert into profiles (sid,uid) values(
-		(select s.id from sites s where s.name=$1),
-		(select u.id from users u where u.name=$2)
-	)`
-	_, err := db.Pool.Exec(context.Background(), sql, site, name)
+func (db *Database) AddSiteMember(site, name, data, admin string) error {
+	sql := `insert into profiles (sid,uid,data,admin)
+		values(
+			(select s.id from sites s where s.name=$1),
+			(select u.id from users u where u.name=$2),
+			$3,$4
+		)`
+	_, err := db.Pool.Exec(context.Background(), sql, site, name, data, admin)
 	return err
 }
 

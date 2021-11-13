@@ -22,12 +22,13 @@ var o struct {
 	DeleteUser  DeleteUserCmd  `command:"deleteuser" help:"Delete a user." aliases:"du" group:"User commands"`
 	SetPassword SetPasswordCmd `command:"setpasswd" help:"Set the password for a user." aliases:"sup,setpw" group:"User commands"`
 
-	ListSites        ListSitesCmd        `command:"listsites" help:"List all sites." aliases:"ls" group:"Site commands"`
-	CreateSite       CreateSiteCmd       `command:"createsite" help:"Create a new site." aliases:"cs" group:"Site commands"`
-	DeleteSite       DeleteSiteCmd       `command:"deletesite" help:"Delete a site." aliases:"ds" group:"Site commands"`
-	AddSiteMember    AddSiteMemberCmd    `command:"addsitemember" help:"Add a user to a site." aliases:"asm" group:"Site commands"`
-	RemoveSiteMember RemoveSiteMemberCmd `command:"removesitemember" help:"Remove a user from a site." aliases:"rsm" group:"Site commands"`
-	ListSiteMembers  ListSiteMembersCmd  `command:"listsitemembers" help:"List all users in a site." aliases:"lsm" group:"Site commands"`
+	ListSites  ListSitesCmd  `command:"listsites" help:"List all sites." aliases:"ls" group:"Site commands"`
+	CreateSite CreateSiteCmd `command:"createsite" help:"Create a new site." aliases:"cs" group:"Site commands"`
+	DeleteSite DeleteSiteCmd `command:"deletesite" help:"Delete a site." aliases:"ds" group:"Site commands"`
+
+	AddSiteMember    AddSiteMemberCmd    `command:"addsitemember" help:"Add a user to a site." aliases:"asm" group:"Site member commands"`
+	RemoveSiteMember RemoveSiteMemberCmd `command:"removesitemember" help:"Remove a user from a site." aliases:"rsm" group:"Site member commands"`
+	ListSiteMembers  ListSiteMembersCmd  `command:"listsitemembers" help:"List all users in a site." aliases:"lsm" group:"Site member commands"`
 	// AddSideAdmin SetSideAdminCmd `command:"setsideadmin" help:"Add a user as admin to a site. Does not need to be a member." aliases:"asa" group:"Site commands"`
 	// RemoveSiteAdmin RemoveSiteAdminCmd `command:"removesiteadmin" help:"Remove a user's side admin status." aliases:"rsa" group:"Site commands"`
 

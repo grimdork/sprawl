@@ -83,7 +83,12 @@ func (srv *Server) listSiteMembers(w http.ResponseWriter, r *http.Request) {
 }
 
 func (srv *Server) addSiteMember(w http.ResponseWriter, r *http.Request) {
-	err := srv.AddSiteMember(r.Header.Get("site"), r.Header.Get("name"))
+	err := srv.AddSiteMember(
+		r.Header.Get("site"),
+		r.Header.Get("name"),
+		r.Header.Get("data"),
+		r.Header.Get("admin"),
+	)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return
