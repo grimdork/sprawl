@@ -27,11 +27,6 @@ func (cmd *DeletePermCmd) Run(args []string) error {
 		return err
 	}
 
-	err = cfg.GetLoginToken()
-	if err != nil {
-		return err
-	}
-
 	err = cfg.Delete(sprawl.EPPermission, sprawl.Request{
 		"name": cmd.Name,
 	})

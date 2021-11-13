@@ -22,11 +22,6 @@ func (cmd *DeleteSiteCmd) Run(args []string) error {
 		return err
 	}
 
-	err = cfg.GetLoginToken()
-	if err != nil {
-		return err
-	}
-
 	err = cfg.Delete(sprawl.EPSite, sprawl.Request{"name": cmd.Name})
 	return err
 }

@@ -19,11 +19,6 @@ func (cmd *ListSitesCmd) Run(args []string) error {
 		return err
 	}
 
-	err = cfg.GetLoginToken()
-	if err != nil {
-		return err
-	}
-
 	data, err := cfg.Get(sprawl.EPSites, nil)
 	if err != nil {
 		return err

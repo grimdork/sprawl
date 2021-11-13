@@ -46,11 +46,6 @@ func (cmd *CreateUserCmd) Run(args []string) error {
 		return err
 	}
 
-	err = cfg.GetLoginToken()
-	if err != nil {
-		return err
-	}
-
 	_, err = cfg.Post(sprawl.EPUser, sprawl.Request{
 		"name":     cmd.Name,
 		"password": pw,

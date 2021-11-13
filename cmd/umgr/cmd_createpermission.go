@@ -28,11 +28,6 @@ func (cmd *CreatePermCmd) Run(args []string) error {
 		return err
 	}
 
-	err = cfg.GetLoginToken()
-	if err != nil {
-		return err
-	}
-
 	_, err = cfg.Post(sprawl.EPPermission, sprawl.Request{
 		"name":        cmd.Name,
 		"description": cmd.Description,

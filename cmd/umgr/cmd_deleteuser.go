@@ -27,11 +27,6 @@ func (cmd *DeleteUserCmd) Run(args []string) error {
 		return err
 	}
 
-	err = cfg.GetLoginToken()
-	if err != nil {
-		return err
-	}
-
 	err = cfg.Delete(sprawl.EPUser, sprawl.Request{"name": cmd.Username})
 	if err != nil {
 		return err

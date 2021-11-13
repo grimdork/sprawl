@@ -28,11 +28,6 @@ func (cmd *DeleteGroupCmd) Run(args []string) error {
 		return err
 	}
 
-	err = cfg.GetLoginToken()
-	if err != nil {
-		return err
-	}
-
 	err = cfg.Delete(sprawl.EPGroup, sprawl.Request{
 		"name": cmd.Name,
 		"site": cmd.Site,

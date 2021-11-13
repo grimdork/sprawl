@@ -22,11 +22,6 @@ func (cmd *CreateSiteCmd) Run(args []string) error {
 		return err
 	}
 
-	err = cfg.GetLoginToken()
-	if err != nil {
-		return err
-	}
-
 	_, err = cfg.Post(sprawl.EPSite, sprawl.Request{"name": cmd.Name})
 	return err
 }
