@@ -73,6 +73,7 @@ func (db *Database) GetSites(start, max int64) ([]Site, error) {
 	return sites, nil
 }
 
+// GetSiteMembers returns a slice of users for a site.
 func (db *Database) GetSiteMembers(site string) ([]User, error) {
 	sql := `select users.id,users.name from users
 	inner join profiles on profiles.uid=users.id
@@ -96,11 +97,21 @@ func (db *Database) GetSiteMembers(site string) ([]User, error) {
 	return users, nil
 }
 
+// AddSiteMember adds a profile for a user.
 func (db *Database) AddSiteMember(site, name string) error {
 	sql := `insert into profiles (sid,uid) values(
 		(select s.id from sites s where s.name=$1),
 		(select u.id from users u where u.name=$2)
 	)`
+	_, err := db.Pool.Exec(context.Background(), sql, site, name)
+	return err
+}
+
+// RemoveSiteMember deletes a profile for a user.
+func (db *Database) RemoveSiteMember(site, name string) error {
+	sql := `delete from profiles where
+		sid=(select s.id from sites s where s.name=$1) and
+		uid=(select u.id from users u where u.name=$2)`
 	_, err := db.Pool.Exec(context.Background(), sql, site, name)
 	return err
 }
