@@ -22,6 +22,10 @@ type User struct {
 	ID int64
 	// Name may be an e-mail address.
 	Name string
+	// Fullname is the user's full name.
+	Fullname string
+	// Email is the user's e-mail address.
+	Email string
 	// Password is a bcrypt hash.
 	Password string
 	// Profiles for different sites.
@@ -66,7 +70,7 @@ func (db *Database) UpdateUser(name, newname, fullname, email string) error {
 // GetUser by name.
 func (db *Database) GetUser(name string) (User, error) {
 	u := User{}
-	err := db.QueryRow(context.Background(), "select id,name,password from users where name=$1 limit 1;", name).Scan(&u.ID, &u.Name, &u.Password)
+	err := db.QueryRow(context.Background(), "select id,name,fullname,email,password from users where name=$1 limit 1;", name).Scan(&u.ID, &u.Name, &u.Fullname, &u.Email, &u.Password)
 	if err != nil {
 		return u, err
 	}
@@ -94,7 +98,7 @@ func (u *User) CheckPassword(password string) bool {
 
 // GetUsers returns a range of users.
 func (db *Database) GetUsers(start, max int64) ([]User, error) {
-	rows, err := db.Query(context.Background(), "select id,name,password from users order by id asc limit $1 offset $2;", max, start)
+	rows, err := db.Query(context.Background(), "select id,name,fullname,email from users order by id asc limit $1 offset $2;", max, start)
 	if err != nil {
 		return nil, err
 	}
@@ -103,7 +107,7 @@ func (db *Database) GetUsers(start, max int64) ([]User, error) {
 	var users []User
 	for rows.Next() {
 		u := User{}
-		err = rows.Scan(&u.ID, &u.Name, &u.Password)
+		err = rows.Scan(&u.ID, &u.Name, &u.Fullname, &u.Email)
 		if err != nil {
 			return nil, err
 		}

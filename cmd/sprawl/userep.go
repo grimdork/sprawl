@@ -100,7 +100,8 @@ func (srv *Server) listUsers(w http.ResponseWriter, r *http.Request) {
 
 	data, err := json.Marshal(users)
 	if err != nil {
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		srv.E("Failed to marshal users: %s", err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 

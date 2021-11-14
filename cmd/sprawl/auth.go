@@ -31,7 +31,6 @@ func (srv *Server) auth(w http.ResponseWriter, r *http.Request) {
 		t := srv.generateToken(username)
 		s := fmt.Sprintf("{\"token\":\"%s\"}", t)
 		w.Write([]byte(s))
-		return
 	}
 }
 
