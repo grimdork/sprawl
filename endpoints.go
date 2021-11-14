@@ -63,18 +63,6 @@ const (
 	//DELETE removes a single group.
 	EPGroup = "/group"
 
-	EPListGroupMembers = "/listgroupmembers"
-	// EPAddGroupMember adds a user to a group on a site.
-	EPAddGroupMember = "/addgroupmember"
-	// EPRemoveGroupMember removes a user from a group on a site.
-	EPRemoveGroupMember = "/removegroupmember"
-	// EPAddGroupPermission adds a permission to a group on a site.
-	EPAddGroupPermission = "/addgrouppermission"
-	// EPRemoveGroupPermission removes a permission from a group on a site.
-	EPRemoveGroupPermission = "/removegrouppermission"
-	// EPListGroupPermissions lists all permissions for a group on a site.
-	EPListGroupPermissions = "/listgrouppermissions"
-
 	// EPPermissions is the bulk permission endpoint.
 	// GET lists all permissions.
 	// POST creates multiple permissions.
