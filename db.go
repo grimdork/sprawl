@@ -58,7 +58,7 @@ create table if not exists members (
 	constraint members_gid foreign key(gid) references groups(id) on delete cascade
 );
 
-create index if not exists idx_gmembersgroup on members(uid,gid);
+create unique index if not exists idx_gmembersgroup on members(uid,gid);
 
 -- Tokens are created when authenticating.
 create table if not exists tokens (
