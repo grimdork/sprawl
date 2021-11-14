@@ -59,8 +59,8 @@ func NewServer() (*Server, error) {
 	}
 
 	// Create admin if it doesn't exist.
-	u := srv.GetUser("admin")
-	if u == nil {
+	_, err = srv.GetUser("admin")
+	if err != nil {
 		srv.L("No admin user - creating.")
 		err = srv.CreateUser("admin", env.Get("ADMIN_PASSWORD", "potrzebie"))
 		if err != nil {
@@ -118,8 +118,8 @@ func NewServer() (*Server, error) {
 			)
 			r.Post("/", srv.createUser)
 			r.Delete("/", srv.deleteUser)
-			// r.Post("/", srv.updateUser)
-			// r.Get("/", srv.getUser)
+			r.Post("/", srv.updateUser)
+			r.Get("/", srv.getUser)
 			r.Post(sprawl.EPSetPassword, srv.setPassword)
 		})
 
@@ -225,7 +225,7 @@ func NewServer() (*Server, error) {
 				srv.tokencheck,
 				srv.admincheck,
 			)
-			// r.Get("/", srv.getPermission)
+			r.Get("/", srv.getPermission)
 			r.Post("/", srv.createPermission)
 			r.Delete("/", srv.deletePermission)
 		})

@@ -36,11 +36,38 @@ func (srv *Server) deleteUser(w http.ResponseWriter, r *http.Request) {
 	err := srv.DeleteUser(name)
 	if err != nil {
 		println("Fuck: " + err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	srv.L("Deleted user '%s'", name)
+}
+
+func (srv *Server) updateUser(w http.ResponseWriter, r *http.Request) {
+	name := r.Header.Get("name")
+	newname := r.Header.Get("newname")
+	fullname := r.Header.Get("fullname")
+	email := r.Header.Get("email")
+	err := srv.UpdateUser(
+		name,
+		newname,
+		fullname,
+		email,
+	)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+}
+
+func (srv *Server) getUser(w http.ResponseWriter, r *http.Request) {
+	name := r.Header.Get("name")
+	user, err := srv.GetUser(name)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	json.NewEncoder(w).Encode(user)
 }
 
 func (srv *Server) setPassword(w http.ResponseWriter, r *http.Request) {

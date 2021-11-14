@@ -21,8 +21,8 @@ func (srv *Server) auth(w http.ResponseWriter, r *http.Request) {
 	username = strings.TrimSpace(username)
 	password := r.Header.Get("password")
 	password = strings.TrimSpace(password)
-	u := srv.GetUser(username)
-	if u == nil {
+	u, err := srv.GetUser(username)
+	if err != nil {
 		http.Error(w, "User not found", http.StatusNotFound)
 		return
 	}
@@ -56,9 +56,14 @@ func (srv *Server) generateToken(name string) string {
 	}
 
 	// Delete all expired tokens for this user.
-	u := srv.GetUser(name)
+	u, err := srv.GetUser(name)
+	if err != nil {
+		srv.E("Error getting user: %s", err.Error())
+		return ""
+	}
+
 	sql := "delete from tokens where uid=$1"
-	_, err := srv.Exec(context.Background(), sql, u.ID)
+	_, err = srv.Exec(context.Background(), sql, u.ID)
 	if err != nil {
 		srv.L("Error deleting expired tokens: %s", err)
 	}

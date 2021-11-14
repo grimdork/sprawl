@@ -57,15 +57,21 @@ func (db *Database) DeleteUser(name string) error {
 	return err
 }
 
+// UpdateUser with new details.
+func (db *Database) UpdateUser(name, newname, fullname, email string) error {
+	_, err := db.Exec(context.Background(), "update users set name=$2,fullname=$3,email=$4 where name=$1", name, newname, fullname, email)
+	return err
+}
+
 // GetUser by name.
-func (db *Database) GetUser(name string) *User {
-	u := &User{}
+func (db *Database) GetUser(name string) (User, error) {
+	u := User{}
 	err := db.QueryRow(context.Background(), "select id,name,password from users where name=$1 limit 1;", name).Scan(&u.ID, &u.Name, &u.Password)
 	if err != nil {
-		return nil
+		return u, err
 	}
 
-	return u
+	return u, nil
 }
 
 // SetPassword sets the password.
