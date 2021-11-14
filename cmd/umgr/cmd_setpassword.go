@@ -11,6 +11,7 @@ import (
 
 	"github.com/Urethramancer/signor/opt"
 	"github.com/grimdork/sprawl"
+	"github.com/grimdork/sprawl/client"
 	"golang.org/x/term"
 )
 
@@ -41,12 +42,12 @@ func (cmd *SetPasswordCmd) Run(args []string) error {
 		pw = sprawl.RandString(20)
 	}
 
-	cfg, err := sprawl.LoadConfig(configPath)
+	c, err := client.New(configPath)
 	if err != nil {
 		return err
 	}
 
-	_, err = cfg.Post(sprawl.EPUser+sprawl.EPSetPassword, sprawl.Request{
+	_, err = c.Post(sprawl.EPUser+sprawl.EPSetPassword, sprawl.Request{
 		"name":     cmd.Name,
 		"password": pw,
 	})

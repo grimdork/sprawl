@@ -33,6 +33,18 @@ func (srv *Server) createPermission(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (srv *Server) updatePermission(w http.ResponseWriter, r *http.Request) {
+	err := srv.UpdatePermission(
+		r.Header.Get("name"),
+		r.Header.Get("description"),
+	)
+
+	if err != nil {
+		srv.E("Failed to update permission: %s", err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
 func (srv *Server) deletePermission(w http.ResponseWriter, r *http.Request) {
 	err := srv.DeletePermission(r.Header.Get("name"))
 	if err != nil {

@@ -8,6 +8,7 @@ package main
 import (
 	"github.com/Urethramancer/signor/opt"
 	"github.com/grimdork/sprawl"
+	"github.com/grimdork/sprawl/client"
 )
 
 // DeleteGroupCmd options.
@@ -23,12 +24,12 @@ func (cmd *DeleteGroupCmd) Run(args []string) error {
 		return opt.ErrUsage
 	}
 
-	cfg, err := sprawl.LoadConfig(configPath)
+	c, err := client.New(configPath)
 	if err != nil {
 		return err
 	}
 
-	err = cfg.Delete(sprawl.EPGroup, sprawl.Request{
+	err = c.Delete(sprawl.EPGroup, sprawl.Request{
 		"name": cmd.Name,
 		"site": cmd.Site,
 	})

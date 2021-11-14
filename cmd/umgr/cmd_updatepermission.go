@@ -10,15 +10,15 @@ import (
 	"github.com/grimdork/sprawl/client"
 )
 
-// CreatePermCmd options.
-type CreatePermCmd struct {
+// UpdatePermCmd options.
+type UpdatePermCmd struct {
 	opt.DefaultHelp
-	Name        string `placeholder:"KEYWORD" help:"Permission keyword to create."`
-	Description string `placeholder:"DESCRIPTION" help:"Optional description of the permission."`
+	Name        string `placeholder:"KEYWORD" help:"Permission to change the description for."`
+	Description string `placeholder:"DESCRIPTION" help:"New description."`
 }
 
 // Run command.
-func (cmd *CreatePermCmd) Run(args []string) error {
+func (cmd *UpdatePermCmd) Run(args []string) error {
 	if cmd.Help || cmd.Name == "" {
 		return opt.ErrUsage
 	}
@@ -28,6 +28,6 @@ func (cmd *CreatePermCmd) Run(args []string) error {
 		return err
 	}
 
-	err = c.CreatePermission(cmd.Name, cmd.Description)
+	err = c.UpdatePermission(cmd.Name, cmd.Description)
 	return err
 }

@@ -8,6 +8,7 @@ package main
 import (
 	"github.com/Urethramancer/signor/opt"
 	"github.com/grimdork/sprawl"
+	"github.com/grimdork/sprawl/client"
 )
 
 // AddGroupMemberCmd options.
@@ -24,12 +25,12 @@ func (cmd AddGroupMemberCmd) Run(args []string) error {
 		return opt.ErrUsage
 	}
 
-	cfg, err := sprawl.LoadConfig(configPath)
+	c, err := client.New(configPath)
 	if err != nil {
 		return err
 	}
 
-	_, err = cfg.Post(sprawl.EPGroup+sprawl.EPMember, sprawl.Request{
+	_, err = c.Post(sprawl.EPGroup+sprawl.EPMember, sprawl.Request{
 		"site":  cmd.Site,
 		"group": cmd.Group,
 		"name":  cmd.Name,

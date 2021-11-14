@@ -226,6 +226,7 @@ func NewServer() (*Server, error) {
 				srv.admincheck,
 			)
 			r.Get("/", srv.getPermission)
+			r.Put("/", srv.updatePermission)
 			r.Post("/", srv.createPermission)
 			r.Delete("/", srv.deletePermission)
 		})

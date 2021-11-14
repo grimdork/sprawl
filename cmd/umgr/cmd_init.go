@@ -10,7 +10,7 @@ import (
 	"os"
 
 	"github.com/Urethramancer/signor/opt"
-	"github.com/grimdork/sprawl"
+	"github.com/grimdork/sprawl/client"
 	"golang.org/x/term"
 )
 
@@ -26,13 +26,13 @@ func (cmd *InitCmd) Run(args []string) error {
 		return opt.ErrUsage
 	}
 
-	_, err := sprawl.LoadConfig(configPath)
+	_, err := client.New(configPath)
 	if err == nil && !cmd.Force {
 		pr("Already initialized. Use -f to force re-initialization.")
 		return nil
 	}
 
-	cfg := &sprawl.Config{}
+	cfg := &client.Config{}
 	fmt.Printf("URL (<protocol>://<domain.tld>): ")
 	fmt.Scanln(&cfg.URL)
 	fmt.Printf("Username: ")

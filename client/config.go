@@ -1,4 +1,4 @@
-package sprawl
+package client
 
 import (
 	"encoding/json"
@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/grimdork/sprawl"
 )
 
 // Config for a Sprawl connection.
@@ -21,8 +23,8 @@ type Config struct {
 	Token string
 }
 
-// LoadConfig from JSON file.
-func LoadConfig(fn string) (*Config, error) {
+// loadConfig from JSON file.
+func loadConfig(fn string) (*Config, error) {
 	var cfg Config
 	data, err := os.ReadFile(fn)
 	if err != nil {
@@ -48,7 +50,7 @@ func (cfg *Config) Save(fn string) error {
 	return os.WriteFile(fn, data, 0600)
 }
 
-func (cfg *Config) request(method, ep string, args Request) (*http.Response, error) {
+func (cfg *Config) request(method, ep string, args sprawl.Request) (*http.Response, error) {
 	url := fmt.Sprintf("%s%s", cfg.URL, ep)
 	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
@@ -67,7 +69,7 @@ func (cfg *Config) request(method, ep string, args Request) (*http.Response, err
 }
 
 // Get is for retrieval.
-func (cfg *Config) Get(ep string, args Request) ([]byte, error) {
+func (cfg *Config) Get(ep string, args sprawl.Request) ([]byte, error) {
 	res, err := cfg.request(http.MethodGet, ep, args)
 	if err != nil {
 		return nil, err
@@ -82,7 +84,7 @@ func (cfg *Config) Get(ep string, args Request) ([]byte, error) {
 }
 
 // Post is for creation.
-func (cfg *Config) Post(ep string, args Request) ([]byte, error) {
+func (cfg *Config) Post(ep string, args sprawl.Request) ([]byte, error) {
 	res, err := cfg.request(http.MethodPost, ep, args)
 	if err != nil {
 		return nil, err
@@ -97,7 +99,7 @@ func (cfg *Config) Post(ep string, args Request) ([]byte, error) {
 }
 
 // Delete is for removal.
-func (cfg *Config) Delete(ep string, args Request) error {
+func (cfg *Config) Delete(ep string, args sprawl.Request) error {
 	res, err := cfg.request(http.MethodDelete, ep, args)
 	if err != nil {
 		return err
@@ -112,7 +114,7 @@ func (cfg *Config) Delete(ep string, args Request) error {
 }
 
 // Put is for updates.
-func (cfg *Config) Put(ep string, args Request) error {
+func (cfg *Config) Put(ep string, args sprawl.Request) error {
 	res, err := cfg.request(http.MethodPut, ep, args)
 	if err != nil {
 		return err

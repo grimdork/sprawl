@@ -7,7 +7,7 @@ package main
 
 import (
 	"github.com/Urethramancer/signor/opt"
-	"github.com/grimdork/sprawl"
+	"github.com/grimdork/sprawl/client"
 )
 
 // DeletePermCmd options.
@@ -22,13 +22,11 @@ func (cmd *DeletePermCmd) Run(args []string) error {
 		return opt.ErrUsage
 	}
 
-	cfg, err := sprawl.LoadConfig(configPath)
+	c, err := client.New(configPath)
 	if err != nil {
 		return err
 	}
 
-	err = cfg.Delete(sprawl.EPPermission, sprawl.Request{
-		"name": cmd.Name,
-	})
+	err = c.DeletePermission(cmd.Name)
 	return err
 }

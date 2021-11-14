@@ -7,6 +7,7 @@ import (
 	"text/tabwriter"
 
 	"github.com/grimdork/sprawl"
+	"github.com/grimdork/sprawl/client"
 )
 
 // ListSitesCmd options.
@@ -14,12 +15,12 @@ type ListSitesCmd struct{}
 
 // Run command.
 func (cmd *ListSitesCmd) Run(args []string) error {
-	cfg, err := sprawl.LoadConfig(configPath)
+	c, err := client.New(configPath)
 	if err != nil {
 		return err
 	}
 
-	data, err := cfg.Get(sprawl.EPSites, nil)
+	data, err := c.Get(sprawl.EPSites, nil)
 	if err != nil {
 		return err
 	}

@@ -7,7 +7,7 @@ package main
 
 import (
 	"github.com/Urethramancer/signor/opt"
-	"github.com/grimdork/sprawl"
+	"github.com/grimdork/sprawl/client"
 )
 
 // DeleteUserCmd options.
@@ -22,12 +22,12 @@ func (cmd *DeleteUserCmd) Run(args []string) error {
 		return opt.ErrUsage
 	}
 
-	cfg, err := sprawl.LoadConfig(configPath)
+	c, err := client.New(configPath)
 	if err != nil {
 		return err
 	}
 
-	err = cfg.Delete(sprawl.EPUser, sprawl.Request{"name": cmd.Username})
+	err = c.DeleteUser(cmd.Username)
 	if err != nil {
 		return err
 	}

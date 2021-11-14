@@ -6,12 +6,11 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"text/tabwriter"
 
-	"github.com/grimdork/sprawl"
+	"github.com/grimdork/sprawl/client"
 )
 
 // ListUsersCmd options.
@@ -19,18 +18,12 @@ type ListUsersCmd struct{}
 
 // Run command.
 func (cmd *ListUsersCmd) Run(args []string) error {
-	cfg, err := sprawl.LoadConfig(configPath)
+	c, err := client.New(configPath)
 	if err != nil {
 		return err
 	}
 
-	data, err := cfg.Get(sprawl.EPUsers, nil)
-	if err != nil {
-		return err
-	}
-
-	var list []sprawl.User
-	err = json.Unmarshal(data, &list)
+	list, err := c.ListUsers()
 	if err != nil {
 		return err
 	}

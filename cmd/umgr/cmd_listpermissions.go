@@ -6,12 +6,11 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"text/tabwriter"
 
-	"github.com/grimdork/sprawl"
+	"github.com/grimdork/sprawl/client"
 )
 
 // ListPermsCmd options.
@@ -19,18 +18,12 @@ type ListPermsCmd struct{}
 
 // Run command.
 func (cmd *ListPermsCmd) Run(args []string) error {
-	cfg, err := sprawl.LoadConfig(configPath)
+	c, err := client.New(configPath)
 	if err != nil {
 		return err
 	}
 
-	data, err := cfg.Get(sprawl.EPPermissions, nil)
-	if err != nil {
-		return err
-	}
-
-	var list sprawl.PermissionList
-	err = json.Unmarshal(data, &list)
+	list, err := c.ListPermissions()
 	if err != nil {
 		return err
 	}

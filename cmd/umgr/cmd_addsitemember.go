@@ -11,6 +11,7 @@ import (
 
 	"github.com/Urethramancer/signor/opt"
 	"github.com/grimdork/sprawl"
+	"github.com/grimdork/sprawl/client"
 )
 
 // AddSiteMemberCmd options.
@@ -37,12 +38,12 @@ func (cmd AddSiteMemberCmd) Run(args []string) error {
 		}
 	}
 
-	cfg, err := sprawl.LoadConfig(configPath)
+	c, err := client.New(configPath)
 	if err != nil {
 		return err
 	}
 
-	_, err = cfg.Post(sprawl.EPSite+sprawl.EPMember, sprawl.Request{
+	_, err = c.Post(sprawl.EPSite+sprawl.EPMember, sprawl.Request{
 		"site":  cmd.Site,
 		"name":  cmd.Name,
 		"admin": fmt.Sprintf("%t", cmd.Admin),

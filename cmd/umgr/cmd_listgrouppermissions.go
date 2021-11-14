@@ -13,6 +13,7 @@ import (
 
 	"github.com/Urethramancer/signor/opt"
 	"github.com/grimdork/sprawl"
+	"github.com/grimdork/sprawl/client"
 )
 
 // ListGroupPermissionsCmd options.
@@ -28,12 +29,12 @@ func (cmd *ListGroupPermissionsCmd) Run(args []string) error {
 		return opt.ErrUsage
 	}
 
-	cfg, err := sprawl.LoadConfig(configPath)
+	c, err := client.New(configPath)
 	if err != nil {
 		return err
 	}
 
-	data, err := cfg.Get(sprawl.EPGroup+sprawl.EPPermissions, sprawl.Request{
+	data, err := c.Get(sprawl.EPGroup+sprawl.EPPermissions, sprawl.Request{
 		"site":  cmd.Site,
 		"group": cmd.Group,
 	})

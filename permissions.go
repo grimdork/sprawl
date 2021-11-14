@@ -24,6 +24,13 @@ func (db *Database) CreatePermission(name, description string) error {
 	return err
 }
 
+// UpdatePermission updates a permission description.
+func (db *Database) UpdatePermission(name, description string) error {
+	sql := `update permissions set description=$2 where name=$';`
+	_, err := db.Exec(context.Background(), sql, name, description)
+	return err
+}
+
 // DeletePermission deletes a permission keyword.
 func (db *Database) DeletePermission(name string) error {
 	sql := `delete from permissions where name=$1;`

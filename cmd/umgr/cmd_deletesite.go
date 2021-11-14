@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/Urethramancer/signor/opt"
 	"github.com/grimdork/sprawl"
+	"github.com/grimdork/sprawl/client"
 )
 
 // DeleteSiteCmd options.
@@ -17,11 +18,11 @@ func (cmd *DeleteSiteCmd) Run(args []string) error {
 		return opt.ErrUsage
 	}
 
-	cfg, err := sprawl.LoadConfig(configPath)
+	c, err := client.New(configPath)
 	if err != nil {
 		return err
 	}
 
-	err = cfg.Delete(sprawl.EPSite, sprawl.Request{"name": cmd.Name})
+	err = c.Delete(sprawl.EPSite, sprawl.Request{"name": cmd.Name})
 	return err
 }

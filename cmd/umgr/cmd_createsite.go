@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/Urethramancer/signor/opt"
 	"github.com/grimdork/sprawl"
+	"github.com/grimdork/sprawl/client"
 )
 
 // CreateSiteCmd options.
@@ -17,11 +18,11 @@ func (cmd *CreateSiteCmd) Run(args []string) error {
 		return opt.ErrUsage
 	}
 
-	cfg, err := sprawl.LoadConfig(configPath)
+	c, err := client.New(configPath)
 	if err != nil {
 		return err
 	}
 
-	_, err = cfg.Post(sprawl.EPSite, sprawl.Request{"name": cmd.Name})
+	_, err = c.Post(sprawl.EPSite, sprawl.Request{"name": cmd.Name})
 	return err
 }

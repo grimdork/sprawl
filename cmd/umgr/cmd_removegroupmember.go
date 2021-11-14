@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/Urethramancer/signor/opt"
 	"github.com/grimdork/sprawl"
+	"github.com/grimdork/sprawl/client"
 )
 
 // RemoveGroupMemberCmd foptions.
@@ -19,12 +20,12 @@ func (cmd *RemoveGroupMemberCmd) Run(args []string) error {
 		return opt.ErrUsage
 	}
 
-	cfg, err := sprawl.LoadConfig(configPath)
+	c, err := client.New(configPath)
 	if err != nil {
 		return err
 	}
 
-	err = cfg.Delete(sprawl.EPGroup+sprawl.EPMember, sprawl.Request{
+	err = c.Delete(sprawl.EPGroup+sprawl.EPMember, sprawl.Request{
 		"site":  cmd.Site,
 		"group": cmd.Group,
 		"name":  cmd.Name,

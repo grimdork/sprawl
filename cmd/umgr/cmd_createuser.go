@@ -12,6 +12,7 @@ import (
 	"github.com/Urethramancer/ansi"
 	"github.com/Urethramancer/signor/opt"
 	"github.com/grimdork/sprawl"
+	"github.com/grimdork/sprawl/client"
 	"golang.org/x/term"
 )
 
@@ -41,15 +42,12 @@ func (cmd *CreateUserCmd) Run(args []string) error {
 		pw = sprawl.RandString(20)
 	}
 
-	cfg, err := sprawl.LoadConfig(configPath)
+	c, err := client.New(configPath)
 	if err != nil {
 		return err
 	}
 
-	_, err = cfg.Post(sprawl.EPUser, sprawl.Request{
-		"name":     cmd.Name,
-		"password": pw,
-	})
+	err = c.CreateUser(cmd.Name, pw)
 	if err != nil {
 		return err
 	}
