@@ -31,12 +31,12 @@ var o struct {
 	ListSiteMembers  ListSiteMembersCmd  `command:"listsitemembers" help:"List all users in a site." aliases:"lsm" group:"Site member commands"`
 	SetSideAdmin     SetSiteAdminCmd     `command:"setsideadmin" help:"Set a user's admin status on a site." aliases:"ssa" group:"Site commands"`
 
-	ListGroups  ListGroupsCmd  `command:"listgroups" help:"List all groups." aliases:"lg" group:"Group commands"`
-	CreateGroup CreateGroupCmd `command:"creategroup" help:"Create a new group." aliases:"cg" group:"Group commands"`
-	DeleteGroup DeleteGroupCmd `command:"deletegroup" help:"Delete a group." aliases:"dg" group:"Group commands"`
-	// AddGroupPermission AddGroupPermissionCmd `command:"addgrouppermission" help:"Add a permission to a group." aliases:"agp" group:"Group commands"`
-	// RemoveGroupPermission RemoveGroupPermissionCmd `command:"removegrouppermission" help:"Remove a permission from a group." aliases:"rgp" group:"Group commands"`
-	// ListGroupPermissions ListGroupPermissionsCmd `command:"listgrouppermissions" help:"List all permissions of a group." aliases:"lgp" group:"Group commands"`
+	ListGroups            ListGroupsCmd            `command:"listgroups" help:"List all groups." aliases:"lg" group:"Group commands"`
+	CreateGroup           CreateGroupCmd           `command:"creategroup" help:"Create a new group." aliases:"cg" group:"Group commands"`
+	DeleteGroup           DeleteGroupCmd           `command:"deletegroup" help:"Delete a group." aliases:"dg" group:"Group commands"`
+	AddGroupPermission    AddGroupPermissionCmd    `command:"addgrouppermission" help:"Add a permission to a group." aliases:"agp" group:"Group commands"`
+	RemoveGroupPermission RemoveGroupPermissionCmd `command:"removegrouppermission" help:"Remove a permission from a group." aliases:"rgp" group:"Group commands"`
+	ListGroupPermissions  ListGroupPermissionsCmd  `command:"listgrouppermissions" help:"List all permissions of a group." aliases:"lgp" group:"Group commands"`
 
 	AddGroupMember    AddGroupMemberCmd    `command:"addgroupmember" help:"Add a user to a group." aliases:"agm" group:"Group member commands"`
 	RemoveGroupMember RemoveGroupMemberCmd `command:"removegroupmember" help:"Remove a user from a group." aliases:"rgm" group:"Group member commands"`

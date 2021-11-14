@@ -186,12 +186,22 @@ func NewServer() (*Server, error) {
 
 			r.Get(sprawl.EPMembers, srv.listGroupMembers)
 
+			// Single member operations.
 			r.Route(sprawl.EPMember, func(r chi.Router) {
 				r.Post("/", srv.addGroupMember)
 				r.Delete("/", srv.removeGroupMember)
 			})
 
-			// Single member operations.
+			// Bulk permission operations.
+			r.Get(sprawl.EPPermissions, srv.listGroupPermissions)
+
+			// Single permission operations.
+			r.Route(sprawl.EPPermission, func(r chi.Router) {
+				r.Post("/", srv.addGroupPermission)
+				r.Delete("/", srv.removeGroupPermission)
+			})
+
+			// Single group operations.
 			r.Post("/", srv.createGroup)
 			r.Delete("/", srv.deleteGroup)
 		})

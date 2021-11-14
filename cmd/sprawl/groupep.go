@@ -119,3 +119,46 @@ func (srv *Server) removeGroupMember(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func (srv *Server) listGroupPermissions(w http.ResponseWriter, r *http.Request) {
+	perms, err := srv.GetGroupPermissions(
+		r.Header.Get("site"),
+		r.Header.Get("group"),
+	)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	data, err := json.Marshal(perms)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Write(data)
+}
+
+func (srv *Server) addGroupPermission(w http.ResponseWriter, r *http.Request) {
+	err := srv.AddGroupPermission(
+		r.Header.Get("site"),
+		r.Header.Get("group"),
+		r.Header.Get("permission"),
+	)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+}
+
+func (srv *Server) removeGroupPermission(w http.ResponseWriter, r *http.Request) {
+	err := srv.RemoveGroupPermission(
+		r.Header.Get("site"),
+		r.Header.Get("group"),
+		r.Header.Get("permission"),
+	)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+}

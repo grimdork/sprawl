@@ -136,3 +136,48 @@ func (db *Database) GetGroupMembers(site, group string) (UserList, error) {
 	}
 	return users, nil
 }
+
+func (db *Database) GetGroupPermissions(site, group string) (PermissionList, error) {
+	sql := `select permissions.id,permissions.name,permissions.description from permissions
+	inner join roles on roles.pid=permissions.id
+	inner join groups on groups.id=roles.gid
+	inner join sites on sites.id=groups.sid
+	where sites.name=$1 and groups.name=$2`
+	rows, err := db.Pool.Query(context.Background(), sql, site, group)
+	if err != nil {
+		return PermissionList{}, err
+	}
+
+	defer rows.Close()
+	var permissions PermissionList
+	for rows.Next() {
+		var p Permission
+		err = rows.Scan(&p.ID, &p.Name, &p.Description)
+		if err != nil {
+			return PermissionList{}, err
+		}
+		permissions.Permissions = append(permissions.Permissions, p)
+	}
+	return permissions, nil
+}
+
+// AddGroupPermission adds a permission to a group.
+func (db *Database) AddGroupPermission(site, group, name string) error {
+	sql := `insert into roles (gid,pid)
+		values(
+			(select g.id from groups g where g.name=$2 and
+			g.sid=(select s.id from sites s where s.name=$1)),
+			(select p.id from permissions p where p.name=$3)
+		)`
+	_, err := db.Pool.Exec(context.Background(), sql, site, group, name)
+	return err
+}
+
+func (db *Database) RemoveGroupPermission(site, group, name string) error {
+	sql := `delete from roles where
+		gid=(select g.id from groups g where g.name=$2 and
+		g.sid=(select s.id from sites s where s.name=$1)) and
+		pid=(select p.id from permissions p where p.name=$3)`
+	_, err := db.Pool.Exec(context.Background(), sql, site, group, name)
+	return err
+}
