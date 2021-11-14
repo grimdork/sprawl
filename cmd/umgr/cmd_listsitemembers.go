@@ -6,13 +6,11 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"text/tabwriter"
 
 	"github.com/Urethramancer/signor/opt"
-	"github.com/grimdork/sprawl"
 	"github.com/grimdork/sprawl/client"
 )
 
@@ -33,13 +31,7 @@ func (cmd *ListSiteMembersCmd) Run(args []string) error {
 		return err
 	}
 
-	data, err := c.Get(sprawl.EPSite+sprawl.EPMembers, sprawl.Request{"site": cmd.Site})
-	if err != nil {
-		return err
-	}
-
-	var list []sprawl.User
-	err = json.Unmarshal(data, &list)
+	list, err := c.ListSiteMembers(cmd.Site)
 	if err != nil {
 		return err
 	}

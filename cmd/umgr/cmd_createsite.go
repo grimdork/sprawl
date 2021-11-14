@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/Urethramancer/signor/opt"
-	"github.com/grimdork/sprawl"
 	"github.com/grimdork/sprawl/client"
 )
 
@@ -23,6 +22,6 @@ func (cmd *CreateSiteCmd) Run(args []string) error {
 		return err
 	}
 
-	_, err = c.Post(sprawl.EPSite, sprawl.Request{"name": cmd.Name})
+	err = c.CreateSite(cmd.Name)
 	return err
 }

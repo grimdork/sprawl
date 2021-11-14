@@ -56,7 +56,8 @@ func (srv *Server) createSite(w http.ResponseWriter, r *http.Request) {
 func (srv *Server) deleteSite(w http.ResponseWriter, r *http.Request) {
 	name := r.Header.Get("name")
 	if name == "1" || name == "system" {
-		http.Error(w, "Cannot delete system site.", http.StatusInternalServerError)
+		srv.E("Cannot delete system site.")
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
 

@@ -2,6 +2,7 @@ package client
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/grimdork/sprawl"
 )
@@ -71,6 +72,70 @@ func (c *SprawlClient) ListUsers() ([]sprawl.User, error) {
 
 	return list, err
 }
+
+//
+// Site API
+//
+
+func (c *SprawlClient) CreateSite(name string) error {
+	_, err := c.Post(sprawl.EPSite, sprawl.Request{
+		"name": name,
+	})
+	return err
+}
+
+func (c *SprawlClient) DeleteSite(name string) error {
+	err := c.Delete(sprawl.EPSite, sprawl.Request{"name": name})
+	return err
+}
+
+func (c *SprawlClient) ListSites() ([]sprawl.Site, error) {
+	var list []sprawl.Site
+	data, err := c.Get(sprawl.EPSites, nil)
+	if err != nil {
+		return list, err
+	}
+
+	err = json.Unmarshal(data, &list)
+	return list, err
+}
+
+//
+// Site member API
+//
+
+func (c *SprawlClient) AddSiteMember(site, name, data string, admin bool) error {
+	_, err := c.Post(sprawl.EPSite+sprawl.EPMember, sprawl.Request{
+		"site":  site,
+		"name":  name,
+		"admin": fmt.Sprintf("%t", admin),
+		"data":  string(data),
+	})
+	return err
+}
+
+func (c *SprawlClient) RemoveSiteMember(site, name string) error {
+	err := c.Delete(sprawl.EPSite+sprawl.EPMember, sprawl.Request{
+		"site": site,
+		"name": name,
+	})
+	return err
+}
+
+func (c *SprawlClient) ListSiteMembers(site string) ([]sprawl.User, error) {
+	var list []sprawl.User
+	data, err := c.Get(sprawl.EPSite+sprawl.EPMembers, sprawl.Request{"site": site})
+	if err != nil {
+		return list, err
+	}
+
+	err = json.Unmarshal(data, &list)
+	return list, err
+}
+
+//
+// Group API
+//
 
 //
 // Permission API

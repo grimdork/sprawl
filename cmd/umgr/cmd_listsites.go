@@ -1,12 +1,10 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"text/tabwriter"
 
-	"github.com/grimdork/sprawl"
 	"github.com/grimdork/sprawl/client"
 )
 
@@ -20,13 +18,7 @@ func (cmd *ListSitesCmd) Run(args []string) error {
 		return err
 	}
 
-	data, err := c.Get(sprawl.EPSites, nil)
-	if err != nil {
-		return err
-	}
-
-	var list []sprawl.Site
-	err = json.Unmarshal(data, &list)
+	list, err := c.ListSites()
 	if err != nil {
 		return err
 	}

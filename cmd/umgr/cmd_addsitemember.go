@@ -6,11 +6,9 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/Urethramancer/signor/opt"
-	"github.com/grimdork/sprawl"
 	"github.com/grimdork/sprawl/client"
 )
 
@@ -43,11 +41,6 @@ func (cmd AddSiteMemberCmd) Run(args []string) error {
 		return err
 	}
 
-	_, err = c.Post(sprawl.EPSite+sprawl.EPMember, sprawl.Request{
-		"site":  cmd.Site,
-		"name":  cmd.Name,
-		"admin": fmt.Sprintf("%t", cmd.Admin),
-		"data":  string(data),
-	})
+	err = c.AddSiteMember(cmd.Site, cmd.Name, string(data), cmd.Admin)
 	return err
 }

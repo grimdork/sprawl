@@ -9,7 +9,7 @@ import (
 // DeleteSiteCmd options.
 type DeleteSiteCmd struct {
 	opt.DefaultHelp
-	Name string `placeholder:"NAME" help:"Name of site to delete."`
+	Name string `placeholder:"SITE" help:"Name of site to delete."`
 }
 
 // Run command.
