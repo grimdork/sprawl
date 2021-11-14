@@ -90,7 +90,7 @@ func (srv *Server) addSiteMember(w http.ResponseWriter, r *http.Request) {
 		r.Header.Get("admin"),
 	)
 	if err != nil {
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 }

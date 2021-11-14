@@ -177,32 +177,23 @@ func NewServer() (*Server, error) {
 			r.Get("/", srv.listGroups)
 		})
 
-		// Single group operations.
+		// Group operations.
 		r.Route(sprawl.EPGroup, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
 				srv.siteadmincheck,
 			)
+
+			r.Get(sprawl.EPMembers, srv.listGroupMembers)
+
+			r.Route(sprawl.EPMember, func(r chi.Router) {
+				r.Post("/", srv.addGroupMember)
+				r.Delete("/", srv.removeGroupMember)
+			})
+
+			// Single member operations.
 			r.Post("/", srv.createGroup)
 			r.Delete("/", srv.deleteGroup)
-		})
-
-		// List users in groups
-		r.Route(sprawl.EPListGroupMembers, func(r chi.Router) {
-			r.Use(
-				srv.tokencheck,
-				srv.siteadmincheck,
-			)
-			r.Get("/", srv.listGroupMembers)
-		})
-
-		// Add users to groups
-		r.Route(sprawl.EPAddGroupMember, func(r chi.Router) {
-			r.Use(
-				srv.tokencheck,
-				srv.siteadmincheck,
-			)
-			r.Post("/", srv.addGroupMember)
 		})
 
 		//

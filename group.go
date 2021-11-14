@@ -90,3 +90,49 @@ func (db *Database) GetGroups(start, max int64, site string) (GroupList, error) 
 
 	return list, nil
 }
+
+// AddGroupMember adds a user to a group.
+func (db *Database) AddGroupMember(site, group, name string) error {
+	sql := `insert into members (uid,gid)
+		values(
+			(select u.id from users u where u.name=$3),
+			(select g.id from groups g where g.name=$2 and
+			g.sid=(select s.id from sites s where s.name=$1))
+		)`
+	_, err := db.Pool.Exec(context.Background(), sql, site, group, name)
+	return err
+}
+
+// RemoveGroupMember removes a user from a group.
+func (db *Database) RemoveGroupMember(site, group, name string) error {
+	sql := `delete from members where
+		uid=(select u.id from users u where u.name=$3) and
+		gid=(select g.id from groups g where g.name=$2 and
+			g.sid=(select s.id from sites s where s.name=$1))`
+	_, err := db.Pool.Exec(context.Background(), sql, site, group, name)
+	return err
+}
+
+// GetGroupMembers returns a UserList.
+func (db *Database) GetGroupMembers(site, group string) (UserList, error) {
+	sql := `select users.id,users.name,profiles.admin from users
+	inner join profiles on profiles.uid=users.id
+	inner join sites on sites.id=profiles.sid;`
+	rows, err := db.Pool.Query(context.Background(), sql)
+	if err != nil {
+		return UserList{}, err
+	}
+	defer rows.Close()
+
+	var users UserList
+	for rows.Next() {
+		var u User
+		err = rows.Scan(&u.ID, &u.Name, &u.Admin)
+		if err != nil {
+			return UserList{}, err
+		}
+
+		users.Users = append(users.Users, u)
+	}
+	return users, nil
+}
