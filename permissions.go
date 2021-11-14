@@ -31,6 +31,14 @@ func (db *Database) DeletePermission(name string) error {
 	return err
 }
 
+// GetPermission returns a permission keyword and its description.
+func (db *Database) GetPermission(name string) (Permission, error) {
+	sql := `select id,name,description from permissions where name=$1;`
+	var p Permission
+	err := db.QueryRow(context.Background(), sql, name).Scan(&p.ID, &p.Name, &p.Description)
+	return p, err
+}
+
 // GetPermissions returns all permission keywords and their descriptions.
 func (db *Database) GetPermissions() (PermissionList, error) {
 	sql := `select id,name,description from permissions;`

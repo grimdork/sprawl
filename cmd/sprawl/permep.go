@@ -5,6 +5,22 @@ import (
 	"net/http"
 )
 
+func (srv *Server) getPermission(w http.ResponseWriter, r *http.Request) {
+	name := r.Header.Get("name")
+	perm, err := srv.GetPermission(name)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	data, err := json.Marshal(perm)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Write(data)
+}
+
 func (srv *Server) createPermission(w http.ResponseWriter, r *http.Request) {
 	err := srv.CreatePermission(
 		r.Header.Get("name"),
