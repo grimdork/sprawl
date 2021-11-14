@@ -17,6 +17,8 @@ var setupSQL string = `begin;
 create table if not exists users (
 	id serial primary key,
 	name text unique not null,
+	fullname text not null default ''::text,
+	email text not null default ''::text,
 	password text not null,
 	data text
 );
