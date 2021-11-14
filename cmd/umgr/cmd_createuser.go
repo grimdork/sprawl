@@ -18,8 +18,8 @@ import (
 // CreateUserCmd options.
 type CreateUserCmd struct {
 	opt.DefaultHelp
-	Name    string `placeholder:"NAME" help:"An alphanumeric username to create."`
-	AskPass bool   `short:"p" long:"password" help:"Prompt for a password instead of generating it."`
+	Name     string `placeholder:"NAME" help:"An alphanumeric username to create."`
+	Generate bool   `short:"g" long:"generate" help:"Generate a password and show it instead of prompting for it."`
 }
 
 // Run command.
@@ -29,7 +29,7 @@ func (cmd *CreateUserCmd) Run(args []string) error {
 	}
 
 	var pw string
-	if cmd.AskPass {
+	if !cmd.Generate {
 		fmt.Printf("Password: ")
 		pass, err := term.ReadPassword(int(os.Stdin.Fd()))
 		if err != nil {
@@ -54,7 +54,7 @@ func (cmd *CreateUserCmd) Run(args []string) error {
 		return err
 	}
 
-	if cmd.AskPass {
+	if !cmd.Generate {
 		pr("User added.")
 	} else {
 		pr("User added with password %s%s%s", ansi.Green, pw, ansi.Normal)
