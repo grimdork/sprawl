@@ -45,10 +45,9 @@ func (srv *Server) listGroups(w http.ResponseWriter, r *http.Request) {
 		max = 100
 	}
 
-	list, err := srv.GetGroupMembers(
-		// start, max,
+	list, err := srv.GetGroups(
+		start, max,
 		r.Header.Get("site"),
-		r.Header.Get("group"),
 	)
 	if err != nil {
 		srv.E("Failed to get group members: %s", err.Error())
