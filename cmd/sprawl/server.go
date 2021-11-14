@@ -101,7 +101,7 @@ func NewServer() (*Server, error) {
 		// Users
 		//
 
-		// Bulk users
+		// Bulk user operations.
 		r.Route(sprawl.EPUsers, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
@@ -110,7 +110,7 @@ func NewServer() (*Server, error) {
 			r.Get("/", srv.listUsers)
 		})
 
-		// Single users
+		// Single user operations.
 		r.Route(sprawl.EPUser, func(r chi.Router) {
 			r.Use(
 				srv.tokencheck,
@@ -121,47 +121,6 @@ func NewServer() (*Server, error) {
 			// r.Post("/", srv.updateUser)
 			// r.Get("/", srv.getUser)
 			r.Post(sprawl.EPSetPassword, srv.setPassword)
-		})
-
-		//
-		// Groups
-		//
-
-		// Bulk group operations.
-		r.Route(sprawl.EPGroups, func(r chi.Router) {
-			r.Use(
-				srv.tokencheck,
-				srv.siteadmincheck,
-			)
-			r.Get("/", srv.listGroups)
-		})
-
-		// Single group operations.
-		r.Route(sprawl.EPGroup, func(r chi.Router) {
-			r.Use(
-				srv.tokencheck,
-				srv.siteadmincheck,
-			)
-			r.Post("/", srv.createGroup)
-			r.Delete("/", srv.deleteGroup)
-		})
-
-		// List users in groups
-		r.Route(sprawl.EPListGroupMembers, func(r chi.Router) {
-			r.Use(
-				srv.tokencheck,
-				srv.siteadmincheck,
-			)
-			r.Get("/", srv.listGroupMembers)
-		})
-
-		// Add users to groups
-		r.Route(sprawl.EPAddGroupMember, func(r chi.Router) {
-			r.Use(
-				srv.tokencheck,
-				srv.siteadmincheck,
-			)
-			r.Post("/", srv.addGroupMember)
 		})
 
 		//
@@ -203,6 +162,47 @@ func NewServer() (*Server, error) {
 			// Single site operations.
 			r.Post("/", srv.createSite)
 			r.Delete("/", srv.deleteSite)
+		})
+
+		//
+		// Groups
+		//
+
+		// Bulk group operations.
+		r.Route(sprawl.EPGroups, func(r chi.Router) {
+			r.Use(
+				srv.tokencheck,
+				srv.siteadmincheck,
+			)
+			r.Get("/", srv.listGroups)
+		})
+
+		// Single group operations.
+		r.Route(sprawl.EPGroup, func(r chi.Router) {
+			r.Use(
+				srv.tokencheck,
+				srv.siteadmincheck,
+			)
+			r.Post("/", srv.createGroup)
+			r.Delete("/", srv.deleteGroup)
+		})
+
+		// List users in groups
+		r.Route(sprawl.EPListGroupMembers, func(r chi.Router) {
+			r.Use(
+				srv.tokencheck,
+				srv.siteadmincheck,
+			)
+			r.Get("/", srv.listGroupMembers)
+		})
+
+		// Add users to groups
+		r.Route(sprawl.EPAddGroupMember, func(r chi.Router) {
+			r.Use(
+				srv.tokencheck,
+				srv.siteadmincheck,
+			)
+			r.Post("/", srv.addGroupMember)
 		})
 
 		//
