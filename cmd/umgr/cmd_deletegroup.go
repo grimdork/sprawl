@@ -14,7 +14,7 @@ import (
 type DeleteGroupCmd struct {
 	opt.DefaultHelp
 	Name string `placeholder:"NAME" help:"Name of group to delete."`
-	Site string `placeholder:"site" help:"Site of the group."`
+	Site string `placeholder:"SITE" help:"Site of the group."`
 }
 
 // Run command.

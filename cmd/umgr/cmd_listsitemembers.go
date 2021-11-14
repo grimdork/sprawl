@@ -18,7 +18,7 @@ import (
 // ListSiteMembersCmd options.
 type ListSiteMembersCmd struct {
 	opt.DefaultHelp
-	Site string `placeholder:"Site" help:"Site to list."`
+	Site string `placeholder:"SITE" help:"Site to list."`
 }
 
 // Run command.
