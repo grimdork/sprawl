@@ -19,19 +19,19 @@ import (
 // User data contains the barebones login info and site membership.
 type User struct {
 	// ID of the user (unique).
-	ID int64
+	ID int64 `json:"id"`
 	// Name may be an e-mail address.
-	Name string
+	Name string `json:"name"`
 	// Fullname is the user's full name.
-	Fullname string
+	Fullname string `json:"fullname,omitempty"`
 	// Email is the user's e-mail address.
-	Email string
+	Email string `json:"email"`
 	// Password is a bcrypt hash.
-	Password string
+	Password string `json:"password,omitempty"`
 	// Profiles for different sites.
-	Profile string
+	Profile string `json:"profile,omitempty"`
 	// Admin is true if the user is an admin.
-	Admin bool
+	Admin bool `json:"admin,omitempty"`
 }
 
 // UserList is returned from lookup.
