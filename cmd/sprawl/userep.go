@@ -67,6 +67,7 @@ func (srv *Server) getUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	user.Password = ""
 	json.NewEncoder(w).Encode(user)
 }
 
