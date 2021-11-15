@@ -41,10 +41,10 @@ func (srv *Server) getToken(username string) string {
 	err := srv.QueryRow(context.Background(), sql, username).Scan(&token)
 	ex := time.Unix(expires, 0)
 	if err != nil && ex.After(time.Now()) {
-		return token
+		return ""
 	}
 
-	return ""
+	return token
 }
 
 // Generate a new token if needed.
