@@ -163,15 +163,15 @@ func (c *SprawlClient) CreatePermission(name, description string) error {
 }
 
 // GetPermission returns a permission and description.
-func (c *SprawlClient) GetPermission(name string) (*sprawl.Permission, error) {
+func (c *SprawlClient) GetPermission(name string) (sprawl.Permission, error) {
 	var p sprawl.Permission
 	data, err := c.Get(sprawl.EPPermission, sprawl.Request{"name": name})
 	if err != nil {
-		return &p, err
+		return p, err
 	}
 
 	err = json.Unmarshal(data, &p)
-	return &p, err
+	return p, err
 }
 
 func (c *SprawlClient) UpdatePermission(name, description string) error {
