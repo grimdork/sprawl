@@ -66,3 +66,17 @@ func (db *Database) GetPermissions() (PermissionList, error) {
 	}
 	return list, nil
 }
+
+// Can a user perform a certain action?
+func (db *Database) Can(name, permission string) bool {
+	sql := `select count(p.id) from users as u
+		inner join permissions as p on p.name=$2
+		inner join roles as r on r.pid=p.id
+		inner join groups as g on g.id=r.gid
+		inner join sites as s on s.id=g.sid
+		inner join members as m on m.uid=u.id
+		where u.name=$1`
+	var count int
+	_ = db.QueryRow(context.Background(), sql, name, permission).Scan(&count)
+	return count > 0
+}
