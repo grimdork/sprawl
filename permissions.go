@@ -67,8 +67,8 @@ func (db *Database) GetPermissions() (PermissionList, error) {
 	return list, nil
 }
 
-// Can a user perform a certain action?
-func (db *Database) Can(name, permission string) bool {
+// Has the user got a specific permission?
+func (db *Database) Has(name, permission string) bool {
 	sql := `select count(p.id) from users as u
 		inner join permissions as p on p.name=$2
 		inner join roles as r on r.pid=p.id
