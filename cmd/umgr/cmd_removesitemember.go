@@ -9,7 +9,7 @@ import (
 type RemoveSiteMemberCmd struct {
 	opt.DefaultHelp
 	Site string `placeholder:"SITE" help:"Site to remove from."`
-	Name string `placeholder:"USER" help:"User to remove."`
+	Name string `placeholder:"USERNAME" help:"User to remove."`
 }
 
 // Run the command.

@@ -100,7 +100,10 @@ func (srv *Server) updateSiteMember(w http.ResponseWriter, r *http.Request) {
 }
 
 func (srv *Server) removeSiteMember(w http.ResponseWriter, r *http.Request) {
-	err := srv.RemoveSiteMember(r.Header.Get("site"), r.Header.Get("name"))
+	err := srv.RemoveSiteMember(
+		r.Header.Get("site"),
+		r.Header.Get("name"),
+	)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return

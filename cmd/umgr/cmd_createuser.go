@@ -37,6 +37,7 @@ func (cmd *CreateUserCmd) Run(args []string) error {
 			return err
 		}
 
+		println()
 		pw = string(pass)
 	} else {
 		pw = sprawl.RandString(20)

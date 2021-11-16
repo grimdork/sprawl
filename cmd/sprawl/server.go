@@ -118,7 +118,7 @@ func NewServer() (*Server, error) {
 			)
 			r.Post("/", srv.createUser)
 			r.Delete("/", srv.deleteUser)
-			r.Post("/", srv.updateUser)
+			r.Put("/", srv.updateUser)
 			r.Get("/", srv.getUser)
 			r.Post(sprawl.EPSetPassword, srv.setPassword)
 		})

@@ -23,6 +23,7 @@ func (srv *Server) createUser(w http.ResponseWriter, r *http.Request) {
 		r.Header.Get("password"),
 	)
 	if err != nil {
+		srv.E("Error creating user: %s", err.Error())
 		http.Error(w, http.StatusText(http.StatusConflict), http.StatusConflict)
 		return
 	}
