@@ -25,13 +25,15 @@ func New(fn string) (*SprawlClient, error) {
 }
 
 // NewWithSettings creates a new SprawlClient from variables in the environment.
-func NewWithSettings(host, username, password string) *SprawlClient {
+func NewWithSettings(host, username, password string) (*SprawlClient, error) {
 	cfg := &Config{
 		URL:      host,
 		Username: username,
 		Password: password,
 	}
-	return &SprawlClient{cfg}
+
+	err := cfg.GetLoginToken()
+	return &SprawlClient{cfg}, err
 }
 
 //
