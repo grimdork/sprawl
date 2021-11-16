@@ -153,12 +153,25 @@ func (c *SprawlClient) ListSiteMembers(site string) ([]sprawl.User, error) {
 // Permission API
 //
 
+// CreatePermission creates a new permission with a name and description.
 func (c *SprawlClient) CreatePermission(name, description string) error {
 	_, err := c.Post(sprawl.EPPermission, sprawl.Request{
 		"name":        name,
 		"description": description,
 	})
 	return err
+}
+
+// GetPermission returns a permission and description.
+func (c *SprawlClient) GetPermission(name string) (sprawl.Permission, error) {
+	var p sprawl.Permission
+	data, err := c.Get(sprawl.EPPermission, sprawl.Request{"name": name})
+	if err != nil {
+		return p, err
+	}
+
+	err = json.Unmarshal(data, &p)
+	return p, err
 }
 
 func (c *SprawlClient) UpdatePermission(name, description string) error {
