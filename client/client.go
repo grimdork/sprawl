@@ -40,7 +40,7 @@ func NewWithSettings(host, username, password string) (*SprawlClient, error) {
 // User API
 //
 
-// CreateUser creates a new user with a username and password.
+// CreateUser with a username and password.
 // Use UpdateUser() to set additional fields.
 func (c *SprawlClient) CreateUser(name, password string) error {
 	_, err := c.Post(sprawl.EPUser, sprawl.Request{
@@ -50,15 +50,18 @@ func (c *SprawlClient) CreateUser(name, password string) error {
 	return err
 }
 
+// UpdateUser details like email and full name.
 func (c *SprawlClient) UpdateUser(name, password string) error {
 	return nil
 }
 
+// DeleteUser permanently.
 func (c *SprawlClient) DeleteUser(name string) error {
 	err := c.Delete(sprawl.EPUser, sprawl.Request{"name": name})
 	return err
 }
 
+// GetUser details.
 func (c *SprawlClient) GetUser(name string) (sprawl.User, error) {
 	var u sprawl.User
 	data, err := c.Get(sprawl.EPUsers, nil)
@@ -70,6 +73,7 @@ func (c *SprawlClient) GetUser(name string) (sprawl.User, error) {
 	return u, err
 }
 
+// ListUsers returns a list of users.
 func (c *SprawlClient) ListUsers() ([]sprawl.User, error) {
 	data, err := c.Get(sprawl.EPUsers, nil)
 	if err != nil {
@@ -89,6 +93,7 @@ func (c *SprawlClient) ListUsers() ([]sprawl.User, error) {
 // Site API
 //
 
+// CreateSite creates a new site.
 func (c *SprawlClient) CreateSite(name string) error {
 	_, err := c.Post(sprawl.EPSite, sprawl.Request{
 		"name": name,
@@ -96,11 +101,13 @@ func (c *SprawlClient) CreateSite(name string) error {
 	return err
 }
 
+// DeleteSite deletes a site.
 func (c *SprawlClient) DeleteSite(name string) error {
 	err := c.Delete(sprawl.EPSite, sprawl.Request{"name": name})
 	return err
 }
 
+// ListSites returns a list of sites.
 func (c *SprawlClient) ListSites() ([]sprawl.Site, error) {
 	var list []sprawl.Site
 	data, err := c.Get(sprawl.EPSites, nil)
@@ -116,6 +123,7 @@ func (c *SprawlClient) ListSites() ([]sprawl.Site, error) {
 // Site member API
 //
 
+// AddSiteMember to a site.
 func (c *SprawlClient) AddSiteMember(site, name, data string, admin bool) error {
 	_, err := c.Post(sprawl.EPSite+sprawl.EPMember, sprawl.Request{
 		"site":  site,
@@ -126,6 +134,7 @@ func (c *SprawlClient) AddSiteMember(site, name, data string, admin bool) error 
 	return err
 }
 
+// RemoveSiteMember from a site.
 func (c *SprawlClient) RemoveSiteMember(site, name string) error {
 	err := c.Delete(sprawl.EPSite+sprawl.EPMember, sprawl.Request{
 		"site": site,
@@ -134,6 +143,7 @@ func (c *SprawlClient) RemoveSiteMember(site, name string) error {
 	return err
 }
 
+// ListSiteMembers of a site.
 func (c *SprawlClient) ListSiteMembers(site string) ([]sprawl.User, error) {
 	var list []sprawl.User
 	data, err := c.Get(sprawl.EPSite+sprawl.EPMembers, sprawl.Request{"site": site})
@@ -203,6 +213,7 @@ func (c *SprawlClient) GetPermission(name string) (sprawl.Permission, error) {
 	return p, err
 }
 
+// UpdatePermission updates a permission with a new description.
 func (c *SprawlClient) UpdatePermission(name, description string) error {
 	err := c.Put(sprawl.EPPermission, sprawl.Request{
 		"name":        name,
@@ -211,6 +222,7 @@ func (c *SprawlClient) UpdatePermission(name, description string) error {
 	return err
 }
 
+// DeletePermission deletes a permission.
 func (c *SprawlClient) DeletePermission(name string) error {
 	err := c.Delete(sprawl.EPPermission, sprawl.Request{"name": name})
 	return err
