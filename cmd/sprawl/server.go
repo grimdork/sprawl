@@ -59,27 +59,14 @@ func NewServer() (*Server, error) {
 	}
 
 	// Create admin if it doesn't exist.
-	_, err = srv.GetUser("admin")
+	err = srv.InitDatabase(env.Get("ADMIN_PASSWORD", "potrzebie"))
 	if err != nil {
-		srv.L("No admin user - creating.")
-		err = srv.CreateUser("admin", env.Get("ADMIN_PASSWORD", "potrzebie"))
-		if err != nil {
-			return nil, err
-		}
+		return nil, err
 	}
 
-	_, err = srv.GetSiteID("system")
+	_, err = srv.GetUser("admin")
 	if err != nil {
-		srv.L("No system site - creating.")
-		err = srv.CreateSite("system")
-		if err != nil {
-			return nil, err
-		}
-
-		err = srv.CreateProfile("admin", "system", "", true)
-		if err != nil {
-			return nil, err
-		}
+		return nil, err
 	}
 
 	//

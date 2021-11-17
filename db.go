@@ -113,3 +113,29 @@ func (db *Database) CreateTables() error {
 	_, err := db.Exec(context.Background(), setupSQL)
 	return err
 }
+
+// InitDatabase sets up the system site and admin user.
+func (db *Database) InitDatabase(pw string) error {
+	// Create admin if it doesn't exist.
+	_, err := db.GetUser("admin")
+	if err == nil {
+		return nil
+	}
+
+	err = db.CreateUser("admin", pw)
+	if err != nil {
+		return err
+	}
+
+	_, err = db.GetSiteID("system")
+	if err == nil {
+		return nil
+	}
+
+	err = db.CreateSite("system")
+	if err != nil {
+		return err
+	}
+
+	return db.CreateProfile("admin", "system", "", true)
+}
