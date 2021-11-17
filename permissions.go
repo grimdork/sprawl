@@ -80,3 +80,23 @@ func (db *Database) Has(name, permission string) bool {
 	_ = db.QueryRow(context.Background(), sql, name, permission).Scan(&count)
 	return count > 0
 }
+
+// IsSiteAdmin returns true if the user is a site admin for the specified site.
+func (db *Database) IsSiteAdmin(name, site string) bool {
+	if name == "admin" {
+		// The superadmin is site admin everywhere.
+		return true
+	}
+
+	sql := `select count(profiles.uid) from profiles
+		inner join users on profiles.uid=users.id
+		inner join sites on profiles.sid=sites.id
+		where users.name=$1 and sites.name=$2;`
+	var count int64
+	err := db.QueryRow(context.Background(), sql, name, site).Scan(&count)
+	if err != nil {
+		return false
+	}
+
+	return count > 0
+}

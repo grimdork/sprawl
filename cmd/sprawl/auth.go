@@ -6,7 +6,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"strings"
@@ -72,7 +71,7 @@ func (srv *Server) siteadmincheck(h http.Handler) http.Handler {
 		}
 
 		username := r.Header.Get("username")
-		if !srv.isSiteAdmin(username, site) {
+		if !srv.IsSiteAdmin(username, site) {
 			http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
 			return
 		}
@@ -81,23 +80,4 @@ func (srv *Server) siteadmincheck(h http.Handler) http.Handler {
 	}
 
 	return http.HandlerFunc(fn)
-}
-
-func (srv *Server) isSiteAdmin(name, site string) bool {
-	if name == "admin" {
-		return true
-	}
-
-	sql := `select count(profiles.uid) from profiles
-		inner join users on profiles.uid=users.id
-		inner join sites on profiles.sid=sites.id
-		where users.name=$1 and sites.name=$2;`
-	var count int64
-	err := srv.QueryRow(context.Background(), sql, name, site).Scan(&count)
-	if err != nil {
-		srv.E("Error checking site admin: %s", err.Error())
-		return false
-	}
-
-	return count > 0
 }
