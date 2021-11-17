@@ -89,6 +89,24 @@ func (c *SprawlClient) ListUsers() ([]sprawl.User, error) {
 	return list, err
 }
 
+// SetPassword for a user.
+func (c *SprawlClient) SetPassword(name, password string) error {
+	_, err := c.Post(sprawl.EPUser+sprawl.EPSetPassword, sprawl.Request{
+		"name":     name,
+		"password": password,
+	})
+	return err
+}
+
+// SetSiteAdmin sets admin status of a user on a site.
+func (c *SprawlClient) SetSiteAdmin(site, name string, admin bool) error {
+	return c.Put(sprawl.EPSite+sprawl.EPAdmin, sprawl.Request{
+		"site":  site,
+		"name":  name,
+		"admin": fmt.Sprintf("%t", admin),
+	})
+}
+
 //
 // Site API
 //
@@ -103,8 +121,7 @@ func (c *SprawlClient) CreateSite(name string) error {
 
 // DeleteSite deletes a site.
 func (c *SprawlClient) DeleteSite(name string) error {
-	err := c.Delete(sprawl.EPSite, sprawl.Request{"name": name})
-	return err
+	return c.Delete(sprawl.EPSite, sprawl.Request{"name": name})
 }
 
 // ListSites returns a list of sites.
@@ -220,6 +237,40 @@ func (c *SprawlClient) RemoveGroupMember(site, group, name string) error {
 		"name": group,
 		"user": name,
 	})
+}
+
+// AddGroupPermission to a group on a site.
+func (c *SprawlClient) AddGroupPermission(site, group, name string) error {
+	_, err := c.Post(sprawl.EPGroup+sprawl.EPPermission, sprawl.Request{
+		"site":       site,
+		"group":      group,
+		"permission": name,
+	})
+	return err
+}
+
+// RemoveGroupPermission from a group on a site.
+func (c *SprawlClient) RemoveGroupPermission(site, group, name string) error {
+	return c.Delete(sprawl.EPGroup+sprawl.EPPermission, sprawl.Request{
+		"site":       site,
+		"group":      group,
+		"permission": name,
+	})
+}
+
+// ListGroupPermissions of a group on a site.
+func (c *SprawlClient) ListGroupPermissions(site, group string) (sprawl.PermissionList, error) {
+	var list sprawl.PermissionList
+	data, err := c.Get(sprawl.EPGroup+sprawl.EPPermissions, sprawl.Request{
+		"site":  site,
+		"group": group,
+	})
+	if err != nil {
+		return list, err
+	}
+
+	err = json.Unmarshal(data, &list)
+	return list, err
 }
 
 //

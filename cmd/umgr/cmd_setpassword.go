@@ -47,10 +47,7 @@ func (cmd *SetPasswordCmd) Run(args []string) error {
 		return err
 	}
 
-	_, err = c.Post(sprawl.EPUser+sprawl.EPSetPassword, sprawl.Request{
-		"name":     cmd.Name,
-		"password": pw,
-	})
+	err = c.SetPassword(cmd.Name, pw)
 	if err != nil {
 		return err
 	}

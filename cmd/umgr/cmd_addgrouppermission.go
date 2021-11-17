@@ -7,7 +7,6 @@ package main
 
 import (
 	"github.com/Urethramancer/signor/opt"
-	"github.com/grimdork/sprawl"
 	"github.com/grimdork/sprawl/client"
 )
 
@@ -30,10 +29,5 @@ func (cmd AddGroupPermissionCmd) Run(args []string) error {
 		return err
 	}
 
-	_, err = c.Post(sprawl.EPGroup+sprawl.EPPermission, sprawl.Request{
-		"site":       cmd.Site,
-		"group":      cmd.Group,
-		"permission": cmd.Keyword,
-	})
-	return err
+	return c.AddGroupPermission(cmd.Site, cmd.Group, cmd.Keyword)
 }

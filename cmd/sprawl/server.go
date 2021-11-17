@@ -153,11 +153,8 @@ func NewServer() (*Server, error) {
 				r.Delete("/", srv.removeSiteMember)
 			})
 
-			// Admin operations.
-			r.Route(sprawl.EPAdmin, func(r chi.Router) {
-				r.Put("/", srv.enableSiteAdmin)
-				r.Delete("/", srv.disableSiteAdmin)
-			})
+			// Toggle admin status.
+			r.Put(sprawl.EPAdmin, srv.setSiteAdmin)
 
 			// Single site operations.
 			r.Post("/", srv.createSite)
@@ -240,4 +237,13 @@ func NewServer() (*Server, error) {
 
 func (srv *Server) index(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("v1"))
+}
+
+func truth(s string) bool {
+	switch s {
+	case "true", "1", "yes", "on":
+		return true
+	}
+
+	return false
 }

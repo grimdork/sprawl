@@ -7,7 +7,6 @@ package main
 
 import (
 	"github.com/Urethramancer/signor/opt"
-	"github.com/grimdork/sprawl"
 	"github.com/grimdork/sprawl/client"
 )
 
@@ -30,15 +29,5 @@ func (cmd SetSiteAdminCmd) Run(args []string) error {
 		return err
 	}
 
-	req := sprawl.Request{
-		"site": cmd.Site,
-		"name": cmd.Name,
-	}
-
-	if cmd.Disable {
-		err = c.Delete(sprawl.EPSite+sprawl.EPAdmin, req)
-	} else {
-		err = c.Put(sprawl.EPSite+sprawl.EPAdmin, req)
-	}
-	return err
+	return c.SetSiteAdmin(cmd.Site, cmd.Name, cmd.Disable)
 }

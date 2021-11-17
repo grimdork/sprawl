@@ -110,16 +110,12 @@ func (srv *Server) removeSiteMember(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (srv *Server) enableSiteAdmin(w http.ResponseWriter, r *http.Request) {
-	err := srv.ToggleSiteAdmin(r.Header.Get("site"), r.Header.Get("name"), true)
-	if err != nil {
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
-}
-
-func (srv *Server) disableSiteAdmin(w http.ResponseWriter, r *http.Request) {
-	err := srv.ToggleSiteAdmin(r.Header.Get("site"), r.Header.Get("name"), false)
+func (srv *Server) setSiteAdmin(w http.ResponseWriter, r *http.Request) {
+	err := srv.ToggleSiteAdmin(
+		r.Header.Get("site"),
+		r.Header.Get("name"),
+		truth(r.Header.Get("admin")),
+	)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return

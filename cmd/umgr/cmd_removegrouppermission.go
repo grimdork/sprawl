@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/Urethramancer/signor/opt"
-	"github.com/grimdork/sprawl"
 	"github.com/grimdork/sprawl/client"
 )
 
@@ -25,10 +24,5 @@ func (cmd *RemoveGroupPermissionCmd) Run(args []string) error {
 		return err
 	}
 
-	err = c.Delete(sprawl.EPGroup+sprawl.EPPermission, sprawl.Request{
-		"site":       cmd.Site,
-		"group":      cmd.Group,
-		"permission": cmd.Keyword,
-	})
-	return err
+	return c.RemoveGroupPermission(cmd.Site, cmd.Group, cmd.Keyword)
 }
