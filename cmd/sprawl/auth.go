@@ -7,16 +7,13 @@ package main
 
 import (
 	"context"
-	"crypto/sha512"
 	"fmt"
 	"net/http"
 	"strings"
-	"time"
-
-	"github.com/grimdork/sprawl"
 )
 
 func (srv *Server) auth(w http.ResponseWriter, r *http.Request) {
+
 	username := r.Header.Get("username")
 	username = strings.TrimSpace(username)
 	password := r.Header.Get("password")
@@ -28,79 +25,19 @@ func (srv *Server) auth(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if u.CheckPassword(password) {
-		t := srv.generateToken(username)
+		t := srv.GenerateToken(username)
 		s := fmt.Sprintf("{\"token\":\"%s\"}", t)
 		w.Write([]byte(s))
 	}
 }
 
-func (srv *Server) getToken(username string) string {
-	sql := "select hash,expires from tokens inner join users on users.id=tokens.uid where users.name=$1"
-	var token string
-	var expires int64
-	err := srv.QueryRow(context.Background(), sql, username).Scan(&token)
-	ex := time.Unix(expires, 0)
-	if err != nil && ex.After(time.Now()) {
-		return ""
-	}
-
-	return token
-}
-
-// Generate a new token if needed.
-func (srv *Server) generateToken(name string) string {
-	token := srv.getToken(name)
-	if token != "" {
-		return token
-	}
-
-	// Delete all expired tokens for this user.
-	u, err := srv.GetUser(name)
-	if err != nil {
-		srv.E("Error getting user: %s", err.Error())
-		return ""
-	}
-
-	sql := "delete from tokens where uid=$1"
-	_, err = srv.Exec(context.Background(), sql, u.ID)
-	if err != nil {
-		srv.L("Error deleting expired tokens: %s", err)
-	}
-
-	// And finally generate a new one.
-	s := sprawl.RandString(32)
-	h := sha512.New()
-	h.Write([]byte(s))
-	token = fmt.Sprintf("%x", h.Sum(nil))
-	t := time.Now().Add(time.Hour * 8)
-	expires := t.Unix()
-	_, err = srv.Exec(context.Background(), "insert into tokens (uid,hash,expires) values ($1,$2,$3)", u.ID, token, expires)
-	if err != nil {
-		srv.E("Insert error on tokens table: %s", err.Error())
-		return ""
-	}
-
-	return token
-}
-
-// Verify that the token is valid.
-func (srv *Server) verifyToken(username, token string) bool {
-	sql := "select expires from tokens inner join users on users.id=tokens.uid where users.name=$1 and hash=$2"
-	var expires int64
-	err := srv.QueryRow(context.Background(), sql, username, token).Scan(&expires)
-	ex := time.Unix(expires, 0)
-	if err != nil || ex.Before(time.Now()) {
-		srv.E("Token verification failed: %s", err.Error())
-		return false
-	}
-
-	return true
-}
-
 // tokencheck middleware to insert before privileged endpoints.
 func (srv *Server) tokencheck(h http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
-		if !srv.verifyToken(r.Header.Get("username"), r.Header.Get("token")) {
+		if !srv.VerifyToken(
+			r.Header.Get("username"),
+			r.Header.Get("token"),
+		) {
 			http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
 			return
 		}
