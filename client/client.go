@@ -188,6 +188,40 @@ func (c *SprawlClient) ListGroups(site string) (sprawl.GroupList, error) {
 	return list, err
 }
 
+// ListGroupMembers lists members of a group on a site.
+func (c *SprawlClient) ListGroupMembers(site, group string) (sprawl.UserList, error) {
+	var list sprawl.UserList
+	data, err := c.Get(sprawl.EPGroup+sprawl.EPMembers, sprawl.Request{
+		"site": site,
+		"name": group,
+	})
+	if err != nil {
+		return list, err
+	}
+
+	err = json.Unmarshal(data, &list)
+	return list, err
+}
+
+// AddGroupMember to a group on a site.
+func (c *SprawlClient) AddGroupMember(site, group, name string) error {
+	_, err := c.Post(sprawl.EPGroup+sprawl.EPMember, sprawl.Request{
+		"site": site,
+		"name": group,
+		"user": name,
+	})
+	return err
+}
+
+// RemoveGroupMember from a group on a site.
+func (c *SprawlClient) RemoveGroupMember(site, group, name string) error {
+	return c.Delete(sprawl.EPGroup+sprawl.EPMember, sprawl.Request{
+		"site": site,
+		"name": group,
+		"user": name,
+	})
+}
+
 //
 // Permission API
 //

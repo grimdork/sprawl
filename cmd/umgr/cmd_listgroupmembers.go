@@ -6,13 +6,11 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"text/tabwriter"
 
 	"github.com/Urethramancer/signor/opt"
-	"github.com/grimdork/sprawl"
 	"github.com/grimdork/sprawl/client"
 )
 
@@ -34,16 +32,7 @@ func (cmd *ListGroupMembersCmd) Run(args []string) error {
 		return err
 	}
 
-	data, err := c.Get(sprawl.EPGroup+sprawl.EPMembers, sprawl.Request{
-		"site":  cmd.Site,
-		"group": cmd.Group,
-	})
-	if err != nil {
-		return err
-	}
-
-	var list sprawl.UserList
-	err = json.Unmarshal(data, &list)
+	list, err := c.ListGroupMembers(cmd.Site, cmd.Group)
 	if err != nil {
 		return err
 	}

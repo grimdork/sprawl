@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/Urethramancer/signor/opt"
-	"github.com/grimdork/sprawl"
 	"github.com/grimdork/sprawl/client"
 )
 
@@ -25,10 +24,5 @@ func (cmd *RemoveGroupMemberCmd) Run(args []string) error {
 		return err
 	}
 
-	err = c.Delete(sprawl.EPGroup+sprawl.EPMember, sprawl.Request{
-		"site":  cmd.Site,
-		"group": cmd.Group,
-		"name":  cmd.Name,
-	})
-	return err
+	return c.RemoveGroupMember(cmd.Site, cmd.Group, cmd.Name)
 }
