@@ -29,7 +29,7 @@ func (srv *Server) createPermission(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		srv.E("Failed to create permission: %s", err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
 }
 
@@ -41,7 +41,7 @@ func (srv *Server) updatePermission(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		srv.E("Failed to update permission: %s", err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
 }
 
@@ -49,7 +49,7 @@ func (srv *Server) deletePermission(w http.ResponseWriter, r *http.Request) {
 	err := srv.DeletePermission(r.Header.Get("name"))
 	if err != nil {
 		println(err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 }
@@ -64,7 +64,7 @@ func (srv *Server) listPermissions(w http.ResponseWriter, r *http.Request) {
 	data, err := json.Marshal(list)
 	if err != nil {
 		srv.E("Failed to marshal permissions: %s", err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
