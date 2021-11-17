@@ -7,15 +7,14 @@ package main
 
 import (
 	"github.com/Urethramancer/signor/opt"
-	"github.com/grimdork/sprawl"
 	"github.com/grimdork/sprawl/client"
 )
 
 // DeleteGroupCmd options.
 type DeleteGroupCmd struct {
 	opt.DefaultHelp
-	Name string `placeholder:"NAME" help:"Name of group to delete."`
 	Site string `placeholder:"SITE" help:"Site of the group."`
+	Name string `placeholder:"NAME" help:"Name of group to delete."`
 }
 
 // Run command.
@@ -29,9 +28,5 @@ func (cmd *DeleteGroupCmd) Run(args []string) error {
 		return err
 	}
 
-	err = c.Delete(sprawl.EPGroup, sprawl.Request{
-		"name": cmd.Name,
-		"site": cmd.Site,
-	})
-	return err
+	return c.DeleteGroup(cmd.Site, cmd.Name)
 }

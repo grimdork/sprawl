@@ -149,6 +149,35 @@ func (c *SprawlClient) ListSiteMembers(site string) ([]sprawl.User, error) {
 // Group API
 //
 
+// CreateGroup on a site.
+func (c *SprawlClient) CreateGroup(site, name string) error {
+	_, err := c.Post(sprawl.EPGroup, sprawl.Request{
+		"site": site,
+		"name": name,
+	})
+	return err
+}
+
+// DeleteGroup from a site.
+func (c *SprawlClient) DeleteGroup(site, name string) error {
+	return c.Delete(sprawl.EPGroup, sprawl.Request{
+		"site": site,
+		"name": name},
+	)
+}
+
+// ListGroups on a site.
+func (c *SprawlClient) ListGroups(site string) (sprawl.GroupList, error) {
+	var list sprawl.GroupList
+	data, err := c.Get(sprawl.EPGroups, sprawl.Request{"site": site})
+	if err != nil {
+		return list, err
+	}
+
+	err = json.Unmarshal(data, &list)
+	return list, err
+}
+
 //
 // Permission API
 //
