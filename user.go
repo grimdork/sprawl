@@ -40,6 +40,16 @@ type UserList struct {
 	Users []User `json:"users"`
 }
 
+// AuthUser returns true if the uwername and password match.
+func (db *Database) AuthUser(name, password string) bool {
+	u, err := db.GetUser(name)
+	if err != nil {
+		return false
+	}
+
+	return u.CheckPassword(password)
+}
+
 // CreateUser in database.
 func (db *Database) CreateUser(name, password string) error {
 	pass, err := bcrypt.GenerateFromPassword([]byte(password), 14)

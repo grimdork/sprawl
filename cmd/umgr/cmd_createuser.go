@@ -10,7 +10,7 @@ import (
 	"os"
 
 	"github.com/Urethramancer/ansi"
-	"github.com/Urethramancer/signor/opt"
+	"github.com/grimdork/opt"
 	"github.com/grimdork/sprawl"
 	"github.com/grimdork/sprawl/client"
 	"golang.org/x/term"

@@ -12,10 +12,10 @@ package main
 
 import (
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
-	"github.com/Urethramancer/signor/env"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/grimdork/sprawl"
@@ -28,9 +28,18 @@ type Server struct {
 	pwiter int
 }
 
+func getenv(key, alt string) string {
+	s := os.Getenv(key)
+	if s == "" {
+		return alt
+	}
+
+	return s
+}
+
 // NewServer creates a web server and background tasks.
 func NewServer() (*Server, error) {
-	c := env.Get("PW_ITERATIONS", "10")
+	c := getenv("PW_ITERATIONS", "10")
 	x, _ := strconv.Atoi(c)
 	if x < 1 {
 		x = 10
@@ -43,7 +52,7 @@ func NewServer() (*Server, error) {
 	//
 	var err error
 	srv.L("Opening database.")
-	srv.Database, err = sprawl.NewDatabase(env.Get("DATABASE_URL", "localhost"))
+	srv.Database, err = sprawl.NewDatabase(getenv("DATABASE_URL", "localhost"))
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +68,7 @@ func NewServer() (*Server, error) {
 	}
 
 	// Create admin if it doesn't exist.
-	err = srv.InitDatabase(env.Get("ADMIN_PASSWORD", "potrzebie"))
+	err = srv.InitDatabase(getenv("ADMIN_PASSWORD", "potrzebie"))
 	if err != nil {
 		return nil, err
 	}

@@ -1,6 +1,6 @@
 package main
 
-import "github.com/Urethramancer/signor/opt"
+import "github.com/grimdork/opt"
 
 // ImportCmd options.
 type ImportCmd struct {

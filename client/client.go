@@ -40,6 +40,31 @@ func NewWithSettings(host, username, password string) (*SprawlClient, error) {
 // User API
 //
 
+// Token from successful authentication.
+type Token struct {
+	// Data is the token string.
+	Data string `json:"token"`
+}
+
+// AuthUser authenticates a user.
+func (c *SprawlClient) AuthUser(name, password string) (string, error) {
+	data, err := c.Post(sprawl.EPAuth, sprawl.Request{
+		"name":     name,
+		"password": password,
+	})
+	if err != nil {
+		return "", err
+	}
+
+	var t Token
+	err = json.Unmarshal(data, &t)
+	if err != nil {
+		return "", err
+	}
+
+	return t.Data, nil
+}
+
 // CreateUser with a username and password.
 // Use UpdateUser() to set additional fields.
 func (c *SprawlClient) CreateUser(name, password string) error {

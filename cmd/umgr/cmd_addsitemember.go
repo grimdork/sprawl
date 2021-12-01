@@ -8,7 +8,7 @@ package main
 import (
 	"os"
 
-	"github.com/Urethramancer/signor/opt"
+	"github.com/grimdork/opt"
 	"github.com/grimdork/sprawl/client"
 )
 
