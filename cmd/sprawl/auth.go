@@ -12,21 +12,22 @@ import (
 )
 
 func (srv *Server) auth(w http.ResponseWriter, r *http.Request) {
-
 	username := r.Header.Get("username")
 	username = strings.TrimSpace(username)
 	password := r.Header.Get("password")
 	password = strings.TrimSpace(password)
 	u, err := srv.GetUser(username)
 	if err != nil {
-		http.Error(w, "User not found", http.StatusNotFound)
+		http.Error(w, "User/password combination not found", http.StatusForbidden)
 		return
 	}
 
 	if u.CheckPassword(password) {
 		t := srv.GenerateToken(username)
-		s := fmt.Sprintf("{\"token\":\"%s\"}", t)
-		w.Write([]byte(s))
+		w.Write([]byte(fmt.Sprintf(
+			"{\"token\":\"%s\"}",
+			t,
+		)))
 	}
 }
 
