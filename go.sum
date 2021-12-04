@@ -22,6 +22,8 @@ github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/me
 github.com/gofrs/uuid v4.0.0+incompatible h1:1SD/1F5pU8p29ybwgQSwpQk+mwdRrXCYuPhW6m+TnJw=
 github.com/gofrs/uuid v4.0.0+incompatible/go.mod h1:b2aQJv3Z4Fp6yNu3cdSllBxTCLRxnplIgP/c0N/04lM=
 github.com/google/renameio v0.1.0/go.mod h1:KWCgfxg9yswjAJkECMjeO8J8rahYeXnNhOm40UhjYkI=
+github.com/grimdork/loglines v1.0.1 h1:QgcQcHmNwT4eQ4akS3XI/JHAyP6s6StREC8tcU6m+fM=
+github.com/grimdork/loglines v1.0.1/go.mod h1:1x8hNXpwr74Gq2rlqH0Sd82YTgGAx2PynkJ37j9DaGY=
 github.com/grimdork/opt v0.1.1 h1:wgJ1m4qwMjy8g5prjWLIj6BS67FvRm5p9581WIKIoMs=
 github.com/grimdork/opt v0.1.1/go.mod h1:tTozevD8t7xSwtFBsUeg5lu2BlU1jtCt7cbUPikHAxA=
 github.com/grimdork/str v1.0.1 h1:1LJRk0SHB65LgiUFGHm9eq/WNpZYbNXJ733peg9/K2A=

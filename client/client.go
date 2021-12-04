@@ -49,7 +49,7 @@ type Token struct {
 // AuthUser authenticates a user.
 func (c *SprawlClient) AuthUser(name, password string) (string, error) {
 	data, err := c.Post(sprawl.EPAuth, sprawl.Request{
-		"name":     name,
+		"username": name,
 		"password": password,
 	})
 	if err != nil {

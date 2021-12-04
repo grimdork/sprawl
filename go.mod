@@ -6,6 +6,7 @@ require (
 	github.com/Urethramancer/ansi v0.1.0
 	github.com/Urethramancer/daemon v0.3.0
 	github.com/go-chi/chi v1.5.1
+	github.com/grimdork/loglines v1.0.1
 	github.com/grimdork/opt v0.1.1
 	github.com/grimdork/sweb v0.12.0
 	github.com/grimdork/xos v0.2.1
