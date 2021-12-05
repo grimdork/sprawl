@@ -65,11 +65,20 @@ func (c *SprawlClient) AuthUser(name, password string) (string, error) {
 	return t.Data, nil
 }
 
+// VerifyToken checks if a token is valid.
+func (c *SprawlClient) VerifyToken(username, token string) error {
+	_, err := c.Post(sprawl.EPVerifyToken, sprawl.Request{
+		"username": username,
+		"token":    token,
+	})
+	return err
+}
+
 // CreateUser with a username and password.
 // Use UpdateUser() to set additional fields.
-func (c *SprawlClient) CreateUser(name, password string) error {
+func (c *SprawlClient) CreateUser(username, password string) error {
 	_, err := c.Post(sprawl.EPUser, sprawl.Request{
-		"name":     name,
+		"username": username,
 		"password": password,
 	})
 	return err
@@ -82,7 +91,7 @@ func (c *SprawlClient) UpdateUser(name, password string) error {
 
 // DeleteUser permanently.
 func (c *SprawlClient) DeleteUser(name string) error {
-	err := c.Delete(sprawl.EPUser, sprawl.Request{"name": name})
+	err := c.Delete(sprawl.EPUser, sprawl.Request{"username": name})
 	return err
 }
 
@@ -117,7 +126,7 @@ func (c *SprawlClient) ListUsers() ([]sprawl.User, error) {
 // SetPassword for a user.
 func (c *SprawlClient) SetPassword(name, password string) error {
 	_, err := c.Post(sprawl.EPUser+sprawl.EPSetPassword, sprawl.Request{
-		"name":     name,
+		"username": name,
 		"password": password,
 	})
 	return err

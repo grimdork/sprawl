@@ -90,9 +90,9 @@ func NewServer() (*Server, error) {
 			sweb.AddJSONHeaders,
 		)
 		r.Options("/", sweb.Preflight)
-		// Add route for login token.
-		r.Post("/auth", srv.auth)
-
+		// Add routes for login token.
+		r.Post(sprawl.EPAuth, srv.auth)
+		r.Get(sprawl.EPVerifyToken, srv.verifytoken)
 		//
 		// Users
 		//

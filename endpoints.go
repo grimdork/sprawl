@@ -13,6 +13,8 @@ package sprawl
 const (
 	// EPAuth authenticates a user and returns a token.
 	EPAuth = "/auth"
+	// EPVerifyToken compares a username and token to stored tokens, then returns OK if valid.
+	EPVerifyToken = "/verifytoken"
 
 	// EPUsers is the bulk user endpoint.
 	// GET lists all users.

@@ -31,6 +31,15 @@ func (srv *Server) auth(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (srv *Server) verifytoken(w http.ResponseWriter, r *http.Request) {
+	if !srv.VerifyToken(
+		r.Header.Get("username"),
+		r.Header.Get("token"),
+	) {
+		http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
+	}
+}
+
 // tokencheck middleware to insert before privileged endpoints.
 func (srv *Server) tokencheck(h http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {

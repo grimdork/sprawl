@@ -17,7 +17,7 @@ import (
 )
 
 func (srv *Server) createUser(w http.ResponseWriter, r *http.Request) {
-	name := r.Header.Get("name")
+	name := r.Header.Get("username")
 	err := srv.CreateUser(
 		name,
 		r.Header.Get("password"),
@@ -33,10 +33,9 @@ func (srv *Server) createUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (srv *Server) deleteUser(w http.ResponseWriter, r *http.Request) {
-	name := r.Header.Get("name")
+	name := r.Header.Get("username")
 	err := srv.DeleteUser(name)
 	if err != nil {
-		println("Fuck: " + err.Error())
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -45,7 +44,7 @@ func (srv *Server) deleteUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (srv *Server) updateUser(w http.ResponseWriter, r *http.Request) {
-	name := r.Header.Get("name")
+	name := r.Header.Get("username")
 	newname := r.Header.Get("newname")
 	fullname := r.Header.Get("fullname")
 	email := r.Header.Get("email")
@@ -73,7 +72,7 @@ func (srv *Server) getUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (srv *Server) setPassword(w http.ResponseWriter, r *http.Request) {
-	u := r.Header.Get("name")
+	u := r.Header.Get("username")
 	pw := r.Header.Get("password")
 	err := srv.SetPassword(u, pw, srv.pwiter)
 	if err != nil {
