@@ -89,7 +89,7 @@ func (c *SprawlClient) DeleteUser(name string) error {
 // GetUser details.
 func (c *SprawlClient) GetUser(name string) (sprawl.User, error) {
 	var u sprawl.User
-	data, err := c.Get(sprawl.EPUsers, nil)
+	data, err := c.Get(sprawl.EPUser, nil)
 	if err != nil {
 		return u, err
 	}
